@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BIB",
+    "BIB",
+    "BIB"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "item": "minecraft:blue_concrete"
+    }
+  },
+  "result": {
+    "item": "alphaesletters:letter_concrete",
+    "count": 6
+  }
+}

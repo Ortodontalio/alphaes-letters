@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "alphaesletters:blocks/letter_concrete",
+    "side": "alphaesletters:blocks/letter_concrete",
+    "front": "alphaesletters:blocks/letter_c"
+  }
+}

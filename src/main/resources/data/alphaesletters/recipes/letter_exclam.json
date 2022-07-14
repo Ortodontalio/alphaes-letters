@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+      "item": "alphaesletters:letter_concrete"
+  },
+  "result": "alphaesletters:letter_exclam",
+  "count": 1
+}

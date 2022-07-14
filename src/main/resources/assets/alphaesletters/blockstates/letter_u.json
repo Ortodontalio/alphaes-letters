@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model":  "alphaesletters:block/letter_u"},
+    "facing=south": {"model":  "alphaesletters:block/letter_u", "y": 180},
+    "facing=west": {"model":  "alphaesletters:block/letter_u", "y": 270},
+    "facing=east": {"model":  "alphaesletters:block/letter_u", "y": 90}
+  }
+}

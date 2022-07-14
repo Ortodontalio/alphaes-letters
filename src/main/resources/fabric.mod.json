@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "alphaesletters",
+  "version": "0.1",
+
+  "name": "AlPhAE's Letters",
+  "description": "This mod adds nothing more than letter blocks! Use them not only to name your buildings, but also to create road signs, as this modification also adds arrows, lines, corners and everything else that will allow you to create your own road sign.",
+  "authors": [
+    "Ortodontalio"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "Apache 2.0",
+  "icon": "assets/alphaesletters/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.ortodontalio.alphaesletters.AlphaesLetters"]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
