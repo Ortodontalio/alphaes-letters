@@ -17,21 +17,21 @@ As mentioned earlier, the mod adds blocks on which letters are drawn, so that by
 - Ukrainian.
 ### Usage Ideas
 In my opinion, the most important idea with which I created this small modification is the creation of road signs. The following screenshot shows an example of creating a road sign using the Latin alphabet:
-![Road sign in English](https://lh3.google.com/u/0/d/18K_Jef1302BVu7Kv0JVGUpsiAkeEjQhe=w1860-h953-iv1)
+![Road sign in English](src/main/resources/readme/english_sign.png)
 Another option for creating a road sign, but using the Russian language:
-![Road sign in Russian](https://lh3.google.com/u/0/d/1h29b9blP9w4IPJ2TWt5u3-dip6Ef5JiU=w1860-h953-iv1)
+![Road sign in Russian](src/main/resources/readme/russian_sign.png)
 Another idea for the first point is pointers of distances to cities. The screenshot shows an example of such a sign in the Byelorussian language:
-![Road sign in Byelorussian](https://lh3.google.com/u/0/d/1lBfauU2j1VSwFQbnFYX3ZEkYMy8q-2tu=w1860-h953-iv1)
+![Road sign in Byelorussian](src/main/resources/readme/byelorussian_sign.png)
 The mod also allows to design standard direction signs, indicating the distance if desired. The screenshot shows an example of such a sign in Ukrainian:
-![Road sign in Ukrainian](https://lh3.google.com/u/0/d/1Bl3z2DKCeSz11WHA33Z_EHVZ7_LzGBXV=w1860-h953-iv1)
+![Road sign in Ukrainian](src/main/resources/readme/ukrainian_sign.png)
 It is not necessary to use blocks only for the construction of road signs. They can be used even when you just want to make a sign for your store or just number a house in your city. After all, all that is required of you is to put blocks with letters, forming words!
 # How to use
 So far, to create each block, you first need to create a basic one - ferroconcrete. Below is the crafting of this block. It is worth noting that the crafting and appearance of the base block are planned to be changed in the future.
 
-![Crafting ferroconcrete](https://lh3.google.com/u/0/d/1hmTjHd048Bogq0Ee1qGrHMbgeKNLxKup=w1860-h953-iv1)
+![Crafting ferroconcrete](src/main/resources/readme/craft.png)
 
 When a ferroconcrete block is received, it must be put into a stone cutter to get any variant of the letters blocks:
-![Stone cutting](https://lh3.google.com/u/0/d/1jOhbwtQezQXbEG4cUygI7LqSIo6BRUbu=w1860-h187-iv1)
+![Stone cutting](src/main/resources/readme/stonecutter.png)
 
 That's it! In the future, it is planned to add a special block to create letter blocks for greater realism.
 
