@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "alphaesletters",
-  "version": "0.1",
+  "version": "0.2",
 
   "name": "AlPhAE's Letters",
   "description": "This mod adds nothing more than letter blocks! Use them not only to name your buildings, but also to create road signs, as this modification also adds arrows, lines, corners and everything else that will allow you to create your own road sign.",
@@ -25,9 +25,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": "1.19.x",
     "java": ">=17"
   },
   "suggests": {
