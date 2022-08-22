@@ -2,14 +2,19 @@ package com.ortodontalio.alphaesletters;
 
 import com.ortodontalio.alphaesletters.cyrillic.CyrillicBlockItems;
 import com.ortodontalio.alphaesletters.cyrillic.CyrillicBlocks;
+import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
+import com.ortodontalio.alphaesletters.handlers.AlphaesScreenHandlers;
+import com.ortodontalio.alphaesletters.handlers.DyeingMachineScreen;
 import com.ortodontalio.alphaesletters.latin.LatinBlockItems;
 import com.ortodontalio.alphaesletters.latin.LatinBlocks;
 import com.ortodontalio.alphaesletters.misc.MiscBlockItems;
 import com.ortodontalio.alphaesletters.misc.MiscBlocks;
 import com.ortodontalio.alphaesletters.numbers.NumbersBlockItems;
 import com.ortodontalio.alphaesletters.numbers.NumbersBlocks;
+import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -31,6 +36,7 @@ public class AlphaesLetters implements ModInitializer {
             () -> new ItemStack(NumbersBlockItems.LETTER_9)
     );
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onInitialize() {
         LatinBlockItems.registerItems();
@@ -41,5 +47,8 @@ public class AlphaesLetters implements ModInitializer {
         NumbersBlocks.registerBlocks();
         MiscBlockItems.registerItems();
         MiscBlocks.registerBlocks();
+        AlphaesBlockEntities.registerEntities();
+        ScreenRegistry.register(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, DyeingMachineScreen::new);
+        AlphaesRecipes.registerRecipes();
     }
 }
