@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "alphaesletters:blocks/dyeing_machine_up",
+    "side": "alphaesletters:blocks/dyeing_machine_top",
+    "front": "alphaesletters:blocks/dyeing_machine_top",
+    "bottom": "alphaesletters:blocks/dyeing_machine_bottom"
+  }
+}

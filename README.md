@@ -14,7 +14,8 @@ As mentioned earlier, the mod adds blocks on which letters are drawn, so that by
 - English;
 - Russian;
 - Byelorussian;
-- Ukrainian.
+- Ukrainian;
+- Bulgarian.
 ### Usage Ideas
 In my opinion, the most important idea with which I created this small modification is the creation of road signs. The following screenshot shows an example of creating a road sign using the Latin alphabet:
 ![Road sign in English](src/main/resources/readme/english_sign.png)
