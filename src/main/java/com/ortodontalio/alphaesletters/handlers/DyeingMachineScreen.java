@@ -35,6 +35,14 @@ public class DyeingMachineScreen extends HandledScreen<DyeingMachineScreenHandle
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        if(handler.isCrafting()) {
+            drawTexture(matrices, x + 103, y + 44, 176, 14, handler.getScaledProgress(), 10);
+        }
+
+        if(handler.hasFuel()) {
+            drawTexture(matrices, x + 41, y + 42 + 14 - handler.getScaledFuelProgress(), 176,
+                    14 - handler.getScaledFuelProgress(), 18, handler.getScaledFuelProgress());
+        }
     }
 
     @Override

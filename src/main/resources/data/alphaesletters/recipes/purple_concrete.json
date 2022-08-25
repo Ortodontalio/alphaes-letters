@@ -1,0 +1,14 @@
+{
+  "type": "alphaesletters:dyeing_machine",
+  "ingredients": [
+    {
+      "tag": "alphaesletters:concrete_powder_blocks"
+    },
+    {
+      "item": "minecraft:purple_dye"
+    }
+  ],
+  "output": {
+    "item": "minecraft:purple_concrete"
+  }
+}

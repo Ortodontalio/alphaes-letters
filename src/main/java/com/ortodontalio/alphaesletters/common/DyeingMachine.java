@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("deprecation")
 public class DyeingMachine extends BlockWithEntity implements BlockEntityProvider {
 
     public DyeingMachine() {

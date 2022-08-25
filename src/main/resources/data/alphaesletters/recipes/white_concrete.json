@@ -1,0 +1,14 @@
+{
+  "type": "alphaesletters:dyeing_machine",
+  "ingredients": [
+    {
+      "tag": "alphaesletters:concrete_powder_blocks"
+    },
+    {
+      "item": "minecraft:white_dye"
+    }
+  ],
+  "output": {
+    "item": "minecraft:white_concrete"
+  }
+}

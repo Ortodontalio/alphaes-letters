@@ -35,7 +35,7 @@ public class DyeingMachineRecipe implements Recipe<SimpleInventory> {
 
     @Override
     public ItemStack craft(SimpleInventory inventory) {
-        return null;
+        return output;
     }
 
     @Override
@@ -91,7 +91,9 @@ public class DyeingMachineRecipe implements Recipe<SimpleInventory> {
         public DyeingMachineRecipe read(Identifier id, PacketByteBuf buf) {
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
 
-            inputs.replaceAll(ignored -> Ingredient.fromPacket(buf));
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromPacket(buf));
+            }
 
             ItemStack output = buf.readItemStack();
             return new DyeingMachineRecipe(id, output, inputs);

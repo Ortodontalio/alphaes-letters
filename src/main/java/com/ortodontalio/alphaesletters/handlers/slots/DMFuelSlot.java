@@ -1,6 +1,5 @@
 package com.ortodontalio.alphaesletters.handlers.slots;
 
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -13,7 +12,7 @@ public class DMFuelSlot extends Slot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        return AbstractFurnaceBlockEntity.canUseAsFuel(stack) || DMFuelSlot.isBucket(stack);
+        return DMFuelSlot.isBucket(stack);
     }
 
     @Override

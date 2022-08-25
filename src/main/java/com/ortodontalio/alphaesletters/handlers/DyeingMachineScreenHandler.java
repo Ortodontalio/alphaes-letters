@@ -1,34 +1,66 @@
 package com.ortodontalio.alphaesletters.handlers;
 
+import com.ortodontalio.alphaesletters.handlers.slots.DMFarbaSlot;
 import com.ortodontalio.alphaesletters.handlers.slots.DMFuelSlot;
+import com.ortodontalio.alphaesletters.handlers.slots.DMResourceSlot;
 import com.ortodontalio.alphaesletters.handlers.slots.DMResultSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ArrayPropertyDelegate;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class DyeingMachineScreenHandler extends ScreenHandler {
 
     private final Inventory inventory;
+    private final PropertyDelegate propertyDelegate;
 
     public DyeingMachineScreenHandler(int syncId, PlayerInventory inventory) {
-        this(syncId, inventory, new SimpleInventory(4));
+        this(syncId, inventory, new SimpleInventory(4), new ArrayPropertyDelegate(4));
     }
 
-    public DyeingMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public DyeingMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory,
+                                      PropertyDelegate delegate) {
         super(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, syncId);
         checkSize(inventory, 4);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
+        this.propertyDelegate = delegate;
         this.addSlot(new DMFuelSlot(inventory, 0, 42 , 24));
-        this.addSlot(new Slot(inventory, 1, 42 , 58));
-        this.addSlot(new Slot(inventory, 2, 84 , 41));
+        this.addSlot(new DMResourceSlot(inventory, 1, 42 , 58));
+        this.addSlot(new DMFarbaSlot(inventory, 2, 84 , 41));
         this.addSlot(new DMResultSlot(inventory, 3, 134 , 41));
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
+        addProperties(delegate);
+    }
+
+    public boolean isCrafting() {
+        return propertyDelegate.get(0) > 0;
+    }
+
+    public boolean hasFuel() {
+        return propertyDelegate.get(2) > 0;
+    }
+
+    public int getScaledProgress() {
+        int progress = this.propertyDelegate.get(0);
+        int maxProgress = this.propertyDelegate.get(1);
+        int progressArrowSize = 27;
+
+        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
+    }
+
+    public int getScaledFuelProgress() {
+        int fuelProgress = this.propertyDelegate.get(2);
+        int maxFuelProgress = this.propertyDelegate.get(3);
+        int fuelProgressSize = 14;
+
+        return maxFuelProgress != 0 ? (int)(((float)fuelProgress / (float)maxFuelProgress) * fuelProgressSize) : 0;
     }
 
     @Override
