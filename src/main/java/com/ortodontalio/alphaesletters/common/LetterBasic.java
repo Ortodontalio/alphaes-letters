@@ -21,9 +21,6 @@ public class LetterBasic extends Block {
                 .sounds(BlockSoundGroup.STONE)
                 .requiresTool());
     }
-    public LetterBasic(Settings settings) {
-        super(settings);
-    }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {

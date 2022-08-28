@@ -1,5 +1,16 @@
 {
   "variants": {
-    "": {"model":  "alphaesletters:block/dyeing_machine"}
+    "facing=north,watered=0": {"model":  "alphaesletters:block/dyeing_machine"},
+    "facing=north,watered=1": {"model":  "alphaesletters:block/dyeing_machine_watered_half"},
+    "facing=north,watered=2": {"model":  "alphaesletters:block/dyeing_machine_watered_full"},
+    "facing=south,watered=0": {"model":  "alphaesletters:block/dyeing_machine", "y": 180},
+    "facing=south,watered=1": {"model":  "alphaesletters:block/dyeing_machine_watered_half", "y": 180},
+    "facing=south,watered=2": {"model":  "alphaesletters:block/dyeing_machine_watered_full", "y": 180},
+    "facing=west,watered=0": {"model":  "alphaesletters:block/dyeing_machine", "y": 270},
+    "facing=west,watered=1": {"model":  "alphaesletters:block/dyeing_machine_watered_half", "y": 270},
+    "facing=west,watered=2": {"model":  "alphaesletters:block/dyeing_machine_watered_full", "y": 270},
+    "facing=east,watered=0": {"model":  "alphaesletters:block/dyeing_machine", "y": 90},
+    "facing=east,watered=1": {"model":  "alphaesletters:block/dyeing_machine_watered_half", "y": 90},
+    "facing=east,watered=2": {"model":  "alphaesletters:block/dyeing_machine_watered_full", "y": 90}
   }
 }
