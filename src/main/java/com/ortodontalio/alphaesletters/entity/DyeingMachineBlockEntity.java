@@ -115,6 +115,9 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
 
     @SuppressWarnings("unused")
     public static void tick(World world, BlockPos pos, BlockState state, DyeingMachineBlockEntity entity) {
+        if(!hasPowderInResSlot(entity)) {
+            entity.resetProgress();
+        }
         if(hasFuelInFuelSlot(entity)) {
             entity.consumeFuel(world, state, pos);
         }
@@ -139,6 +142,10 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
 
     private static boolean hasFuelInFuelSlot(DyeingMachineBlockEntity entity) {
         return !entity.getStack(0).isEmpty();
+    }
+
+    private static boolean hasPowderInResSlot(DyeingMachineBlockEntity entity) {
+        return !entity.getStack(1).isEmpty();
     }
 
     private static boolean isConsumingFuel(DyeingMachineBlockEntity entity) {

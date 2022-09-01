@@ -2,6 +2,7 @@ package com.ortodontalio.alphaesletters.misc;
 
 import com.ortodontalio.alphaesletters.common.DyeingMachine;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
+import com.ortodontalio.alphaesletters.common.LetterPowder;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -38,6 +39,7 @@ public class MiscBlocks {
     public static final Block LETTER_RIVER = new LetterBasic();
     public static final Block LETTER_CYR_RIVER = new LetterBasic();
     public static final Block DYEING_MACHINE = new DyeingMachine();
+    public static final Block LETTER_POWDER = new LetterPowder();
 
     public static void registerBlocks() {
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_concrete"), LETTER_CONCRETE);
@@ -69,6 +71,7 @@ public class MiscBlocks {
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_river"), LETTER_RIVER);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_cyr_river"), LETTER_CYR_RIVER);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "dyeing_machine"), DYEING_MACHINE);
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_powder"), LETTER_POWDER);
     }
 
 }

@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "alphaesletters:blocks/letter_concrete_up",
+    "side": "minecraft:block/white_concrete_powder",
+    "front": "minecraft:block/white_concrete_powder",
+    "bottom": "alphaesletters:blocks/letter_concrete_up"
+  }
+}

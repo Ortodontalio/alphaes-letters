@@ -66,6 +66,8 @@ public class MiscBlockItems {
             .group(AlphaesLetters.ALPHAES_MISC));
     public static final BlockItem DYEING_MACHINE = new BlockItem(MiscBlocks.DYEING_MACHINE, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
+    public static final BlockItem LETTER_POWDER = new BlockItem(MiscBlocks.LETTER_POWDER, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_MISC));
 
     public static void registerItems() {
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_concrete"), LETTER_CONCRETE);
@@ -97,5 +99,6 @@ public class MiscBlockItems {
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_river"), LETTER_RIVER);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_cyr_river"), LETTER_CYR_RIVER);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "dyeing_machine"), DYEING_MACHINE);
+        Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_powder"), LETTER_POWDER);
     }
 }

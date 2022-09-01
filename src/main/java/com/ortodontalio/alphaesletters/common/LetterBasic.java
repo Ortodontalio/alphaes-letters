@@ -17,7 +17,7 @@ public class LetterBasic extends Block {
     public LetterBasic() {
         super(FabricBlockSettings
                 .of(Material.STONE)
-                .strength(5.0f, 30.0f)
+                .strength(5.0f, 10.0f)
                 .sounds(BlockSoundGroup.STONE)
                 .requiresTool());
     }

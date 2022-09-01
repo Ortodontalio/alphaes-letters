@@ -1,5 +1,6 @@
 package com.ortodontalio.alphaesletters.handlers.slots;
 
+import com.ortodontalio.alphaesletters.misc.MiscBlockItems;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ public class DMResourceSlot extends Slot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        return stack.isIn(AlphaesTags.Items.CONCRETE_POWDER_BLOCKS);
+        return stack.isIn(AlphaesTags.Items.CONCRETE_POWDER_BLOCKS) || stack.isOf(MiscBlockItems.LETTER_POWDER);
     }
 
 }

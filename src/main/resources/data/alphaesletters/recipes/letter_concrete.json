@@ -1,20 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "BIB",
-    "BIB",
-    "BIB"
-  ],
-  "key": {
-    "I": {
-      "item": "minecraft:iron_bars"
+  "type": "alphaesletters:dyeing_machine",
+  "ingredients": [
+    {
+      "item": "alphaesletters:letter_powder"
     },
-    "B": {
-      "item": "minecraft:blue_concrete"
+    {
+      "item": "minecraft:blue_dye"
     }
-  },
-  "result": {
-    "item": "alphaesletters:letter_concrete",
-    "count": 6
+  ],
+  "output": {
+    "item": "alphaesletters:letter_concrete"
   }
 }
