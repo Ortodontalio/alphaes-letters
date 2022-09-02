@@ -27,11 +27,36 @@ The mod also allows to design standard direction signs, indicating the distance 
 ![Road sign in Ukrainian](src/main/resources/readme/ukrainian_sign.png)
 It is not necessary to use blocks only for the construction of road signs. They can be used even when you just want to make a sign for your store or just number a house in your city. After all, all that is required of you is to put blocks with letters, forming words!
 # How to use
-So far, to create each block, you first need to create a basic one - ferroconcrete. Below is the crafting of this block. It is worth noting that the crafting and appearance of the base block are planned to be changed in the future.
+So far, to create each block, you first need to create a basic one - ferroconcrete. But to create this block, you need
+to create a block of white concrete powder with bars. This is the first step on the way to creating letter blocks.
 
-![Crafting ferroconcrete](src/main/resources/readme/craft.png)
+![Crafting concrete powder with bars](src/main/resources/readme/powder_craft.png)
+
+An interesting fact is that after the destruction of the block, ordinary white concrete powder falls out, and bars remain 
+in place of the block.
+
+![Concrete powder with bars destroying](src/main/resources/readme/powder_destroying.png)
+
+To get ferroconcrete from a block of concrete powder with bars, it is necessary to craft a dyeing machine:
+
+![Dyeing machine craft](src/main/resources/readme/dyeing_machine_craft.png)
+
+This machine accepts a bucket of water, any block of concrete powder and a dye at the entrance, and concrete of the 
+color of the dye is obtained at the output:
+
+![Dyeing machine capabilities](src/main/resources/readme/concrete_craft.png)
+
+Depending on the amount of water in the internal tank, the appearance of the machine changes:
+
+![Dyeing machine types](src/main/resources/readme/dyeing_machine_types.png)
+
+We also need to get blue ferroconcrete, so we use a dyeing machine, putting concrete powder with bars and
+blue dye in it:
+
+![Dyeing machine types](src/main/resources/readme/letter_powder_craft.png)
 
 When a ferroconcrete block is received, it must be put into a stone cutter to get any variant of the letters blocks:
+
 ![Stone cutting](src/main/resources/readme/stonecutter.png)
 
 That's it! In the future, it is planned to add a special block to create letter blocks for greater realism.
