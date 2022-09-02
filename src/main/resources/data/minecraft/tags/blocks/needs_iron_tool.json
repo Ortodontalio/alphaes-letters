@@ -90,6 +90,18 @@
     "alphaesletters:letter_return_right",
     "alphaesletters:letter_river",
     "alphaesletters:letter_cyr_river",
-    "alphaesletters:dyeing_machine"
+    "alphaesletters:dyeing_machine",
+    "alphaesletters:letter_cyr_ae",
+    "alphaesletters:letter_cyr_eo",
+    "alphaesletters:letter_cyr_gh",
+    "alphaesletters:letter_cyr_kh",
+    "alphaesletters:letter_cyr_ng",
+    "alphaesletters:letter_cyr_shkha",
+    "alphaesletters:letter_cyr_uu",
+    "alphaesletters:letter_cyr_x",
+    "alphaesletters:letter_cyr_io",
+    "alphaesletters:letter_cyr_ii",
+    "alphaesletters:letter_cyr_dzhi",
+    "alphaesletters:letter_cyr_dzhe"
   ]
 }

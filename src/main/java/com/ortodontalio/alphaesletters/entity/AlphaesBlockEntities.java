@@ -1,6 +1,5 @@
 package com.ortodontalio.alphaesletters.entity;
 
-import com.ortodontalio.alphaesletters.misc.MiscBlocks;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
