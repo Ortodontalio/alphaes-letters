@@ -8,8 +8,6 @@ import net.minecraft.util.registry.Registry;
 
 public class MiscBlockItems {
 
-    public static final BlockItem LETTER_CONCRETE = new BlockItem(MiscBlocks.LETTER_CONCRETE, new Item.Settings()
-            .group(AlphaesLetters.ALPHAES_MISC));
     public static final BlockItem LETTER_DASH = new BlockItem(MiscBlocks.LETTER_DASH, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
     public static final BlockItem LETTER_APOSTROPHE = new BlockItem(MiscBlocks.LETTER_APOSTROPHE, new Item.Settings()
@@ -64,13 +62,8 @@ public class MiscBlockItems {
             .group(AlphaesLetters.ALPHAES_MISC));
     public static final BlockItem LETTER_CYR_RIVER = new BlockItem(MiscBlocks.LETTER_CYR_RIVER, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
-    public static final BlockItem DYEING_MACHINE = new BlockItem(MiscBlocks.DYEING_MACHINE, new Item.Settings()
-            .group(AlphaesLetters.ALPHAES_MISC));
-    public static final BlockItem LETTER_POWDER = new BlockItem(MiscBlocks.LETTER_POWDER, new Item.Settings()
-            .group(AlphaesLetters.ALPHAES_MISC));
 
     public static void registerItems() {
-        Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_concrete"), LETTER_CONCRETE);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_dash"), LETTER_DASH);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_apostrophe"), LETTER_APOSTROPHE);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_quest"), LETTER_QUEST);
@@ -98,7 +91,5 @@ public class MiscBlockItems {
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_return_right"), LETTER_RETURN_RIGHT);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_river"), LETTER_RIVER);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_cyr_river"), LETTER_CYR_RIVER);
-        Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "dyeing_machine"), DYEING_MACHINE);
-        Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_powder"), LETTER_POWDER);
     }
 }

@@ -12,6 +12,8 @@ import com.ortodontalio.alphaesletters.misc.MiscBlocks;
 import com.ortodontalio.alphaesletters.numbers.NumbersBlockItems;
 import com.ortodontalio.alphaesletters.numbers.NumbersBlocks;
 import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
+import com.ortodontalio.alphaesletters.tech.TechBlockItems;
+import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
@@ -35,6 +37,10 @@ public class AlphaesLetters implements ModInitializer {
             new Identifier(MOD_ID, "misc"),
             () -> new ItemStack(NumbersBlockItems.LETTER_9)
     );
+    public static final ItemGroup ALPHAES_TECH = FabricItemGroupBuilder.build(
+            new Identifier(MOD_ID, "tech"),
+            () -> new ItemStack(TechBlockItems.LETTER_POWDER)
+    );
 
     @SuppressWarnings("deprecation")
     @Override
@@ -47,6 +53,8 @@ public class AlphaesLetters implements ModInitializer {
         NumbersBlocks.registerBlocks();
         MiscBlockItems.registerItems();
         MiscBlocks.registerBlocks();
+        TechBlockItems.registerItems();
+        TechBlocks.registerBlocks();
         AlphaesBlockEntities.registerEntities();
         ScreenRegistry.register(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, DyeingMachineScreen::new);
         AlphaesRecipes.registerRecipes();

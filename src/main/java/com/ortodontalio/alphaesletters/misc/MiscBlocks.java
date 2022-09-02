@@ -10,7 +10,6 @@ import static com.ortodontalio.alphaesletters.AlphaesLetters.MOD_ID;
 
 public class MiscBlocks {
 
-    public static final Block LETTER_CONCRETE = new LetterBasic();
     public static final Block LETTER_DASH = new LetterBasic();
     public static final Block LETTER_APOSTROPHE = new LetterBasic();
     public static final Block LETTER_QUEST = new LetterBasic();
@@ -38,11 +37,8 @@ public class MiscBlocks {
     public static final Block LETTER_RETURN_RIGHT = new LetterBasic();
     public static final Block LETTER_RIVER = new LetterBasic();
     public static final Block LETTER_CYR_RIVER = new LetterBasic();
-    public static final Block DYEING_MACHINE = new DyeingMachine();
-    public static final Block LETTER_POWDER = new LetterPowder();
 
     public static void registerBlocks() {
-        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_concrete"), LETTER_CONCRETE);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_dash"), LETTER_DASH);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_apostrophe"), LETTER_APOSTROPHE);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_quest"), LETTER_QUEST);
@@ -70,8 +66,6 @@ public class MiscBlocks {
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_return_right"), LETTER_RETURN_RIGHT);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_river"), LETTER_RIVER);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_cyr_river"), LETTER_CYR_RIVER);
-        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "dyeing_machine"), DYEING_MACHINE);
-        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_powder"), LETTER_POWDER);
     }
 
 }
