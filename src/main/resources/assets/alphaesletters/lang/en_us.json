@@ -105,5 +105,6 @@
   "block.alphaesletters.letter_river": "River Acronym",
   "block.alphaesletters.letter_cyr_river": "Cyrillic River Acronym",
   "block.alphaesletters.dyeing_machine": "Dyeing Machine",
-  "block.alphaesletters.letter_powder": "Ferroconcrete Powder"
+  "block.alphaesletters.letter_powder": "Ferroconcrete Powder",
+  "block.alphaesletters.strikethrough_block": "Strikethrough Indicator"
 }

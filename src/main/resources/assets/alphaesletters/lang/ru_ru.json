@@ -105,5 +105,6 @@
   "block.alphaesletters.letter_river": "Лат.аббревиатура реки",
   "block.alphaesletters.letter_cyr_river": "Аббревиатура реки",
   "block.alphaesletters.dyeing_machine": "Красильный аппарат",
-  "block.alphaesletters.letter_powder": "Цемент с прутьями"
+  "block.alphaesletters.letter_powder": "Цемент с прутьями",
+  "block.alphaesletters.strikethrough_block": "Индикатор перечеркивания"
 }

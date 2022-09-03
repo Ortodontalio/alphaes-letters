@@ -62,6 +62,8 @@ public class MiscBlockItems {
             .group(AlphaesLetters.ALPHAES_MISC));
     public static final BlockItem LETTER_CYR_RIVER = new BlockItem(MiscBlocks.LETTER_CYR_RIVER, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
+    public static final BlockItem STRIKETHROUGH_BLOCK = new BlockItem(MiscBlocks.STRIKETHROUGH_BLOCK, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_MISC));
 
     public static void registerItems() {
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_dash"), LETTER_DASH);
@@ -91,5 +93,6 @@ public class MiscBlockItems {
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_return_right"), LETTER_RETURN_RIGHT);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_river"), LETTER_RIVER);
         Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "letter_cyr_river"), LETTER_CYR_RIVER);
+        Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, "strikethrough_block"), STRIKETHROUGH_BLOCK);
     }
 }

@@ -89,6 +89,7 @@
     "alphaesletters:letter_return_right",
     "alphaesletters:letter_river",
     "alphaesletters:letter_cyr_river",
-    "alphaesletters:dyeing_machine"
+    "alphaesletters:dyeing_machine",
+    "alphaesletters:strikethrough_block"
   ]
 }
