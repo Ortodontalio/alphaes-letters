@@ -1,10 +1,7 @@
 package com.ortodontalio.alphaesletters.common;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -18,7 +15,7 @@ public class LetterPowder extends Block {
 
     public LetterPowder() {
         super(FabricBlockSettings
-                .of(Material.SOIL)
+                .of(Material.SOIL, MapColor.WHITE_GRAY)
                 .strength(2.0f, 1.0f)
                 .sounds(BlockSoundGroup.SAND));
     }

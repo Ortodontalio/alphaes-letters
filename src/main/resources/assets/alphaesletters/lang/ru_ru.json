@@ -106,5 +106,7 @@
   "block.alphaesletters.letter_cyr_river": "Аббревиатура реки",
   "block.alphaesletters.dyeing_machine": "Красильный аппарат",
   "block.alphaesletters.letter_powder": "Цемент с прутьями",
-  "block.alphaesletters.strikethrough_block": "Индикатор перечеркивания"
+  "block.alphaesletters.strikethrough_block": "Индикатор перечеркивания",
+  "block.alphaesletters.iron_fence": "Металлический забор",
+  "block.alphaesletters.iron_fence_gate": "Металлическая калитка"
 }

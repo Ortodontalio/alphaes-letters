@@ -24,7 +24,7 @@ public class StrikethroughBlock extends Block implements Waterloggable {
 
     public StrikethroughBlock() {
         super(FabricBlockSettings
-                .of(Material.WOOD)
+                .of(Material.WOOD, MapColor.RED)
                 .strength(1.0f, 1.0f)
                 .sounds(BlockSoundGroup.WOOD)
                 .nonOpaque());

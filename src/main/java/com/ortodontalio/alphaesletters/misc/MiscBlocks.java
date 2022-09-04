@@ -38,7 +38,6 @@ public class MiscBlocks {
     public static final Block LETTER_RETURN_RIGHT = new LetterBasic();
     public static final Block LETTER_RIVER = new LetterBasic();
     public static final Block LETTER_CYR_RIVER = new LetterBasic();
-    public static final Block STRIKETHROUGH_BLOCK = new StrikethroughBlock();
 
     public static void registerBlocks() {
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_dash"), LETTER_DASH);
@@ -68,7 +67,6 @@ public class MiscBlocks {
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_return_right"), LETTER_RETURN_RIGHT);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_river"), LETTER_RIVER);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "letter_cyr_river"), LETTER_CYR_RIVER);
-        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "strikethrough_block"), STRIKETHROUGH_BLOCK);
     }
 
 }
