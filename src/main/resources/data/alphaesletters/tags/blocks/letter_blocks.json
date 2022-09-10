@@ -27,6 +27,9 @@
     "alphaesletters:letter_x",
     "alphaesletters:letter_y",
     "alphaesletters:letter_z",
+    "alphaesletters:letter_ch",
+    "alphaesletters:letter_ene",
+    "alphaesletters:letter_sz",
     "alphaesletters:letter_cyr_b",
     "alphaesletters:letter_cyr_g",
     "alphaesletters:letter_cyr_gg",
@@ -91,6 +94,8 @@
     "alphaesletters:letter_cyr_river",
     "alphaesletters:dyeing_machine",
     "alphaesletters:strikethrough_block",
-    "alphaesletters:iron_fence"
+    "alphaesletters:iron_fence",
+    "alphaesletters:iron_fence_gate",
+    "alphaesletters:cropped_letter_concrete"
   ]
 }

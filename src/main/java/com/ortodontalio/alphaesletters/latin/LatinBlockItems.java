@@ -60,5 +60,11 @@ public class LatinBlockItems {
             .group(AlphaesLetters.ALPHAES_LATIN));
     public static final BlockItem LETTER_Z = new BlockItem(LatinBlocks.LETTER_Z, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_LATIN));
+    public static final BlockItem LETTER_CH = new BlockItem(LatinBlocks.LETTER_CH, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_LATIN));
+    public static final BlockItem LETTER_ENE = new BlockItem(LatinBlocks.LETTER_ENE, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_LATIN));
+    public static final BlockItem LETTER_SZ = new BlockItem(LatinBlocks.LETTER_SZ, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_LATIN));
 
 }

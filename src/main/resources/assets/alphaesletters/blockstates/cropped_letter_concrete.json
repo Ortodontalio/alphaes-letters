@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model":  "alphaesletters:block/cropped_letter_concrete"},
+    "facing=south": {"model":  "alphaesletters:block/cropped_letter_concrete", "y": 180},
+    "facing=west": {"model":  "alphaesletters:block/cropped_letter_concrete", "y": 270},
+    "facing=east": {"model":  "alphaesletters:block/cropped_letter_concrete", "y": 90}
+  }
+}

@@ -34,5 +34,8 @@ public class LatinBlocks {
     public static final Block LETTER_X = new LetterBasic();
     public static final Block LETTER_Y = new LetterBasic();
     public static final Block LETTER_Z = new LetterBasic();
+    public static final Block LETTER_CH = new LetterBasic();
+    public static final Block LETTER_ENE = new LetterBasic();
+    public static final Block LETTER_SZ = new LetterBasic();
 
 }

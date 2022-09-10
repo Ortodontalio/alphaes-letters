@@ -7,11 +7,17 @@ import com.ortodontalio.alphaesletters.common.LetterPowder;
 import com.ortodontalio.alphaesletters.common.StrikethroughBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.sound.BlockSoundGroup;
 
 @BlockRegistrator
 public class TechBlocks {
 
-    public static final Block LETTER_CONCRETE = new LetterBasic();
+    public static final Block LETTER_CONCRETE = new Block(FabricBlockSettings
+                                                            .of(Material.STONE, MapColor.BLUE)
+                                                            .strength(5.0f, 10.0f)
+                                                            .sounds(BlockSoundGroup.STONE)
+                                                            .requiresTool());
+    public static final Block CROPPED_LETTER_CONCRETE = new LetterBasic();
     public static final Block DYEING_MACHINE = new DyeingMachine();
     public static final Block LETTER_POWDER = new LetterPowder();
     public static final Block STRIKETHROUGH_BLOCK = new StrikethroughBlock();

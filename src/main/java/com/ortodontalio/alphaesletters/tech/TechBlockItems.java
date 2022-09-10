@@ -10,6 +10,8 @@ public class TechBlockItems {
 
     public static final BlockItem LETTER_CONCRETE = new BlockItem(TechBlocks.LETTER_CONCRETE, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_TECH));
+    public static final BlockItem CROPPED_LETTER_CONCRETE = new BlockItem(TechBlocks.CROPPED_LETTER_CONCRETE,
+            new Item.Settings().group(AlphaesLetters.ALPHAES_TECH));
     public static final BlockItem DYEING_MACHINE = new BlockItem(TechBlocks.DYEING_MACHINE, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_TECH));
     public static final BlockItem LETTER_POWDER = new BlockItem(TechBlocks.LETTER_POWDER, new Item.Settings()

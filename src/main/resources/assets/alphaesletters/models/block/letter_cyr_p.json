@@ -1,10 +1,5 @@
 {
-  "parent": "block/orientable",
-  "textures": {
-    "1": "alphaesletters:blocks/letter_concrete",
-    "2": "minecraft:block/white_concrete",
-    "particle": "alphaesletters:blocks/letter_concrete"
-  },
+  "parent": "alphaesletters:block/letter_template",
   "elements": [
     {
       "from": [0, 0, 1],
