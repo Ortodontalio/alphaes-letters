@@ -1,12 +1,11 @@
 package com.ortodontalio.alphaesletters.misc;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
-import com.ortodontalio.alphaesletters.annotations.BlockItemRegistrator;
+import com.ortodontalio.alphaesletters.util.BlockItemRegistrator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
-@BlockItemRegistrator
-public class MiscBlockItems {
+public class MiscBlockItems extends BlockItemRegistrator {
 
     public static final BlockItem LETTER_DASH = new BlockItem(MiscBlocks.LETTER_DASH, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
@@ -63,4 +62,7 @@ public class MiscBlockItems {
     public static final BlockItem LETTER_CYR_RIVER = new BlockItem(MiscBlocks.LETTER_CYR_RIVER, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
 
+    public static void registerBlockItems() {
+        registerBlocks(MiscBlockItems.class);
+    }
 }

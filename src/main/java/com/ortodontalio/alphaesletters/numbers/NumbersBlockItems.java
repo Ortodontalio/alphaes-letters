@@ -1,12 +1,11 @@
 package com.ortodontalio.alphaesletters.numbers;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
-import com.ortodontalio.alphaesletters.annotations.BlockItemRegistrator;
+import com.ortodontalio.alphaesletters.util.BlockItemRegistrator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
-@BlockItemRegistrator
-public class NumbersBlockItems {
+public class NumbersBlockItems extends BlockItemRegistrator {
 
     public static final BlockItem LETTER_1 = new BlockItem(NumbersBlocks.LETTER_1, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
@@ -27,4 +26,7 @@ public class NumbersBlockItems {
     public static final BlockItem LETTER_9 = new BlockItem(NumbersBlocks.LETTER_9, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
 
+    public static void registerBlockItems() {
+        registerBlocks(NumbersBlockItems.class);
+    }
 }

@@ -1,14 +1,19 @@
 package com.ortodontalio.alphaesletters;
 
-import com.ortodontalio.alphaesletters.annotations.AnnotationsProcessor;
 import com.ortodontalio.alphaesletters.cyrillic.CyrillicBlockItems;
+import com.ortodontalio.alphaesletters.cyrillic.CyrillicBlocks;
 import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
 import com.ortodontalio.alphaesletters.handlers.AlphaesScreenHandlers;
 import com.ortodontalio.alphaesletters.handlers.DyeingMachineScreen;
 import com.ortodontalio.alphaesletters.latin.LatinBlockItems;
+import com.ortodontalio.alphaesletters.latin.LatinBlocks;
+import com.ortodontalio.alphaesletters.misc.MiscBlockItems;
+import com.ortodontalio.alphaesletters.misc.MiscBlocks;
 import com.ortodontalio.alphaesletters.numbers.NumbersBlockItems;
+import com.ortodontalio.alphaesletters.numbers.NumbersBlocks;
 import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
+import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
@@ -40,8 +45,16 @@ public class AlphaesLetters implements ModInitializer {
     @SuppressWarnings("deprecation")
     @Override
     public void onInitialize() {
-        AnnotationsProcessor.registerBlocks();
-        AnnotationsProcessor.registerBlockItems();
+        NumbersBlocks.registerBlocks();
+        CyrillicBlocks.registerBlocks();
+        LatinBlocks.registerBlocks();
+        MiscBlocks.registerBlocks();
+        TechBlocks.registerBlocks();
+        NumbersBlockItems.registerBlockItems();
+        CyrillicBlockItems.registerBlockItems();
+        LatinBlockItems.registerBlockItems();
+        MiscBlockItems.registerBlockItems();
+        TechBlockItems.registerBlockItems();
         AlphaesBlockEntities.registerEntities();
         ScreenRegistry.register(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, DyeingMachineScreen::new);
         AlphaesRecipes.registerRecipes();

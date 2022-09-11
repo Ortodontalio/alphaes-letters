@@ -1,16 +1,12 @@
 package com.ortodontalio.alphaesletters.tech;
 
-import com.ortodontalio.alphaesletters.annotations.BlockRegistrator;
-import com.ortodontalio.alphaesletters.common.DyeingMachine;
-import com.ortodontalio.alphaesletters.common.LetterBasic;
-import com.ortodontalio.alphaesletters.common.LetterPowder;
-import com.ortodontalio.alphaesletters.common.StrikethroughBlock;
+import com.ortodontalio.alphaesletters.common.*;
+import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.sound.BlockSoundGroup;
 
-@BlockRegistrator
-public class TechBlocks {
+public class TechBlocks extends BlockRegistrator {
 
     public static final Block LETTER_CONCRETE = new Block(FabricBlockSettings
                                                             .of(Material.STONE, MapColor.BLUE)
@@ -28,4 +24,7 @@ public class TechBlocks {
             .strength(5.0f,6.0f)
             .requiresTool());
 
+    public static void registerBlocks() {
+        registerBlocks(TechBlocks.class);
+    }
 }

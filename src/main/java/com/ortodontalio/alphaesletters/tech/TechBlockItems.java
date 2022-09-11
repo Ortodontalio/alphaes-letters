@@ -1,12 +1,11 @@
 package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
-import com.ortodontalio.alphaesletters.annotations.BlockItemRegistrator;
+import com.ortodontalio.alphaesletters.util.BlockItemRegistrator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
-@BlockItemRegistrator
-public class TechBlockItems {
+public class TechBlockItems extends BlockItemRegistrator {
 
     public static final BlockItem LETTER_CONCRETE = new BlockItem(TechBlocks.LETTER_CONCRETE, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_TECH));
@@ -23,4 +22,7 @@ public class TechBlockItems {
     public static final BlockItem IRON_FENCE_GATE = new BlockItem(TechBlocks.IRON_FENCE_GATE, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_TECH));
 
+    public static void registerBlockItems() {
+        registerBlocks(TechBlockItems.class);
+    }
 }

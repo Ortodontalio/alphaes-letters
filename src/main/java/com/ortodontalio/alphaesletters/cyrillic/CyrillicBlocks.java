@@ -1,11 +1,10 @@
 package com.ortodontalio.alphaesletters.cyrillic;
 
-import com.ortodontalio.alphaesletters.annotations.BlockRegistrator;
+import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
 import net.minecraft.block.Block;
 
-@BlockRegistrator
-public class CyrillicBlocks {
+public class CyrillicBlocks extends BlockRegistrator {
 
     public static final Block LETTER_CYR_B = new LetterBasic();
     public static final Block LETTER_CYR_G = new LetterBasic();
@@ -46,4 +45,7 @@ public class CyrillicBlocks {
     public static final Block LETTER_CYR_DZHI = new LetterBasic();
     public static final Block LETTER_CYR_DZHE = new LetterBasic();
 
+    public static void registerBlocks() {
+        registerBlocks(CyrillicBlocks.class);
+    }
 }
