@@ -22,17 +22,32 @@ As mentioned earlier, the mod adds blocks on which letters are drawn, so that by
 - Tajik;
 - Uzbek (cyrillic);
 - Turkmen (cyrillic);
-- Tatar.
+- Tatar;
+- French (without diacritics);
+- Spanish (without diacritics);
+- Italian;
+- German.
 ### Usage Ideas
-In my opinion, the most important idea with which I created this small modification is the creation of road signs. The following screenshot shows an example of creating a road sign using the Latin alphabet:
+In my opinion, the most important idea with which I created this small modification is the creation of road signs. 
+The following screenshot shows an example of creating a road sign using the Latin alphabet:
 ![Road sign in English](src/main/resources/readme/english_sign.png)
-Another option for creating a road sign, but using the Russian language:
+Yes, it's worth noting that letter blocks can emit light! To do this, you need to click on the block, holding a 
+glowstone dust in your hand. Another option for creating a road sign, but using the Russian language:
 ![Road sign in Russian](src/main/resources/readme/russian_sign.png)
-Another idea for the first point is pointers of distances to cities. The screenshot shows an example of such a sign in the Byelorussian language:
+Another idea for the first point is pointers of distances to cities. The screenshot shows an example of such a sign in 
+the Byelorussian language:
 ![Road sign in Byelorussian](src/main/resources/readme/byelorussian_sign.png)
-The mod also allows to design standard direction signs, indicating the distance if desired. The screenshot shows an example of such a sign in Ukrainian:
+The mod also allows to design standard direction signs, indicating the distance if desired. The screenshot shows an 
+example of such a sign in Ukrainian:
 ![Road sign in Ukrainian](src/main/resources/readme/ukrainian_sign.png)
-It is not necessary to use blocks only for the construction of road signs. They can be used even when you just want to make a sign for your store or just number a house in your city. After all, all that is required of you is to put blocks with letters, forming words!
+The simplest road application of letter blocks is pointers of names of settlements:
+![Village enter](src/main/resources/readme/city_enter.png)
+But you can make a pointer to the end of settlements using a new block - strikethrough block:
+![Village exit](src/main/resources/readme/city_exit.png)
+
+It is not necessary to use blocks only for the construction of road signs. They can be used even when you just want to 
+make a sign for your store or just number a house in your city. After all, all that is required of you is to put blocks 
+with letters, forming words!
 # How to use
 So far, to create each block, you first need to create a basic one - ferroconcrete. But to create this block, you need
 to create a block of white concrete powder with bars. This is the first step on the way to creating letter blocks.
@@ -66,7 +81,27 @@ When a ferroconcrete block is received, it must be put into a stone cutter to ge
 
 ![Stone cutting](src/main/resources/readme/stonecutter.png)
 
-That's it! In the future, it is planned to add a special block to create letter blocks for greater realism.
+That's it! But these are not all available blocks! In the new tab "Technical blocks", there are also: iron fence,
+iron gates, strikethrough block, which you can use to create more realistic road signs. For example, iron fence:
+
+![Iron fence example](src/main/resources/readme/fence_example.png)
+
+In addition to the construction of iron pens, it can be used for road sign posts. Fence crafting is next:
+
+![Iron fence craft](src/main/resources/readme/fence_craft.png)
+
+It is also possible to craft an iron gate:
+
+![Iron gate craft](src/main/resources/readme/gate_craft.png)
+
+Also, to craft a strikethrough block, you must have the following items:
+
+![Strikethrough block craft](src/main/resources/readme/strike_craft.png)
+
+In addition to creating crossed-out letters, this block can have other uses, for example, the construction of strange
+structures like this:
+
+![Strikethrough strangeness](src/main/resources/readme/strange.png)
 
 It is worth noting that all blocks use 16x16 standard resolution textures to avoid an obvious difference between standard blocks and blocks from the mod.
 # License
