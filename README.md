@@ -49,6 +49,10 @@ It is not necessary to use blocks only for the construction of road signs. They 
 make a sign for your store or just number a house in your city. After all, all that is required of you is to put blocks 
 with letters, forming words!
 # How to use
+It is worth saying that all the letters on the blocks have a 3D model:
+
+![3D letter A](src/main/resources/readme/3d_letters.png)
+
 So far, to create each block, you first need to create a basic one - ferroconcrete. But to create this block, you need
 to create a block of white concrete powder with bars. This is the first step on the way to creating letter blocks.
 
