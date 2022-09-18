@@ -32,7 +32,10 @@ In my opinion, the most important idea with which I created this small modificat
 The following screenshot shows an example of creating a road sign using the Latin alphabet:
 ![Road sign in English](src/main/resources/readme/english_sign.png)
 Yes, it's worth noting that letter blocks can emit light! To do this, you need to click on the block, holding a 
-glowstone dust in your hand. Another option for creating a road sign, but using the Russian language:
+glowstone dust in your hand. The mod also provides an opportunity to build absolutely any signpost, of any complexity: 
+a simple distance signpost, an arrow signpost, a signpost with a circle road and much more!
+![Road sign in French](src/main/resources/readme/french_sign.png)
+Another option for creating a road sign, but using the Russian language:
 ![Road sign in Russian](src/main/resources/readme/russian_sign.png)
 Another idea for the first point is pointers of distances to cities. The screenshot shows an example of such a sign in 
 the Byelorussian language:
@@ -44,7 +47,9 @@ The simplest road application of letter blocks is pointers of names of settlemen
 ![Village enter](src/main/resources/readme/city_enter.png)
 But you can make a pointer to the end of settlements using a new block - strikethrough block:
 ![Village exit](src/main/resources/readme/city_exit.png)
-
+There is also the possibility of building signs with the names of rivers - a block with the abbreviation of the river 
+in Russian, Belarusian, Ukrainian, as well as English is also present in this mod:
+![River sign](src/main/resources/readme/river.png)
 It is not necessary to use blocks only for the construction of road signs. They can be used even when you just want to 
 make a sign for your store or just number a house in your city. After all, all that is required of you is to put blocks 
 with letters, forming words!

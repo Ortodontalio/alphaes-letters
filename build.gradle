@@ -41,6 +41,7 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
+	exclude('**/readme/')
 }
 
 publishing {
