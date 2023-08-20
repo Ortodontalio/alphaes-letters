@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 
 public class LatinBlocks extends BlockRegistrator {
 
-
     public static final Block LETTER_A = new LetterBasic();
     public static final Block LETTER_B = new LetterBasic();
     public static final Block LETTER_C = new LetterBasic();

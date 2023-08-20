@@ -3,7 +3,13 @@ package com.ortodontalio.alphaesletters.common;
 import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
 import com.ortodontalio.alphaesletters.entity.DyeingMachineBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -30,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("deprecation")
 public class DyeingMachine extends BlockWithEntity implements BlockEntityProvider {
 
-    public static final IntProperty WATERED = IntProperty.of("watered", 0,2);
+    public static final IntProperty WATERED = IntProperty.of("watered", 0, 2);
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
 
@@ -58,8 +64,8 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DyeingMachineBlockEntity) {
-                ItemScatterer.spawn(world, pos, (DyeingMachineBlockEntity)blockEntity);
-                world.updateComparators(pos,this);
+                ItemScatterer.spawn(world, pos, (DyeingMachineBlockEntity) blockEntity);
+                world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -92,12 +98,12 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING,ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
     }
 
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if(Boolean.TRUE.equals(state.get(LIT))) {
+        if (Boolean.TRUE.equals(state.get(LIT))) {
             double d = 0.5625;
             Direction[] var5 = Direction.values();
             for (Direction direction : var5) {

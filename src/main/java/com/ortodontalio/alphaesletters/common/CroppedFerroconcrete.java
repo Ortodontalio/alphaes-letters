@@ -9,6 +9,7 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -21,6 +22,7 @@ import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -28,9 +30,12 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+import static net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.DYES;
+
 public class CroppedFerroconcrete extends Block {
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
+    public static final EnumProperty<DyeColor> COLOR = EnumProperty.of("color", DyeColor.class, DyeColor.values());
     public static final EnumProperty<Letters> LETTER = EnumProperty.of("letter", Letters.class);
 
     public CroppedFerroconcrete() {
@@ -40,12 +45,13 @@ public class CroppedFerroconcrete extends Block {
                 .sounds(BlockSoundGroup.STONE)
                 .luminance(state -> Boolean.TRUE.equals(state.get(LIT)) ? 10 : 0)
                 .requiresTool());
+        this.setDefaultState(getDefaultState().with(COLOR, DyeColor.WHITE));
         this.setDefaultState(getDefaultState().with(LIT, false).with(LETTER, Letters.NONE));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, LIT, LETTER);
+        builder.add(FACING, LIT, COLOR, LETTER);
     }
 
     @Override
@@ -82,12 +88,21 @@ public class CroppedFerroconcrete extends Block {
         if (inHand.isIn(AlphaesTags.Items.LETTERS)) {
             Letters currentLetterInHand = Letters.findLetterByBlock(inHand);
             if (!state.get(LETTER).equals(currentLetterInHand)) {
+                world.playSound(player, pos, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 if (!player.isCreative()) {
                     inHand.decrement(1);
                 }
                 world.setBlockState(pos, state.with(LETTER, currentLetterInHand), Block.NOTIFY_ALL);
                 return ActionResult.SUCCESS;
             }
+        }
+        if (inHand.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) inHand.getItem()).getColor())) {
+            world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()), Block.NOTIFY_ALL);
+            if (!player.isCreative()) {
+                inHand.decrement(1);
+            }
+            return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
     }
