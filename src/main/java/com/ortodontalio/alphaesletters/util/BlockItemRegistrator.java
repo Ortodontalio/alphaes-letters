@@ -20,8 +20,8 @@ public abstract class BlockItemRegistrator {
     /**
      * Method for registers {@link BlockItem} objects.
      */
-    protected static void registerBlocks(Class<? extends BlockItemRegistrator> clazz) {
-        List<Field> fields = List.of(clazz.getDeclaredFields());
+    public void registerBlockItems() {
+        List<Field> fields = List.of(this.getClass().getDeclaredFields());
         for(Field field : fields) {
             try {
                 Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, field.getName().toLowerCase()),

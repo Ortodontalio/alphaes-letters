@@ -66,8 +66,4 @@ public class LatinBlockItems extends BlockItemRegistrator {
     public static final BlockItem LETTER_SZ = new BlockItem(LatinBlocks.LETTER_SZ, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_LATIN));
 
-    public static void registerBlockItems() {
-        registerBlocks(LatinBlockItems.class);
-    }
-
 }

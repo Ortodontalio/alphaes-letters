@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-      "item": "alphaesletters:letter_concrete"
+      "item": "minecraft:white_concrete"
   },
   "result": "alphaesletters:letter_s",
   "count": 1

@@ -16,7 +16,4 @@ public class NumbersBlocks extends BlockRegistrator {
     public static final Block LETTER_8 = new LetterBasic();
     public static final Block LETTER_9 = new LetterBasic();
 
-    public static void registerBlocks() {
-        registerBlocks(NumbersBlocks.class);
-    }
 }

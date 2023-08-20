@@ -33,8 +33,7 @@ public class MiscBlocks extends BlockRegistrator {
     public static final Block LETTER_RETURN_RIGHT = new LetterBasic();
     public static final Block LETTER_RIVER = new LetterBasic();
     public static final Block LETTER_CYR_RIVER = new LetterBasic();
+    public static final Block LETTER_LAKE = new LetterBasic();
+    public static final Block LETTER_CYR_LAKE = new LetterBasic();
 
-    public static void registerBlocks() {
-        registerBlocks(MiscBlocks.class);
-    }
 }

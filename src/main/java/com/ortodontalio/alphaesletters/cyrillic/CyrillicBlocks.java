@@ -45,7 +45,4 @@ public class CyrillicBlocks extends BlockRegistrator {
     public static final Block LETTER_CYR_DZHI = new LetterBasic();
     public static final Block LETTER_CYR_DZHE = new LetterBasic();
 
-    public static void registerBlocks() {
-        registerBlocks(CyrillicBlocks.class);
-    }
 }

@@ -112,5 +112,7 @@
   "block.alphaesletters.letter_powder": "Ferroconcrete Powder",
   "block.alphaesletters.strikethrough_block": "Strikethrough Indicator",
   "block.alphaesletters.iron_fence": "Iron fence",
-  "block.alphaesletters.iron_fence_gate": "Iron fence gate"
+  "block.alphaesletters.iron_fence_gate": "Iron fence gate",
+  "block.alphaesletters.letter_lake": "Lake Acronym",
+  "block.alphaesletters.letter_cyr_lake": "Cyrillic Lake Acronym"
 }

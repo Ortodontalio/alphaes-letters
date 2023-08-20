@@ -84,7 +84,4 @@ public class CyrillicBlockItems extends BlockItemRegistrator {
     public static final BlockItem LETTER_CYR_DZHE = new BlockItem(CyrillicBlocks.LETTER_CYR_DZHE, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_CYRILLIC));
 
-    public static void registerBlockItems() {
-        registerBlocks(CyrillicBlockItems.class);
-    }
 }

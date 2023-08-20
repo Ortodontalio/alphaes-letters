@@ -8,12 +8,8 @@ import net.minecraft.sound.BlockSoundGroup;
 
 public class TechBlocks extends BlockRegistrator {
 
-    public static final Block LETTER_CONCRETE = new Block(FabricBlockSettings
-                                                            .of(Material.STONE, MapColor.BLUE)
-                                                            .strength(5.0f, 10.0f)
-                                                            .sounds(BlockSoundGroup.STONE)
-                                                            .requiresTool());
-    public static final Block CROPPED_LETTER_CONCRETE = new LetterBasic();
+    public static final Block LETTER_CONCRETE = new LetterFerroconcrete();
+    public static final Block CROPPED_LETTER_CONCRETE = new CroppedFerroconcrete();
     public static final Block DYEING_MACHINE = new DyeingMachine();
     public static final Block LETTER_POWDER = new LetterPowder();
     public static final Block STRIKETHROUGH_BLOCK = new StrikethroughBlock();
@@ -24,7 +20,4 @@ public class TechBlocks extends BlockRegistrator {
             .strength(5.0f,6.0f)
             .requiresTool());
 
-    public static void registerBlocks() {
-        registerBlocks(TechBlocks.class);
-    }
 }

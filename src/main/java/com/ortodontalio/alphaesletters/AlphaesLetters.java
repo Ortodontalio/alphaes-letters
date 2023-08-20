@@ -17,13 +17,37 @@ import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
+import static net.minecraft.server.command.CommandManager.literal;
+
 
 public class AlphaesLetters implements ModInitializer {
 
     public static final String MOD_ID = "alphaesletters";
+    public static final String COMMAND_TEXT = """
+            Dear friend! When I created this mod, in addition to using it to create road signs,
+            beautiful steles, marking streets, buildings, and so on, which was dedicated to my
+            desire to create maps with railway travel, I hope that someday this mod will be
+            noticed by my old friends with whom I once played on the server back in 2013.
+            Unfortunately, due to technical problems, the server stopped working without a
+            trace, which is why I lost contact with my old friends. Let me know if you are
+            familiar with Ryaman, kalash470, Dumb (or Damb, I don't remember exactly).""";
+    private final NumbersBlocks numbersBlocks = new NumbersBlocks();
+    private final CyrillicBlocks cyrillicBlocks = new CyrillicBlocks();
+    private final LatinBlocks latinBlocks = new LatinBlocks();
+    private final MiscBlocks miscBlocks = new MiscBlocks();
+    private final TechBlocks techBlocks = new TechBlocks();
+    private final NumbersBlockItems numbersBlockItems = new NumbersBlockItems();
+    private final CyrillicBlockItems cyrillicBlockItems = new CyrillicBlockItems();
+    private final LatinBlockItems latinBlockItems = new LatinBlockItems();
+    private final MiscBlockItems miscBlockItems = new MiscBlockItems();
+    private final TechBlockItems techBlockItems = new TechBlockItems();
+
 
     public static final ItemGroup ALPHAES_LATIN = FabricItemGroupBuilder.build(
             new Identifier(MOD_ID, "latin"),
@@ -45,18 +69,26 @@ public class AlphaesLetters implements ModInitializer {
     @SuppressWarnings("deprecation")
     @Override
     public void onInitialize() {
-        NumbersBlocks.registerBlocks();
-        CyrillicBlocks.registerBlocks();
-        LatinBlocks.registerBlocks();
-        MiscBlocks.registerBlocks();
-        TechBlocks.registerBlocks();
-        NumbersBlockItems.registerBlockItems();
-        CyrillicBlockItems.registerBlockItems();
-        LatinBlockItems.registerBlockItems();
-        MiscBlockItems.registerBlockItems();
-        TechBlockItems.registerBlockItems();
+        numbersBlocks.registerBlocks();
+        cyrillicBlocks.registerBlocks();
+        latinBlocks.registerBlocks();
+        miscBlocks.registerBlocks();
+        techBlocks.registerBlocks();
+        numbersBlockItems.registerBlockItems();
+        cyrillicBlockItems.registerBlockItems();
+        latinBlockItems.registerBlockItems();
+        miscBlockItems.registerBlockItems();
+        techBlockItems.registerBlockItems();
         AlphaesBlockEntities.registerEntities();
         ScreenRegistry.register(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, DyeingMachineScreen::new);
         AlphaesRecipes.registerRecipes();
+        CommandRegistrationCallback.EVENT.register(
+                (dispatcher, registryAccess, environment) -> dispatcher.register(literal("alread")
+                .executes(context -> {
+                    context.getSource().sendFeedback(
+                            Text.literal(COMMAND_TEXT),
+                            false);
+                    return 1;
+                })));
     }
 }

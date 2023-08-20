@@ -1,7 +1,7 @@
 package com.ortodontalio.alphaesletters.latin;
 
-import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
+import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import net.minecraft.block.Block;
 
 public class LatinBlocks extends BlockRegistrator {
@@ -37,7 +37,4 @@ public class LatinBlocks extends BlockRegistrator {
     public static final Block LETTER_ENE = new LetterBasic();
     public static final Block LETTER_SZ = new LetterBasic();
 
-    public static void registerBlocks() {
-        registerBlocks(LatinBlocks.class);
-    }
 }

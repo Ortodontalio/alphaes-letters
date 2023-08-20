@@ -2,7 +2,13 @@
   "parent": "block/orientable",
   "textures": {
     "1": "alphaesletters:blocks/letter_concrete",
-    "2": "minecraft:block/white_concrete",
-    "particle": "alphaesletters:blocks/letter_concrete"
+    "2": "minecraft:block/white_concrete_powder",
+    "particle": "minecraft:block/white_concrete_powder"
+  },
+  "display": {
+    "gui": {
+      "rotation": [20, -150, 0],
+      "translation": [4, -2.5, 0]
+    }
   }
 }

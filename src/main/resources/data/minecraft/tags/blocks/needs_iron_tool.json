@@ -108,6 +108,8 @@
     "alphaesletters:letter_cyr_dzhi",
     "alphaesletters:letter_cyr_dzhe",
     "alphaesletters:iron_fence",
-    "alphaesletters:iron_fence_gate"
+    "alphaesletters:iron_fence_gate",
+    "alphaesletters:letter_lake",
+    "alphaesletters:letter_cyr_lake"
   ]
 }

@@ -61,8 +61,8 @@ public class MiscBlockItems extends BlockItemRegistrator {
             .group(AlphaesLetters.ALPHAES_MISC));
     public static final BlockItem LETTER_CYR_RIVER = new BlockItem(MiscBlocks.LETTER_CYR_RIVER, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
-
-    public static void registerBlockItems() {
-        registerBlocks(MiscBlockItems.class);
-    }
+    public static final BlockItem LETTER_LAKE = new BlockItem(MiscBlocks.LETTER_LAKE, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_MISC));
+    public static final BlockItem LETTER_CYR_LAKE = new BlockItem(MiscBlocks.LETTER_CYR_LAKE, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_MISC));
 }

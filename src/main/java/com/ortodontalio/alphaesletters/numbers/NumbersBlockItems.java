@@ -26,7 +26,4 @@ public class NumbersBlockItems extends BlockItemRegistrator {
     public static final BlockItem LETTER_9 = new BlockItem(NumbersBlocks.LETTER_9, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_MISC));
 
-    public static void registerBlockItems() {
-        registerBlocks(NumbersBlockItems.class);
-    }
 }

@@ -22,7 +22,4 @@ public class TechBlockItems extends BlockItemRegistrator {
     public static final BlockItem IRON_FENCE_GATE = new BlockItem(TechBlocks.IRON_FENCE_GATE, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_TECH));
 
-    public static void registerBlockItems() {
-        registerBlocks(TechBlockItems.class);
-    }
 }
