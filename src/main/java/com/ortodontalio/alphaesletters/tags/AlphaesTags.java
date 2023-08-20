@@ -22,6 +22,7 @@ public class AlphaesTags {
         public static final TagKey<Item> FARBA_ITEMS = createTag("farba_items");
         public static final TagKey<Item> LETTERS = createTag("letters");
         public static final TagKey<Item> AXES = createTag("axes");
+        public static final TagKey<Item> HOES = createTag("hoes");
 
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, name));

@@ -11,6 +11,8 @@ import static com.ortodontalio.alphaesletters.AlphaesLetters.MOD_ID;
 public class AlphaesBlockEntities {
     public static BlockEntityType<DyeingMachineBlockEntity> DYEING_MACHINE_BLOCK_ENTITY;
 
+    private AlphaesBlockEntities(){}
+
     public static void registerEntities() {
         DYEING_MACHINE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MOD_ID, "dyeing_machine"),

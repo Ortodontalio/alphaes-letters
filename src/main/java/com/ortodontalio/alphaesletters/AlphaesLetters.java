@@ -26,6 +26,7 @@ import net.minecraft.util.Identifier;
 
 import static com.ortodontalio.alphaesletters.common.LetterBasic.COLOR;
 import static com.ortodontalio.alphaesletters.tech.TechBlocks.CROPPED_LETTER_CONCRETE;
+import static com.ortodontalio.alphaesletters.tech.TechBlocks.STRIKETHROUGH_BLOCK;
 import static net.minecraft.server.command.CommandManager.literal;
 
 
@@ -86,7 +87,7 @@ public class AlphaesLetters implements ModInitializer {
         ScreenRegistry.register(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, DyeingMachineScreen::new);
         AlphaesRecipes.registerRecipes();
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> state.get(COLOR).getMapColor().color,
-                CROPPED_LETTER_CONCRETE);
+                CROPPED_LETTER_CONCRETE, STRIKETHROUGH_BLOCK);
         CommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess, environment) -> dispatcher.register(literal("alread")
                 .executes(context -> {
