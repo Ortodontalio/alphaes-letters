@@ -18,10 +18,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import static com.ortodontalio.alphaesletters.common.LetterBasic.COLOR;
@@ -88,13 +86,14 @@ public class AlphaesLetters implements ModInitializer {
         AlphaesRecipes.registerRecipes();
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> state.get(COLOR).getMapColor().color,
                 CROPPED_LETTER_CONCRETE, STRIKETHROUGH_BLOCK);
-        CommandRegistrationCallback.EVENT.register(
-                (dispatcher, registryAccess, environment) -> dispatcher.register(literal("alread")
-                .executes(context -> {
-                    context.getSource().sendFeedback(
-                            Text.literal(COMMAND_TEXT),
-                            false);
-                    return 1;
-                })));
+//        CommandRegistrationCallback.EVENT.register(
+//                (dispatcher, registryAccess, environment) -> dispatcher.register(literal("alread")
+//                .executes(context -> {
+//                    ClientPlayerEntity player = MinecraftClient.getInstance().player;
+//                    if (player != null) {
+//                        player.sendMessage(Text.literal(COMMAND_TEXT));
+//                    }
+//                    return 1;
+//                })));
     }
 }

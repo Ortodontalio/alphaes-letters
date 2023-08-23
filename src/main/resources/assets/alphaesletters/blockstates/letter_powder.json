@@ -1,5 +1,16 @@
 {
   "variants": {
-    "": {"model":  "alphaesletters:block/letter_powder"}
+    "axis=x": {
+      "model": "alphaesletters:block/letter_powder_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alphaesletters:block/letter_powder"
+    },
+    "axis=z": {
+      "model": "alphaesletters:block/letter_powder_horizontal",
+      "x": 90
+    }
   }
 }

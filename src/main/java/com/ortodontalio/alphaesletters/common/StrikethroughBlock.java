@@ -49,8 +49,9 @@ public class StrikethroughBlock extends Block implements Waterloggable {
                 .strength(1.0f, 1.0f)
                 .sounds(BlockSoundGroup.WOOD)
                 .nonOpaque());
-        setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, false));
-        setDefaultState(getDefaultState().with(COLOR, DyeColor.RED));
+        setDefaultState(stateManager.getDefaultState()
+                .with(WATERLOGGED, false)
+                .with(COLOR, DyeColor.RED));
     }
 
     @Override

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alphaesletters:block/concrete_with_bars_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alphaesletters:block/concrete_with_bars"
+    },
+    "axis=z": {
+      "model": "alphaesletters:block/concrete_with_bars_horizontal",
+      "x": 90
+    }
+  }
+}

@@ -124,7 +124,6 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
         }
         if(hasRecipe(entity)) {
             if(isConsumingFuel(entity)) {
-                world.playSound(null, pos, SoundEvents.ENTITY_MINECART_INSIDE_UNDERWATER, SoundCategory.BLOCKS, 0.02f, 0.01f);
                 entity.progress++;
                 entity.fuelTime--;
                 if (isFuelLessHalf(entity) && state.get(WATERED) == 2) {

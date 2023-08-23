@@ -79,8 +79,8 @@
   "block.alphaesletters.letter_7": "Number 7",
   "block.alphaesletters.letter_8": "Number 8",
   "block.alphaesletters.letter_9": "Number 9",
-  "block.alphaesletters.letter_concrete": "Ferroconcrete",
-  "block.alphaesletters.cropped_letter_concrete": "Cropped Ferroconcrete",
+  "block.alphaesletters.letter_concrete": "Blue Ferroconcrete",
+  "block.alphaesletters.cropped_letter_concrete": "Cropped Blue Ferroconcrete",
   "block.alphaesletters.letter_apostrophe": "Apostrophe Symbol",
   "block.alphaesletters.letter_dash": "Dash Symbol",
   "block.alphaesletters.letter_quest": "Question Symbol",
@@ -114,5 +114,6 @@
   "block.alphaesletters.iron_fence": "Iron fence",
   "block.alphaesletters.iron_fence_gate": "Iron fence gate",
   "block.alphaesletters.letter_lake": "Lake Acronym",
-  "block.alphaesletters.letter_cyr_lake": "Cyrillic Lake Acronym"
+  "block.alphaesletters.letter_cyr_lake": "Cyrillic Lake Acronym",
+  "block.alphaesletters.concrete_with_bars": "Ferroconcrete"
 }

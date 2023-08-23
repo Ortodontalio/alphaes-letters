@@ -74,7 +74,6 @@
 		}
 	],
 	"display": {
-		"gui_light": "side",
 		"gui": {
 			"rotation": [29, -32, 0],
 			"translation": [3.5, 2.5, 0],

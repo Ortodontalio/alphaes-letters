@@ -79,8 +79,8 @@
   "block.alphaesletters.letter_7": "Цифра 7",
   "block.alphaesletters.letter_8": "Цифра 8",
   "block.alphaesletters.letter_9": "Цифра 9",
-  "block.alphaesletters.letter_concrete": "Железобетон",
-  "block.alphaesletters.cropped_letter_concrete": "Обрезанный железобетон",
+  "block.alphaesletters.letter_concrete": "Синий Железобетон",
+  "block.alphaesletters.cropped_letter_concrete": "Обрезанный синий железобетон",
   "block.alphaesletters.letter_apostrophe": "Символ апострофа",
   "block.alphaesletters.letter_dash": "Символ тире",
   "block.alphaesletters.letter_quest": "Символ вопроса",
@@ -114,5 +114,6 @@
   "block.alphaesletters.iron_fence": "Металлический забор",
   "block.alphaesletters.iron_fence_gate": "Металлическая калитка",
   "block.alphaesletters.letter_lake": "Лат.аббревиатура озера",
-  "block.alphaesletters.letter_cyr_lake": "Аббревиатура озера"
+  "block.alphaesletters.letter_cyr_lake": "Аббревиатура озера",
+  "block.alphaesletters.concrete_with_bars": "Железобетон"
 }

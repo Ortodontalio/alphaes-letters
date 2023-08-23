@@ -15,6 +15,8 @@ public class TechBlockItems extends BlockItemRegistrator {
             .group(AlphaesLetters.ALPHAES_TECH));
     public static final BlockItem LETTER_POWDER = new BlockItem(TechBlocks.LETTER_POWDER, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_TECH));
+    public static final BlockItem CONCRETE_WITH_BARS = new BlockItem(TechBlocks.CONCRETE_WITH_BARS, new Item.Settings()
+            .group(AlphaesLetters.ALPHAES_TECH));
     public static final BlockItem STRIKETHROUGH_BLOCK = new BlockItem(TechBlocks.STRIKETHROUGH_BLOCK, new Item.Settings()
             .group(AlphaesLetters.ALPHAES_TECH));
     public static final BlockItem IRON_FENCE = new BlockItem(TechBlocks.IRON_FENCE, new Item.Settings()

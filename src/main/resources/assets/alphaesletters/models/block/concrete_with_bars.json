@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "alphaesletters:blocks/ferroconcrete_up",
+    "side": "minecraft:block/white_concrete"
+  }
+}
