@@ -5,14 +5,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.stat.Stats;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -28,7 +27,8 @@ public class LetterPowder extends PillarBlock {
 
     public LetterPowder() {
         super(FabricBlockSettings
-                .of(Material.SOIL, MapColor.WHITE_GRAY)
+                .create()
+                .mapColor(MapColor.WHITE_GRAY)
                 .strength(2.0f, 1.0f)
                 .sounds(BlockSoundGroup.SAND));
         this.hardenedState = CONCRETE_WITH_BARS.getDefaultState();

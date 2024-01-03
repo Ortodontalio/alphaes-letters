@@ -18,16 +18,17 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": ["com.ortodontalio.alphaesletters.AlphaesLetters"]
+    "main": ["com.ortodontalio.alphaesletters.AlphaesLetters"],
+    "fabric-datagen": ["com.ortodontalio.alphaesletters.AlphaesDataGenerator"]
   },
   "mixins": [
-    "modid.mixins.json"
+    "alphaesletters.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.6",
+    "fabricloader": ">=0.15.3",
     "fabric": "*",
-    "minecraft": "1.19.x",
+    "minecraft": "1.20.4",
     "java": ">=17"
   },
   "suggests": {

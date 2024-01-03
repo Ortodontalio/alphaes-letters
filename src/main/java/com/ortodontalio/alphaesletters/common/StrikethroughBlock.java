@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,7 +44,8 @@ public class StrikethroughBlock extends Block implements Waterloggable {
 
     public StrikethroughBlock() {
         super(FabricBlockSettings
-                .of(Material.WOOD, MapColor.RED)
+                .create()
+                .mapColor(MapColor.RED)
                 .strength(1.0f, 1.0f)
                 .sounds(BlockSoundGroup.WOOD)
                 .nonOpaque());
@@ -94,7 +94,7 @@ public class StrikethroughBlock extends Block implements Waterloggable {
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
                                                 WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (Boolean.TRUE.equals(state.get(WATERLOGGED))) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
@@ -103,7 +103,7 @@ public class StrikethroughBlock extends Block implements Waterloggable {
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState()
-                .with(FACING, ctx.getPlayerFacing().getOpposite())
+                .with(FACING, ctx.getHorizontalPlayerFacing().getOpposite())
                 .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
     }
 

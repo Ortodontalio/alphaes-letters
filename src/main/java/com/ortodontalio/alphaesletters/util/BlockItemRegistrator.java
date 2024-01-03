@@ -2,8 +2,9 @@ package com.ortodontalio.alphaesletters.util;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import net.minecraft.item.BlockItem;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -24,7 +25,7 @@ public abstract class BlockItemRegistrator {
         List<Field> fields = List.of(this.getClass().getDeclaredFields());
         for(Field field : fields) {
             try {
-                Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, field.getName().toLowerCase()),
+                Registry.register(Registries.ITEM, new Identifier(AlphaesLetters.MOD_ID, field.getName().toLowerCase()),
                         (BlockItem)field.get(null));
             } catch (IllegalAccessException e) {
                 LOGGER.log(Level.SEVERE,

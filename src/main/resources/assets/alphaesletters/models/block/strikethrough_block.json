@@ -2,7 +2,7 @@
 	"parent": "block/orientable",
 	"texture_size": [32, 32],
 	"textures": {
-		"all": "alphaesletters:blocks/strikethrough_block",
+		"all": "alphaesletters:block/strikethrough_block",
 		"particle": "#all"
 	},
 	"elements": [

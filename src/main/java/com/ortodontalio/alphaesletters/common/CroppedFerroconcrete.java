@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
@@ -36,6 +35,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 
 import static net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.DYES;
 
@@ -49,7 +49,8 @@ public class CroppedFerroconcrete extends Block implements Waterloggable {
 
     public CroppedFerroconcrete() {
         super(FabricBlockSettings
-                .of(Material.STONE, MapColor.BLUE)
+                .create()
+                .mapColor(MapColor.BLUE)
                 .strength(5.0f, 10.0f)
                 .sounds(BlockSoundGroup.STONE)
                 .luminance(state -> Boolean.TRUE.equals(state.get(LIT)) ? 10 : 0)
@@ -101,7 +102,7 @@ public class CroppedFerroconcrete extends Block implements Waterloggable {
                 inHand.damage(1, player, p -> p.sendToolBreakStatus(hand));
             }
             world.setBlockState(pos, state.with(LETTER, Letters.NONE), Block.NOTIFY_ALL);
-            onBreak(world, pos, state, player);
+            afterUseHoe(world, pos, state);
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.LETTERS) && state.get(LETTER).equals(Letters.NONE)) {
@@ -115,7 +116,7 @@ public class CroppedFerroconcrete extends Block implements Waterloggable {
                 return ActionResult.SUCCESS;
             }
         }
-        if (inHand.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) inHand.getItem()).getColor())) {
+        if (inHand.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) inHand.getItem()).getColor()) && !state.get(LETTER).equals(Letters.NONE)) {
             world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()), Block.NOTIFY_ALL);
             if (!player.isCreative()) {
@@ -129,7 +130,7 @@ public class CroppedFerroconcrete extends Block implements Waterloggable {
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState()
-                .with(FACING, ctx.getPlayerFacing().getOpposite())
+                .with(FACING, ctx.getHorizontalPlayerFacing().getOpposite())
                 .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
     }
 
@@ -143,21 +144,24 @@ public class CroppedFerroconcrete extends Block implements Waterloggable {
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
                                                 WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (Boolean.TRUE.equals(state.get(WATERLOGGED))) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
-    @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    private void afterUseHoe(World world, BlockPos pos, BlockState state) {
         Letters currentLetter = state.get(LETTER);
-        if (currentLetter != null) {
-            ItemStack itemStack = new ItemStack(currentLetter.getBlock());
+        if (currentLetter != null && !currentLetter.equals(Letters.NONE)) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                    itemStack);
+                    new ItemStack(currentLetter.getBlock()));
             itemEntity.setToDefaultPickupDelay();
             world.spawnEntity(itemEntity);
         }
-        super.onBreak(world, pos, state, player);
+    }
+
+    @Override
+    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
+        afterUseHoe(world, pos, state);
+        super.afterBreak(world, player, pos, state, blockEntity, tool);
     }
 }

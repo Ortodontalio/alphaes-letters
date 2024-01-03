@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -27,7 +26,8 @@ public class LetterFerroconcrete extends Block {
 
     public LetterFerroconcrete() {
         super(FabricBlockSettings
-                .of(Material.STONE, MapColor.BLUE)
+                .create()
+                .mapColor(MapColor.BLUE)
                 .strength(5.0f, 10.0f)
                 .sounds(BlockSoundGroup.STONE)
                 .luminance(state -> Boolean.TRUE.equals(state.get(LIT)) ? 10 : 0)

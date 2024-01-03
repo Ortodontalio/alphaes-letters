@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "alphaesletters:blocks/letter_concrete"
+    "all": "alphaesletters:block/letter_concrete"
   }
 }

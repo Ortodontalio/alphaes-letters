@@ -1,7 +1,7 @@
 package com.ortodontalio.alphaesletters.cyrillic;
 
-import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
+import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import net.minecraft.block.Block;
 
 public class CyrillicBlocks extends BlockRegistrator {

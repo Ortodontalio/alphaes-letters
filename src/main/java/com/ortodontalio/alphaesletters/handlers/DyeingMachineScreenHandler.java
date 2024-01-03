@@ -30,10 +30,10 @@ public class DyeingMachineScreenHandler extends ScreenHandler {
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.propertyDelegate = delegate;
-        this.addSlot(new DMFuelSlot(inventory, 0, 42 , 24));
-        this.addSlot(new DMResourceSlot(inventory, 1, 42 , 58));
-        this.addSlot(new DMFarbaSlot(inventory, 2, 84 , 41));
-        this.addSlot(new DMResultSlot(inventory, 3, 134 , 41));
+        this.addSlot(new DMFuelSlot(inventory, 0, 42, 24));
+        this.addSlot(new DMResourceSlot(inventory, 1, 42, 58));
+        this.addSlot(new DMFarbaSlot(inventory, 2, 84, 41));
+        this.addSlot(new DMResultSlot(inventory, 3, 134, 41));
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
         addProperties(delegate);
@@ -60,16 +60,11 @@ public class DyeingMachineScreenHandler extends ScreenHandler {
         int maxFuelProgress = this.propertyDelegate.get(3);
         int fuelProgressSize = 14;
 
-        return maxFuelProgress != 0 ? (int)(((float)fuelProgress / (float)maxFuelProgress) * fuelProgressSize) : 0;
+        return maxFuelProgress != 0 ? (int) (((float) fuelProgress / (float) maxFuelProgress) * fuelProgressSize) : 0;
     }
 
     @Override
-    public boolean canUse(PlayerEntity player) {
-        return this.inventory.canPlayerUse(player);
-    }
-
-    @Override
-    public ItemStack transferSlot(PlayerEntity player, int invSlot) {
+    public ItemStack quickMove(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot != null && slot.hasStack()) {
@@ -84,13 +79,18 @@ public class DyeingMachineScreenHandler extends ScreenHandler {
             }
 
             if (originalStack.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
+                slot.setStackNoCallbacks(ItemStack.EMPTY);
             } else {
                 slot.markDirty();
             }
         }
 
         return newStack;
+    }
+
+    @Override
+    public boolean canUse(PlayerEntity player) {
+        return this.inventory.canPlayerUse(player);
     }
 
     private void addPlayerInventory(PlayerInventory playerInventory) {

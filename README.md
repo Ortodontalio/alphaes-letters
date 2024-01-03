@@ -119,11 +119,11 @@ iron gates, strikethrough block, which you can use to create more realistic road
 
 In addition to the construction of iron pens, it can be used for road sign posts. Fence crafting is next:
 
-![Iron fence craft](src/main/resources/readme/fence_craft.png)
+![Iron fence craft](src/main/resources/readme/fence_craft_new.png)
 
 It is also possible to craft an iron gate:
 
-![Iron gate craft](src/main/resources/readme/gate_craft.png)
+![Iron gate craft](src/main/resources/readme/gate_craft_new.png)
 
 Also, to craft a strikethrough block, you must have the following items:
 

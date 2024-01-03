@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-      "item": "minecraft:white_concrete"
-  },
-  "result": "alphaesletters:letter_cyr_x",
-  "count": 1
-}

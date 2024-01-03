@@ -1,11 +1,20 @@
 package com.ortodontalio.alphaesletters.misc;
 
-import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
+import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import net.minecraft.block.Block;
 
 public class MiscBlocks extends BlockRegistrator {
 
+    public static final Block LETTER_1 = new LetterBasic();
+    public static final Block LETTER_2 = new LetterBasic();
+    public static final Block LETTER_3 = new LetterBasic();
+    public static final Block LETTER_4 = new LetterBasic();
+    public static final Block LETTER_5 = new LetterBasic();
+    public static final Block LETTER_6 = new LetterBasic();
+    public static final Block LETTER_7 = new LetterBasic();
+    public static final Block LETTER_8 = new LetterBasic();
+    public static final Block LETTER_9 = new LetterBasic();
     public static final Block LETTER_DASH = new LetterBasic();
     public static final Block LETTER_APOSTROPHE = new LetterBasic();
     public static final Block LETTER_QUEST = new LetterBasic();

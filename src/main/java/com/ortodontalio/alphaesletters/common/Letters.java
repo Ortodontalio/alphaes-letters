@@ -3,7 +3,6 @@ package com.ortodontalio.alphaesletters.common;
 import com.ortodontalio.alphaesletters.cyrillic.CyrillicBlocks;
 import com.ortodontalio.alphaesletters.latin.LatinBlocks;
 import com.ortodontalio.alphaesletters.misc.MiscBlocks;
-import com.ortodontalio.alphaesletters.numbers.NumbersBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringIdentifiable;
@@ -12,15 +11,15 @@ import java.util.Locale;
 
 public enum Letters implements StringIdentifiable {
     NONE(null),
-    LETTER_1(NumbersBlocks.LETTER_1),
-    LETTER_2(NumbersBlocks.LETTER_2),
-    LETTER_3(NumbersBlocks.LETTER_3),
-    LETTER_4(NumbersBlocks.LETTER_4),
-    LETTER_5(NumbersBlocks.LETTER_5),
-    LETTER_6(NumbersBlocks.LETTER_6),
-    LETTER_7(NumbersBlocks.LETTER_7),
-    LETTER_8(NumbersBlocks.LETTER_8),
-    LETTER_9(NumbersBlocks.LETTER_9),
+    LETTER_1(MiscBlocks.LETTER_1),
+    LETTER_2(MiscBlocks.LETTER_2),
+    LETTER_3(MiscBlocks.LETTER_3),
+    LETTER_4(MiscBlocks.LETTER_4),
+    LETTER_5(MiscBlocks.LETTER_5),
+    LETTER_6(MiscBlocks.LETTER_6),
+    LETTER_7(MiscBlocks.LETTER_7),
+    LETTER_8(MiscBlocks.LETTER_8),
+    LETTER_9(MiscBlocks.LETTER_9),
     LETTER_A(LatinBlocks.LETTER_A),
     LETTER_APOSTROPHE(MiscBlocks.LETTER_APOSTROPHE),
     LETTER_B(LatinBlocks.LETTER_B),

@@ -7,8 +7,12 @@ import net.minecraft.util.Identifier;
 import static com.ortodontalio.alphaesletters.AlphaesLetters.MOD_ID;
 
 public class AlphaesScreenHandlers {
+
+    private AlphaesScreenHandlers() {
+    }
+
     @SuppressWarnings("deprecation")
-    public static ScreenHandlerType<DyeingMachineScreenHandler> DYEING_MACHINE_SCREEN_HANDLER =
+    public static final ScreenHandlerType<DyeingMachineScreenHandler> DYEING_MACHINE_SCREEN_HANDLER =
             ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "dyeing_machine"),
                     DyeingMachineScreenHandler::new);
 }

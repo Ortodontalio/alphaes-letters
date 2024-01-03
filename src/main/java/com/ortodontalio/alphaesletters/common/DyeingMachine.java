@@ -1,20 +1,23 @@
 package com.ortodontalio.alphaesletters.common;
 
+import com.mojang.serialization.MapCodec;
 import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
 import com.ortodontalio.alphaesletters.entity.DyeingMachineBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
@@ -37,12 +40,14 @@ import org.jetbrains.annotations.Nullable;
 public class DyeingMachine extends BlockWithEntity implements BlockEntityProvider {
 
     public static final IntProperty WATERED = IntProperty.of("watered", 0, 2);
+    public static final MapCodec<DyeingMachine> CODEC = AbstractBlock.createCodec(sets -> new DyeingMachine());
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
+    public static final String ID = "dyeing_machine";
 
     public DyeingMachine() {
         super(FabricBlockSettings
-                .of(Material.METAL)
+                .create()
                 .strength(4.0f, 6.0f)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool());
@@ -52,6 +57,11 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(WATERED, FACING, LIT);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
     }
 
     @Override
@@ -75,10 +85,20 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     public ActionResult onUse(BlockState state, World world, BlockPos pos,
                               PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-
-            if (screenHandlerFactory != null) {
-                player.openHandledScreen(screenHandlerFactory);
+            ItemStack itemInHand = player.getStackInHand(hand);
+            DyeingMachineBlockEntity currentEntity = (DyeingMachineBlockEntity) world.getBlockEntity(pos);
+            if (itemInHand.getItem().equals(Items.WATER_BUCKET) && currentEntity != null) {
+                currentEntity.fillWater(world, state, pos);
+                player.setStackInHand(hand, Items.BUCKET.getDefaultStack());
+            } else if (itemInHand.getItem().equals(Items.BUCKET) && currentEntity != null &&
+                    DyeingMachineBlockEntity.isFullyWatered(currentEntity)) {
+                currentEntity.emptyWater(world, state, pos);
+                player.setStackInHand(hand, Items.WATER_BUCKET.getDefaultStack());
+            } else {
+                NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+                if (screenHandlerFactory != null) {
+                    player.openHandledScreen(screenHandlerFactory);
+                }
             }
         }
         return ActionResult.SUCCESS;
@@ -93,12 +113,12 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, AlphaesBlockEntities.DYEING_MACHINE_BLOCK_ENTITY, DyeingMachineBlockEntity::tick);
+        return validateTicker(type, AlphaesBlockEntities.dyeingMachineEntity, DyeingMachineBlockEntity::tick);
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
@@ -111,8 +131,8 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
                 double e = axis == Direction.Axis.X ? 0.5 + d * direction.getOffsetX() : (double) random.nextFloat();
                 double f = axis == Direction.Axis.Y ? 0.5 + d * direction.getOffsetY() : (double) random.nextFloat();
                 double g = axis == Direction.Axis.Z ? 0.5 + d * direction.getOffsetZ() : (double) random.nextFloat();
-                world.addParticle(ParticleTypes.SMOKE,
-                        pos.getX() + e, pos.getY() + f, pos.getZ() + g, 0.0, 0.0, 0.0);
+                world.addParticle(ParticleTypes.SMOKE, pos.getX() + e, pos.getY() + f, pos.getZ() + g,
+                        0.0, 0.0, 0.0);
             }
         }
     }
