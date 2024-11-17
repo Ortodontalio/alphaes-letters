@@ -1,0 +1,6 @@
+{
+  "parent": "alphaesletters:block/symbol_wall",
+  "textures": {
+    "all": "minecraft:block/glass"
+  }
+}

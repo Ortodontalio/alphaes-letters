@@ -1,9 +1,11 @@
 package com.ortodontalio.alphaesletters.handlers;
 
+import com.ortodontalio.alphaesletters.entity.DyeingMachineBlockEntity;
 import com.ortodontalio.alphaesletters.handlers.slots.DMFarbaSlot;
 import com.ortodontalio.alphaesletters.handlers.slots.DMFuelSlot;
 import com.ortodontalio.alphaesletters.handlers.slots.DMResourceSlot;
 import com.ortodontalio.alphaesletters.handlers.slots.DMResultSlot;
+import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -12,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 
 public class DyeingMachineScreenHandler extends ScreenHandler {
@@ -19,8 +22,9 @@ public class DyeingMachineScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
 
-    public DyeingMachineScreenHandler(int syncId, PlayerInventory inventory) {
-        this(syncId, inventory, new SimpleInventory(4), new ArrayPropertyDelegate(4));
+    public DyeingMachineScreenHandler(int syncId, PlayerInventory inventory, BlockPositionPayload payload) {
+        this(syncId, inventory, (DyeingMachineBlockEntity) inventory.player.getWorld().getBlockEntity(payload.pos()),
+                new ArrayPropertyDelegate(4));
     }
 
     public DyeingMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory,

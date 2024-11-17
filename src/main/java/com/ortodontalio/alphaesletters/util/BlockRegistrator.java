@@ -5,6 +5,8 @@ import com.ortodontalio.alphaesletters.common.LetterBasic;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.Registry;
 
@@ -33,7 +35,7 @@ public abstract class BlockRegistrator {
         for (Field field : fields) {
             try {
                 Block block = (Block) field.get(null);
-                Registry.register(Registries.BLOCK, new Identifier(AlphaesLetters.MOD_ID, field.getName().toLowerCase()),
+                Registry.register(Registries.BLOCK, RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, field.getName().toLowerCase())),
                         block);
                 if (block instanceof LetterBasic) {
                     basicLetters.add((LetterBasic) block);

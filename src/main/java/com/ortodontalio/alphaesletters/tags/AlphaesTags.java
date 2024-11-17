@@ -23,7 +23,7 @@ public class AlphaesTags {
         }
 
         private static TagKey<Item> createTag(String name) {
-            return TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, name));
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, name));
         }
     }
 

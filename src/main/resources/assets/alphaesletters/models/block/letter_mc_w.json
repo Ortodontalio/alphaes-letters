@@ -1,0 +1,41 @@
+{
+	"parent": "alphaesletters:block/letter_template",
+	"elements": [
+		{
+			"from": [10, 5, 14],
+			"to": [12, 7, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"east": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"south": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"west": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0}
+			}
+		},
+		{
+			"from": [4, 5, 14],
+			"to": [6, 7, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"east": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"south": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"west": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0}
+			}
+		},
+		{
+			"from": [7, 9, 14],
+			"to": [9, 11, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"east": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"south": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"west": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#2", "tintindex": 0}
+			}
+		}
+	]
+}

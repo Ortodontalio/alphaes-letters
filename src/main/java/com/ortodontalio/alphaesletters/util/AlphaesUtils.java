@@ -1,28 +1,82 @@
 package com.ortodontalio.alphaesletters.util;
 
-import com.ortodontalio.alphaesletters.cyrillic.CyrillicBlockItems;
-import com.ortodontalio.alphaesletters.cyrillic.CyrillicBlocks;
-import com.ortodontalio.alphaesletters.latin.LatinBlockItems;
-import com.ortodontalio.alphaesletters.latin.LatinBlocks;
-import com.ortodontalio.alphaesletters.misc.MiscBlockItems;
-import com.ortodontalio.alphaesletters.misc.MiscBlocks;
+import com.ortodontalio.alphaesletters.AlphaesLetters;
+import com.ortodontalio.alphaesletters.codegen.CyrillicLettersItemsRegistrator;
+import com.ortodontalio.alphaesletters.codegen.CyrillicLettersRegistrator;
+import com.ortodontalio.alphaesletters.codegen.LatinLettersItemsRegistrator;
+import com.ortodontalio.alphaesletters.codegen.LatinLettersRegistrator;
+import com.ortodontalio.alphaesletters.codegen.MinecraftLettersItemsRegistrator;
+import com.ortodontalio.alphaesletters.codegen.MinecraftLettersRegistrator;
+import com.ortodontalio.alphaesletters.codegen.MiscLettersItemsRegistrator;
+import com.ortodontalio.alphaesletters.codegen.MiscLettersRegistrator;
+import com.ortodontalio.alphaesletters.common.LetterSpec;
+import com.ortodontalio.alphaesletters.letters.CyrillicLetters;
+import com.ortodontalio.alphaesletters.letters.LatinLetters;
+import com.ortodontalio.alphaesletters.letters.MinecraftLetters;
+import com.ortodontalio.alphaesletters.letters.MiscLetters;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AlphaesUtils {
 
     private static final Logger LOGGER = Logger.getLogger(AlphaesUtils.class.getName());
+
+    private static <T extends Enum<T>> Enum<T> findLetterByBlockInGroup(Class<T> lettersGroup, ItemStack inHand) {
+        try {
+            return Enum.valueOf(lettersGroup, inHand.getItem().toString().replace(String.format("%s:", AlphaesLetters.MOD_ID), "").toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ex) {
+            return (Enum<T>) MiscLetters.NONE;
+        }
+    }
+
+    private static <T extends Enum<T>> Enum<T> findLetterByBlockNameInGroup(Class<T> lettersGroup, String name) {
+        try {
+            return Enum.valueOf(lettersGroup, name.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return (Enum<T>) MiscLetters.NONE;
+        }
+    }
+
+    public static LetterSpec findLetterByBlock(ItemStack inHand) {
+        return Stream.of(findLetterByBlockInGroup(CyrillicLetters.class, inHand),
+                        findLetterByBlockInGroup(LatinLetters.class, inHand),
+                        findLetterByBlockInGroup(MinecraftLetters.class, inHand),
+                        findLetterByBlockInGroup(MiscLetters.class, inHand))
+                .filter(letter -> !MiscLetters.NONE.equals(letter))
+                .map(LetterSpec.class::cast)
+                .findFirst()
+                .orElse(MiscLetters.NONE);
+    }
+
+    public static LetterSpec findLetterByName(String name) {
+        return (LetterSpec) Set.of(findLetterByBlockNameInGroup(CyrillicLetters.class, name),
+                        findLetterByBlockNameInGroup(LatinLetters.class, name),
+                        findLetterByBlockNameInGroup(MinecraftLetters.class, name),
+                        findLetterByBlockNameInGroup(MiscLetters.class, name))
+                .stream()
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static List<String> getAllLettersNames() {
+        return getAllLetters().stream().map(LetterSpec::asString).toList();
+    }
 
     /**
      * Method for getting all blocks from the block registrator class.
@@ -34,7 +88,7 @@ public class AlphaesUtils {
      * @return all blocks from the class.
      */
     @SuppressWarnings("java:S6204")
-    public static <T extends BlockRegistrator> List<Block> getAllBlocks(Class<T> blockClass) {
+    public static <T> List<Block> getAllBlocks(Class<T> blockClass) {
         return Arrays.stream(blockClass.getDeclaredFields())
                 .map(field -> {
                     try {
@@ -58,7 +112,7 @@ public class AlphaesUtils {
      * @return all block items from the class.
      */
     @SuppressWarnings("java:S6204")
-    public static <T extends BlockItemRegistrator> List<BlockItem> getAllBlockItems(Class<T> itemClass) {
+    public static <T> List<BlockItem> getAllBlockItems(Class<T> itemClass) {
         return Arrays.stream(itemClass.getDeclaredFields())
                 .map(field -> {
                     try {
@@ -73,24 +127,42 @@ public class AlphaesUtils {
     }
 
     public static Block[] getAllBlocks() {
-        List<Block> blocks = getAllBlocks(LatinBlocks.class);
-        blocks.addAll(getAllBlocks(CyrillicBlocks.class));
-        blocks.addAll(getAllBlocks(MiscBlocks.class));
+        List<Block> blocks = getAllBlocks(LatinLettersRegistrator.class);
+        blocks.addAll(getAllBlocks(CyrillicLettersRegistrator.class));
+        blocks.addAll(getAllBlocks(MiscLettersRegistrator.class));
+        blocks.addAll(getAllBlocks(MinecraftLettersRegistrator.class));
         blocks.addAll(getAllBlocks(TechBlocks.class));
         return blocks.toArray(Block[]::new);
     }
 
+    public static List<Block> getAllLetterBlocks() {
+        List<Block> blocks = getAllBlocks(LatinLettersRegistrator.class);
+        blocks.addAll(getAllBlocks(CyrillicLettersRegistrator.class));
+        blocks.addAll(getAllBlocks(MiscLettersRegistrator.class));
+        blocks.addAll(getAllBlocks(MinecraftLettersRegistrator.class));
+        return blocks;
+    }
+
     public static BlockItem[] getAllLetterBlockItems() {
-        List<BlockItem> blockItems = getAllBlockItems(LatinBlockItems.class);
-        blockItems.addAll(getAllBlockItems(CyrillicBlockItems.class));
-        blockItems.addAll(getAllBlockItems(MiscBlockItems.class));
+        List<BlockItem> blockItems = getAllBlockItems(LatinLettersItemsRegistrator.class);
+        blockItems.addAll(getAllBlockItems(CyrillicLettersItemsRegistrator.class));
+        blockItems.addAll(getAllBlockItems(MiscLettersItemsRegistrator.class));
+        blockItems.addAll(getAllBlockItems(MinecraftLettersItemsRegistrator.class));
         return blockItems.toArray(BlockItem[]::new);
     }
 
+    public static List<LetterSpec> getAllLetters() {
+        return Stream.of(LatinLetters.values(), CyrillicLetters.values(), MiscLetters.values(), MinecraftLetters.values())
+                .flatMap(Arrays::stream)
+                .map(LetterSpec.class::cast)
+                .toList();
+    }
+
     public static Block[] getAllSolidBlocks() {
-        List<Block> blocks = getAllBlocks(LatinBlocks.class);
-        blocks.addAll(getAllBlocks(CyrillicBlocks.class));
-        blocks.addAll(getAllBlocks(MiscBlocks.class));
+        List<Block> blocks = getAllBlocks(LatinLettersRegistrator.class);
+        blocks.addAll(getAllBlocks(CyrillicLettersRegistrator.class));
+        blocks.addAll(getAllBlocks(MiscLettersRegistrator.class));
+        blocks.addAll(getAllBlocks(MinecraftLettersRegistrator.class));
         blocks.add(TechBlocks.LETTER_CONCRETE);
         blocks.add(TechBlocks.CROPPED_LETTER_CONCRETE);
         blocks.add(TechBlocks.CONCRETE_WITH_BARS);

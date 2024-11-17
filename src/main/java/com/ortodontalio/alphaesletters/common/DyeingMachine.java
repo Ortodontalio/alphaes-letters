@@ -1,9 +1,10 @@
 package com.ortodontalio.alphaesletters.common;
 
+
 import com.mojang.serialization.MapCodec;
+import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
 import com.ortodontalio.alphaesletters.entity.DyeingMachineBlockEntity;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -19,38 +20,43 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
 public class DyeingMachine extends BlockWithEntity implements BlockEntityProvider {
 
-    public static final IntProperty WATERED = IntProperty.of("watered", 0, 2);
+    public static final IntProperty WATERED = IntProperty.of("watered", 0, 4);
     public static final MapCodec<DyeingMachine> CODEC = AbstractBlock.createCodec(sets -> new DyeingMachine());
-    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
     public static final String ID = "dyeing_machine";
 
     public DyeingMachine() {
-        super(FabricBlockSettings
+        super(Settings
                 .create()
                 .strength(4.0f, 6.0f)
                 .sounds(BlockSoundGroup.METAL)
-                .requiresTool());
+                .requiresTool()
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, ID))));
         setDefaultState(getDefaultState().with(WATERED, 0).with(LIT, false));
     }
 
@@ -73,8 +79,8 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof DyeingMachineBlockEntity) {
-                ItemScatterer.spawn(world, pos, (DyeingMachineBlockEntity) blockEntity);
+            if (blockEntity instanceof DyeingMachineBlockEntity dmEntity) {
+                ItemScatterer.spawn(world, pos, dmEntity);
                 world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -82,18 +88,18 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos,
-                              PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ActionResult onUseWithItem(ItemStack itemInHand, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            ItemStack itemInHand = player.getStackInHand(hand);
             DyeingMachineBlockEntity currentEntity = (DyeingMachineBlockEntity) world.getBlockEntity(pos);
             if (itemInHand.getItem().equals(Items.WATER_BUCKET) && currentEntity != null) {
                 currentEntity.fillWater(world, state, pos);
                 player.setStackInHand(hand, Items.BUCKET.getDefaultStack());
+                currentEntity.markDirty();
             } else if (itemInHand.getItem().equals(Items.BUCKET) && currentEntity != null &&
                     DyeingMachineBlockEntity.isFullyWatered(currentEntity)) {
                 currentEntity.emptyWater(world, state, pos);
                 player.setStackInHand(hand, Items.WATER_BUCKET.getDefaultStack());
+                currentEntity.markDirty();
             } else {
                 NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
                 if (screenHandlerFactory != null) {
@@ -104,16 +110,16 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
         return ActionResult.SUCCESS;
     }
 
-    @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new DyeingMachineBlockEntity(pos, state);
     }
 
-    @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(type, AlphaesBlockEntities.dyeingMachineEntity, DyeingMachineBlockEntity::tick);
+        return world instanceof ServerWorld serverWorld
+                ? validateTicker(type, AlphaesBlockEntities.DYEING_MACHINE_ENTITY, (worldx, pos, statex, blockEntity) -> DyeingMachineBlockEntity.tick(serverWorld, pos, statex, blockEntity))
+                : null;
     }
 
     @Override
@@ -124,12 +130,18 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if (Boolean.TRUE.equals(state.get(LIT))) {
-            double d = 0.5625;
-            Direction[] var5 = Direction.values();
-            for (Direction direction : var5) {
+            double d = pos.getX() + 0.5;
+            double e = pos.getY();
+            double f = pos.getZ() + 0.5;
+            if (Math.abs(random.nextDouble() - 10e-2) < 10e-2) {
+                world.playSound(d, e, f, SoundEvents.AMBIENT_UNDERWATER_LOOP_ADDITIONS, SoundCategory.BLOCKS, 0.4F, 0.5F, true);
+            }
+            Direction[] directions = Direction.values();
+            for (Direction direction : directions) {
+                d = 0.5625;
                 Direction.Axis axis = direction.getAxis();
-                double e = axis == Direction.Axis.X ? 0.5 + d * direction.getOffsetX() : (double) random.nextFloat();
-                double f = axis == Direction.Axis.Y ? 0.5 + d * direction.getOffsetY() : (double) random.nextFloat();
+                e = axis == Direction.Axis.X ? 0.5 + d * direction.getOffsetX() : (double) random.nextFloat();
+                f = axis == Direction.Axis.Y ? 0.5 + d * direction.getOffsetY() : (double) random.nextFloat();
                 double g = axis == Direction.Axis.Z ? 0.5 + d * direction.getOffsetZ() : (double) random.nextFloat();
                 world.addParticle(ParticleTypes.SMOKE, pos.getX() + e, pos.getY() + f, pos.getZ() + g,
                         0.0, 0.0, 0.0);
