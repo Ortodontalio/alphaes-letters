@@ -1,21 +1,18 @@
 package com.ortodontalio.alphaesletters.entity;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
-import com.ortodontalio.alphaesletters.common.DyeingMachine;
 import com.ortodontalio.alphaesletters.handlers.BlockPositionPayload;
 import com.ortodontalio.alphaesletters.handlers.DyeingMachineScreenHandler;
 import com.ortodontalio.alphaesletters.inventory.ImplementedInventory;
 import com.ortodontalio.alphaesletters.recipe.DyeingMachineRecipe;
-import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
+import com.ortodontalio.alphaesletters.tech.DyeingMachine;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.FuelRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -36,8 +33,8 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-import static com.ortodontalio.alphaesletters.common.DyeingMachine.LIT;
-import static com.ortodontalio.alphaesletters.common.DyeingMachine.WATERED;
+import static com.ortodontalio.alphaesletters.tech.DyeingMachine.LIT;
+import static com.ortodontalio.alphaesletters.tech.DyeingMachine.WATERED;
 
 public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPositionPayload>, ImplementedInventory {
     private static final String PROGRESS_KEY = String.format("%s.progress", DyeingMachine.ID);
@@ -49,6 +46,7 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
     public static final int HALF_WATERED = 2;
     public static final int HALF_UP_WATERED = 3;
     public static final int FULL_WATERED = 4;
+    public static final int WATER_BUCKET_FUEL_STRENGTH = 5000;
     private final ServerRecipeManager.MatchGetter<DyeingMachineRecipeInput, DyeingMachineRecipe> matchGetter;
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
@@ -57,9 +55,8 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
     private int maxFuelTime = 0;
 
     public DyeingMachineBlockEntity(BlockPos pos, BlockState state) {
-        super(AlphaesBlockEntities.DYEING_MACHINE_ENTITY, pos, state);
+        super(AlphaesBlockEntities.dyeingMachineEntity, pos, state);
         this.matchGetter = ServerRecipeManager.createCachedMatchGetter(DyeingMachineRecipe.Type.INSTANCE);
-        registerFuels();
         propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
                 return switch (index) {
@@ -77,8 +74,7 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
                     case 1 -> DyeingMachineBlockEntity.this.maxProgress = value;
                     case 2 -> DyeingMachineBlockEntity.this.fuelTime = value;
                     case 3 -> DyeingMachineBlockEntity.this.maxFuelTime = value;
-                    default -> {
-                    }
+                    default -> throw new IllegalStateException("Unexpected index: " + index);
                 }
             }
 
@@ -86,10 +82,6 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
                 return 4;
             }
         };
-    }
-
-    private void registerFuels() {
-        FuelRegistryEvents.BUILD.register((builder, context) -> builder.add(Items.WATER_BUCKET, 5000));
     }
 
     @Override
@@ -125,30 +117,18 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
         maxFuelTime = nbt.getInt(MAX_FUEL_TIME_KEY);
     }
 
-    public void consumeFuel(World world, BlockState state, BlockPos pos) {
-        if (getStack(0).isOf(Items.WATER_BUCKET)) {
-            fillWater(world, state, pos);
-            setStack(0, Items.BUCKET.getDefaultStack());
-        }
-    }
-
-    private int getFuelTime(FuelRegistry fuelRegistry, ItemStack stack) {
-        //return fuelRegistry.getFuelTicks(stack);
-        // TODO: Need to clarify, how to add a custom fuel for custom entity.
-        return 5000;
-    }
-
-    public void fillWater(World world, BlockState state, BlockPos pos) {
-        fuelTime = getFuelTime(world.getFuelRegistry(), Items.WATER_BUCKET.getDefaultStack());
+    public void fillWater(World world, BlockPos pos) {
+        fuelTime = WATER_BUCKET_FUEL_STRENGTH;
         maxFuelTime = fuelTime;
-        world.setBlockState(pos, state.with(WATERED, FULL_WATERED).with(LIT, true), Block.NOTIFY_ALL);
+        setWateredState(world, FULL_WATERED);
         world.playSound(null, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 0.2F, 0.2F);
     }
 
-    public void emptyWater(World world, BlockState state, BlockPos pos) {
+    public void emptyWater(World world, BlockPos pos) {
         fuelTime = 0;
         maxFuelTime = fuelTime;
-        world.setBlockState(pos, state.with(WATERED, NO_WATERED).with(LIT, false), Block.NOTIFY_ALL);
+        setLitState(world, false);
+        setWateredState(world, NO_WATERED);
         world.playSound(null, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 0.15F, 0.001F);
     }
 
@@ -164,49 +144,58 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
         return entity.fuelTime < entity.maxFuelTime / 3.4;
     }
 
-    public static void tick(ServerWorld world, BlockPos pos, BlockState state, DyeingMachineBlockEntity entity) {
+    private void setLitState(World world, boolean value) {
+        world.setBlockState(pos, getCachedState().with(LIT, value));
+    }
+
+    private void setWateredState(World world, int value) {
+        world.setBlockState(pos, getCachedState().with(WATERED, value));
+    }
+
+    public static void tick(World world, BlockPos pos, BlockState state, DyeingMachineBlockEntity entity) {
         if (!hasPowderInResSlot(entity)) {
             entity.resetProgress();
         }
         if (hasFuelInFuelSlot(entity)) {
-            entity.consumeFuel(world, state, pos);
+            entity.fillWater(world, pos);
+            entity.setStack(0, Items.BUCKET.getDefaultStack());
         }
         if (hasRecipe(world, entity)) {
-            workProcess(world, pos, state, entity);
+            workProcess(world, state, entity);
+            entity.markDirty();
+        } else if (world instanceof ServerWorld) {
+            entity.setLitState(world, false);
         }
-        if (state.get(WATERED) == NO_WATERED) {
-            world.setBlockState(pos, state.with(LIT, false), Block.FORCE_STATE);
-        }
-        entity.markDirty();
     }
 
-    private static void workProcess(ServerWorld world, BlockPos pos, BlockState state, DyeingMachineBlockEntity entity) {
+    private static void workProcess(World world, BlockState state, DyeingMachineBlockEntity entity) {
         if (isConsumingFuel(entity)) {
+            entity.setLitState(world, true);
             entity.progress++;
             entity.fuelTime--;
             if (isFuelLessHalfUp(entity) && state.get(WATERED) == FULL_WATERED) {
-                world.setBlockState(pos, state.with(WATERED, HALF_UP_WATERED), Block.NOTIFY_ALL);
+                entity.setWateredState(world, HALF_UP_WATERED);
             }
             if (isFuelLessHalf(entity) && state.get(WATERED) == HALF_UP_WATERED) {
-                world.setBlockState(pos, state.with(WATERED, HALF_WATERED), Block.NOTIFY_ALL);
+                entity.setWateredState(world, HALF_WATERED);
             }
             if (isFuelLessHalfDown(entity) && state.get(WATERED) == HALF_WATERED) {
-                world.setBlockState(pos, state.with(WATERED, HALF_DOWN_WATERED), Block.NOTIFY_ALL);
+                entity.setWateredState(world, HALF_DOWN_WATERED);
             }
             if (entity.progress > entity.maxProgress) {
                 craftItem(world, entity);
-                world.setBlockState(pos, state.with(LIT, true), Block.FORCE_STATE);
+                entity.setLitState(world, true);
             }
         } else {
             if (state.get(WATERED) != NO_WATERED) {
-                world.setBlockState(pos, state.with(WATERED, NO_WATERED).with(LIT, false), Block.NOTIFY_ALL);
+                entity.setLitState(world, false);
+                entity.setWateredState(world, NO_WATERED);
             }
         }
-        markDirty(world, pos, state);
     }
 
     private static boolean hasFuelInFuelSlot(DyeingMachineBlockEntity entity) {
-        return !entity.getStack(0).isEmpty();
+        return !entity.getStack(0).isEmpty() && entity.getStack(0).isOf(Items.WATER_BUCKET);
     }
 
     private static boolean hasPowderInResSlot(DyeingMachineBlockEntity entity) {
@@ -221,32 +210,38 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
         return isConsumingFuel(entity) && entity.fuelTime == entity.maxFuelTime;
     }
 
-    private static boolean hasRecipe(ServerWorld world, DyeingMachineBlockEntity entity) {
+    private static boolean hasRecipe(World world, DyeingMachineBlockEntity entity) {
         SimpleInventory inventory = new SimpleInventory(entity.inventory.size());
         for (int i = 0; i < entity.inventory.size(); i++) {
             inventory.setStack(i, entity.getStack(i));
         }
-        Optional<RecipeEntry<DyeingMachineRecipe>> match = entity.matchGetter
-                .getFirstMatch(new DyeingMachineRecipeInput(inventory.getStack(0), inventory.getStack(1), inventory.getStack(2),
-                        inventory.getStack(3)), world);
-        return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)
-                && canInsertItemIntoOutputSlot(inventory, match.get().value().getResult());
+
+        if (world instanceof ServerWorld serverWorld) {
+            Optional<RecipeEntry<DyeingMachineRecipe>> match = entity.matchGetter
+                    .getFirstMatch(new DyeingMachineRecipeInput(inventory.getStack(0), inventory.getStack(1),
+                            inventory.getStack(2), inventory.getStack(3)), serverWorld);
+            return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)
+                    && canInsertItemIntoOutputSlot(inventory, match.get().value().getResult());
+        }
+        return false;
     }
 
-    private static void craftItem(ServerWorld world, DyeingMachineBlockEntity entity) {
+    private static void craftItem(World world, DyeingMachineBlockEntity entity) {
         SimpleInventory inventory = new SimpleInventory(entity.inventory.size());
         for (int i = 0; i < entity.inventory.size(); i++) {
             inventory.setStack(i, entity.getStack(i));
         }
-        Optional<RecipeEntry<DyeingMachineRecipe>> match = entity.matchGetter
-                .getFirstMatch(new DyeingMachineRecipeInput(inventory.getStack(0), inventory.getStack(1), inventory.getStack(2),
-                        inventory.getStack(3)), world);
-        if (match.isPresent()) {
-            entity.removeStack(1, 1);
-            entity.removeStack(2, 1);
-            entity.setStack(3, new ItemStack(match.get().value().getResult().getItem(),
-                    entity.getStack(3).getCount() + 1));
-            entity.resetProgress();
+        if (world instanceof ServerWorld serverWorld) {
+            Optional<RecipeEntry<DyeingMachineRecipe>> match = entity.matchGetter
+                    .getFirstMatch(new DyeingMachineRecipeInput(inventory.getStack(0), inventory.getStack(1), inventory.getStack(2),
+                            inventory.getStack(3)), serverWorld);
+            if (match.isPresent()) {
+                entity.removeStack(1, 1);
+                entity.removeStack(2, 1);
+                entity.setStack(3, new ItemStack(match.get().value().getResult().getItem(),
+                        entity.getStack(3).getCount() + 1));
+                entity.resetProgress();
+            }
         }
     }
 

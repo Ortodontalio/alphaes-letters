@@ -1,4 +1,4 @@
-package com.ortodontalio.alphaesletters.common;
+package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import net.minecraft.block.MapColor;

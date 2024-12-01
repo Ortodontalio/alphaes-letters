@@ -1,6 +1,6 @@
 package com.ortodontalio.alphaesletters.generation;
 
-import com.ortodontalio.alphaesletters.common.DyeingMachine;
+import com.ortodontalio.alphaesletters.tech.DyeingMachine;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;

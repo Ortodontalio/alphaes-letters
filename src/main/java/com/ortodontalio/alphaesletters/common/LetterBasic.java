@@ -93,7 +93,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }
-            world.setBlockState(pos, state.with(LIT, true), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(LIT, true));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.AXES) && Boolean.TRUE.equals(state.get(LIT))) {
@@ -101,12 +101,12 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             if (!player.isCreative()) {
                 inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
             }
-            world.setBlockState(pos, state.with(LIT, false), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(LIT, false));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) inHand.getItem()).getColor())) {
             world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()));
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }

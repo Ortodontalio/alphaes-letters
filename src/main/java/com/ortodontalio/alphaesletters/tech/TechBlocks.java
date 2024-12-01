@@ -1,12 +1,6 @@
 package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
-import com.ortodontalio.alphaesletters.common.ConcreteWithBars;
-import com.ortodontalio.alphaesletters.common.CroppedFerroconcrete;
-import com.ortodontalio.alphaesletters.common.DyeingMachine;
-import com.ortodontalio.alphaesletters.common.LetterFerroconcrete;
-import com.ortodontalio.alphaesletters.common.LetterPowder;
-import com.ortodontalio.alphaesletters.common.StrikethroughBlock;
 import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -36,12 +30,4 @@ public class TechBlocks extends BlockRegistrator {
             .strength(5.0f, 6.0f)
             .requiresTool()
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "iron_fence_gate"))));
-    public static final Block SYMBOL_WALL = new SymbolWallBlock(AbstractBlock.Settings.create()
-            .mapColor(MapColor.CLEAR)
-            .noCollision()
-            .dropsNothing()
-            .noBlockBreakParticles()
-            .replaceable()
-            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "symbol_wall"))));
-
 }

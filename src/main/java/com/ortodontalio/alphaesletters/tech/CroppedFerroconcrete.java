@@ -1,6 +1,8 @@
-package com.ortodontalio.alphaesletters.common;
+package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
+import com.ortodontalio.alphaesletters.common.HasColor;
+import com.ortodontalio.alphaesletters.common.LetterSpec;
 import com.ortodontalio.alphaesletters.letters.MiscLetters;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
@@ -91,7 +93,7 @@ public class CroppedFerroconcrete extends Block implements Waterloggable, HasCol
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }
-            world.setBlockState(pos, state.with(LIT, true), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(LIT, true));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.AXES) && Boolean.TRUE.equals(state.get(LIT))) {
@@ -99,7 +101,7 @@ public class CroppedFerroconcrete extends Block implements Waterloggable, HasCol
             if (!player.isCreative()) {
                 inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
             }
-            world.setBlockState(pos, state.with(LIT, false), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(LIT, false));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.HOES) && !state.get(LETTER).equals(MiscLetters.NONE.asString())) {
@@ -107,7 +109,7 @@ public class CroppedFerroconcrete extends Block implements Waterloggable, HasCol
             if (!player.isCreative()) {
                 inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
             }
-            world.setBlockState(pos, state.with(LETTER, MiscLetters.NONE.asString()), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(LETTER, MiscLetters.NONE.asString()));
             afterUseHoe(world, pos, state);
             return ActionResult.SUCCESS;
         }
@@ -118,14 +120,14 @@ public class CroppedFerroconcrete extends Block implements Waterloggable, HasCol
                 if (!player.isCreative()) {
                     inHand.decrement(1);
                 }
-                world.setBlockState(pos, state.with(LETTER, currentLetterInHand.asString()), Block.NOTIFY_ALL);
+                world.setBlockState(pos, state.with(LETTER, currentLetterInHand.asString()));
                 return ActionResult.SUCCESS;
             }
         }
         if (inHand.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) inHand.getItem()).getColor()) &&
                 !state.get(LETTER).equals(MiscLetters.NONE.asString())) {
             world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()));
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }

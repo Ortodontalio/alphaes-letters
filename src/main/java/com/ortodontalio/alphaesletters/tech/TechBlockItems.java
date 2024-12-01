@@ -43,9 +43,4 @@ public class TechBlockItems extends BlockItemRegistrator implements GroupRegistr
             .Settings()
             .useBlockPrefixedTranslationKey()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, "iron_fence_gate"))));
-    public static final BlockItem SYMBOL_WALL = new BlockItem(TechBlocks.SYMBOL_WALL, new Item
-            .Settings()
-            .useBlockPrefixedTranslationKey()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, "symbol_wall"))));
-
 }

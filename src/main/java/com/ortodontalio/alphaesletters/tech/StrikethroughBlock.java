@@ -1,42 +1,60 @@
 package com.ortodontalio.alphaesletters.tech;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.AbstractSignBlock;
+import com.ortodontalio.alphaesletters.AlphaesLetters;
+import com.ortodontalio.alphaesletters.common.HasColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.block.SignBlock;
-import net.minecraft.block.WoodType;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.Waterloggable;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 
-public class SymbolWallBlock extends AbstractSignBlock {
+import static net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.DYES;
+
+public class StrikethroughBlock extends Block implements Waterloggable, HasColor {
+
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
-    public SymbolWallBlock(Settings settings) {
-        super(WoodType.CHERRY, settings);
-        setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, false));
-    }
-
-    @Override
-    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return world.getBlockState(pos.down()).isSolid();
+    public StrikethroughBlock() {
+        super(Settings
+                .create()
+                .mapColor(MapColor.RED)
+                .strength(1.0f, 1.0f)
+                .sounds(BlockSoundGroup.WOOD)
+                .nonOpaque()
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "strikethrough_block"))));
+        setDefaultState(stateManager.getDefaultState()
+                .with(WATERLOGGED, false)
+                .with(COLOR, DyeColor.RED));
     }
 
     @Override
@@ -50,31 +68,28 @@ public class SymbolWallBlock extends AbstractSignBlock {
     }
 
     @Override
-    public float getRotationDegrees(BlockState state) {
-        return 0;
-    }
-
-    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, WATERLOGGED);
+        builder.add(FACING, WATERLOGGED, COLOR);
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new SymbolWallBlockEntity(pos, state);
+    protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
+                                         PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (stack.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) stack.getItem()).getColor())) {
+            world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.setBlockState(pos, state.with(COLOR, ((DyeItem) stack.getItem()).getColor()));
+            if (!player.isCreative()) {
+                stack.decrement(1);
+            }
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.PASS;
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
         return Boolean.TRUE.equals(state.get(WATERLOGGED))
                 ? Fluids.WATER.getStill(false) : super.getFluidState(state);
-    }
-
-    @Override
-    protected MapCodec<? extends AbstractSignBlock> getCodec() {
-        return RecordCodecBuilder.mapCodec(
-                instance -> instance.group(WoodType.CODEC.fieldOf("wood_type").forGetter(sign -> sign.getWoodType()),
-                                createSettingsCodec()).apply(instance, SignBlock::new));
     }
 
     @Override

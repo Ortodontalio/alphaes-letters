@@ -1,4 +1,4 @@
-package com.ortodontalio.alphaesletters.common;
+package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
@@ -51,7 +51,7 @@ public class LetterFerroconcrete extends Block {
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }
-            world.setBlockState(pos, state.with(LIT, true), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(LIT, true));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.AXES) && Boolean.TRUE.equals(state.get(LIT))) {
@@ -59,7 +59,7 @@ public class LetterFerroconcrete extends Block {
             if (!player.isCreative()) {
                 inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
             }
-            world.setBlockState(pos, state.with(LIT, false), Block.NOTIFY_ALL);
+            world.setBlockState(pos, state.with(LIT, false));
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;

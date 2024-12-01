@@ -28,6 +28,5 @@ public class AlphaesLettersClient implements ClientModInitializer {
                 coloredBlocks.toArray(Block[]::new));
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), coloredBlocks.toArray(Block[]::new));
-        //BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), SYMBOL_WALL);
     }
 }

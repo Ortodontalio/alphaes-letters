@@ -1,4 +1,4 @@
-package com.ortodontalio.alphaesletters.common;
+package com.ortodontalio.alphaesletters.tech;
 
 
 import com.mojang.serialization.MapCodec;
@@ -41,6 +41,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DyeingMachine extends BlockWithEntity implements BlockEntityProvider {
 
@@ -92,12 +95,12 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
         if (!world.isClient) {
             DyeingMachineBlockEntity currentEntity = (DyeingMachineBlockEntity) world.getBlockEntity(pos);
             if (itemInHand.getItem().equals(Items.WATER_BUCKET) && currentEntity != null) {
-                currentEntity.fillWater(world, state, pos);
+                currentEntity.fillWater(world, pos);
                 player.setStackInHand(hand, Items.BUCKET.getDefaultStack());
                 currentEntity.markDirty();
             } else if (itemInHand.getItem().equals(Items.BUCKET) && currentEntity != null &&
                     DyeingMachineBlockEntity.isFullyWatered(currentEntity)) {
-                currentEntity.emptyWater(world, state, pos);
+                currentEntity.emptyWater(world, pos);
                 player.setStackInHand(hand, Items.WATER_BUCKET.getDefaultStack());
                 currentEntity.markDirty();
             } else {
@@ -117,9 +120,7 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world instanceof ServerWorld serverWorld
-                ? validateTicker(type, AlphaesBlockEntities.DYEING_MACHINE_ENTITY, (worldx, pos, statex, blockEntity) -> DyeingMachineBlockEntity.tick(serverWorld, pos, statex, blockEntity))
-                : null;
+        return validateTicker(type, AlphaesBlockEntities.dyeingMachineEntity, DyeingMachineBlockEntity::tick);
     }
 
     @Override

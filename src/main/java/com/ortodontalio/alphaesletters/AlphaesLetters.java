@@ -13,11 +13,6 @@ import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-
-import static com.ortodontalio.alphaesletters.common.LetterBasic.COLOR;
-import static com.ortodontalio.alphaesletters.tech.TechBlocks.CROPPED_LETTER_CONCRETE;
-import static com.ortodontalio.alphaesletters.tech.TechBlocks.STRIKETHROUGH_BLOCK;
 
 
 public class AlphaesLetters implements ModInitializer {

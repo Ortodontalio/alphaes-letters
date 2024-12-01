@@ -36,11 +36,8 @@ public class DyeingMachineRecipe implements Recipe<DyeingMachineBlockEntity.Dyei
         if (world.isClient()) {
             return false;
         }
-        boolean checkResult = false;
-        for (int i = 0; i < ingredients.size(); i++) {
-            checkResult = ingredients.get(i).test(inventory.getStackInSlot(i + 1));
-        }
-        return checkResult;
+        return ingredients.get(0).test(inventory.getStackInSlot(1)) &&
+                ingredients.get(1).test(inventory.getStackInSlot(2));
     }
 
     @Override

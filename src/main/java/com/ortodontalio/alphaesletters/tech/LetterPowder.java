@@ -1,4 +1,4 @@
-package com.ortodontalio.alphaesletters.common;
+package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import net.minecraft.block.Block;
@@ -78,6 +78,6 @@ public class LetterPowder extends PillarBlock {
         player.addExhaustion(0.005F);
         dropStacks(simplePowderState, world, pos, blockEntity, player, simplePowder);
         BlockState bars = Blocks.IRON_BARS.getDefaultState();
-        world.setBlockState(pos, bars, Block.NOTIFY_ALL);
+        world.setBlockState(pos, bars);
     }
 }

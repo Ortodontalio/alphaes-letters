@@ -1,6 +1,6 @@
 package com.ortodontalio.alphaesletters.recipe;
 
-import com.ortodontalio.alphaesletters.common.DyeingMachine;
+import com.ortodontalio.alphaesletters.tech.DyeingMachine;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;

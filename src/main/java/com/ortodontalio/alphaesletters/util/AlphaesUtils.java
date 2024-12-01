@@ -64,14 +64,14 @@ public class AlphaesUtils {
     }
 
     public static LetterSpec findLetterByName(String name) {
-        return (LetterSpec) Set.of(findLetterByBlockNameInGroup(CyrillicLetters.class, name),
+        return Stream.of(findLetterByBlockNameInGroup(CyrillicLetters.class, name),
                         findLetterByBlockNameInGroup(LatinLetters.class, name),
                         findLetterByBlockNameInGroup(MinecraftLetters.class, name),
                         findLetterByBlockNameInGroup(MiscLetters.class, name))
-                .stream()
-                .filter(Objects::nonNull)
+                .filter(letter -> !MiscLetters.NONE.equals(letter))
+                .map(LetterSpec.class::cast)
                 .findFirst()
-                .orElse(null);
+                .orElse(MiscLetters.NONE);
     }
 
     public static List<String> getAllLettersNames() {
