@@ -8,10 +8,9 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
-import net.minecraft.client.render.VertexFormatElement;
-import net.minecraft.component.Component;
-import net.minecraft.component.ComponentChanges;
-import net.minecraft.component.ComponentType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -29,6 +28,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -83,7 +83,12 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
 
     @Override
     public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
-        return new ItemStack(state.getBlock());
+        ItemStack copied = new ItemStack(state.getBlock(), 64);
+        copied.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT
+                .with(COLOR, state.get(COLOR))
+                .with(LIT, state.get(LIT)));
+        copied.set(DataComponentTypes.CUSTOM_NAME, Text.of(getName().withColor(state.get(COLOR).getSignColor())));
+        return copied;
     }
 
     @Override

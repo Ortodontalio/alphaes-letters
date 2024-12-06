@@ -14,6 +14,8 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,6 +34,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -45,6 +48,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
+
+import java.util.Objects;
+import java.util.Optional;
 
 import static net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.DYES;
 
@@ -86,6 +92,27 @@ public class CroppedFerroconcrete extends Block implements Waterloggable, HasCol
     }
 
     @Override
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
+        ItemStack copied = new ItemStack(state.getBlock(), 64);
+        String currentLetterName = state.get(LETTER);
+        DyeColor color = state.get(COLOR);
+        copied.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT
+                .with(COLOR, color)
+                .with(LETTER, currentLetterName)
+                .with(LIT, state.get(LIT)));
+        LetterSpec currentLetter = AlphaesUtils.findLetterByName(currentLetterName);
+        if (!MiscLetters.NONE.equals(currentLetter)) {
+            AlphaesUtils.findBlockByLetter(currentLetter).ifPresent(letterBlock ->
+                    copied.set(DataComponentTypes.CUSTOM_NAME, Text.of(String.format("%s (%s)",
+                                    Text.of(getName()).getString(),
+                                    Text.of(letterBlock.getName()).getString()))
+                            .copy()
+                            .withColor(color.getSignColor())));
+        }
+        return copied;
+    }
+
+    @Override
     protected ActionResult onUseWithItem(ItemStack inHand, BlockState state, World world, BlockPos pos,
                                          PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (inHand.isOf(Items.GLOWSTONE_DUST) && Boolean.FALSE.equals(state.get(LIT))) {
@@ -120,7 +147,11 @@ public class CroppedFerroconcrete extends Block implements Waterloggable, HasCol
                 if (!player.isCreative()) {
                     inHand.decrement(1);
                 }
-                world.setBlockState(pos, state.with(LETTER, currentLetterInHand.asString()));
+                Optional.ofNullable(inHand.getComponents().get(DataComponentTypes.BLOCK_STATE))
+                        .ifPresentOrElse(bs -> world.setBlockState(pos, state.with(COLOR, Objects.requireNonNullElse(bs.getValue(COLOR), DyeColor.WHITE))
+                                        .with(LIT, Objects.requireNonNullElse(bs.getValue(LIT), false))
+                                        .with(LETTER, currentLetterInHand.asString())),
+                                () -> world.setBlockState(pos, state.with(LETTER, currentLetterInHand.asString())));
                 return ActionResult.SUCCESS;
             }
         }

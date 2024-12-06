@@ -153,17 +153,21 @@ public class DyeingMachineBlockEntity extends BlockEntity implements ExtendedScr
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, DyeingMachineBlockEntity entity) {
-        if (!hasPowderInResSlot(entity)) {
-            entity.resetProgress();
-        }
-        if (hasFuelInFuelSlot(entity)) {
-            entity.fillWater(world, pos);
-            entity.setStack(0, Items.BUCKET.getDefaultStack());
-        }
-        if (hasRecipe(world, entity)) {
-            workProcess(world, state, entity);
-            entity.markDirty();
-        } else if (world instanceof ServerWorld) {
+        if (!world.isReceivingRedstonePower(pos)) {
+            if (!hasPowderInResSlot(entity)) {
+                entity.resetProgress();
+            }
+            if (hasFuelInFuelSlot(entity)) {
+                entity.fillWater(world, pos);
+                entity.setStack(0, Items.BUCKET.getDefaultStack());
+            }
+            if (hasRecipe(world, entity)) {
+                workProcess(world, state, entity);
+                entity.markDirty();
+            } else if (world instanceof ServerWorld) {
+                entity.setLitState(world, false);
+            }
+        } else {
             entity.setLitState(world, false);
         }
     }

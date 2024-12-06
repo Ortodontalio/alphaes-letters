@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -50,6 +50,14 @@ public class AlphaesUtils {
         } catch (IllegalArgumentException ex) {
             return (Enum<T>) MiscLetters.NONE;
         }
+    }
+
+    public static Optional<Block> findBlockByLetter(LetterSpec letter) {
+        return Stream.of(CyrillicLetters.values(), LatinLetters.values(), MinecraftLetters.values(), MiscLetters.values())
+                .flatMap(Arrays::stream)
+                .filter(lt -> lt.equals(letter))
+                .findFirst()
+                .map(LetterSpec::getBlock);
     }
 
     public static LetterSpec findLetterByBlock(ItemStack inHand) {

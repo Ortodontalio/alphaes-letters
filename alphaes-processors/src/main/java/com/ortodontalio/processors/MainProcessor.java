@@ -73,7 +73,6 @@ public class MainProcessor extends AbstractProcessor {
 
     private void generateGroupRegisterClass() throws IOException {
         ClassName itemGroupClass = ClassName.get(MC_ITEM_PACKAGE, "ItemGroup");
-        ClassName itemConvClass = ClassName.get(MC_ITEM_PACKAGE, "ItemConvertible");
         ClassName fabricGroupClass = ClassName.get("net.fabricmc.fabric.api.itemgroup.v1", "FabricItemGroup");
         ClassName itemStackClass = ClassName.get(MC_ITEM_PACKAGE, "ItemStack");
         ClassName textClass = ClassName.get("net.minecraft.text", "Text");
@@ -142,16 +141,16 @@ public class MainProcessor extends AbstractProcessor {
                     registratorItemClass.addField(genBlockItemField);
 
                     registerMethodBuilder.addStatement("$T.register($T.BLOCK, $T.of($T.BLOCK, $T.of(\"alphaesletters\", $S)), $N)",
-                            REGISTRY_CLASS, REGISTRIES_CLASS, REGISTRY_KEY_CLASS, REGISTRY_KEYS_CLASS, IDENTIFIER_CLASS,
-                            field.getSimpleName().toString().toLowerCase(), genBlockField)
+                                    REGISTRY_CLASS, REGISTRIES_CLASS, REGISTRY_KEY_CLASS, REGISTRY_KEYS_CLASS, IDENTIFIER_CLASS,
+                                    field.getSimpleName().toString().toLowerCase(), genBlockField)
                             .addStatement("allBlocks.add($N)", genBlockField);
                     registerItemsMethodBuilder.addStatement("$T.register($T.ITEM, $T.of($T.ITEM, $T.of(\"alphaesletters\", $S)), $N)",
-                            REGISTRY_CLASS, REGISTRIES_CLASS, REGISTRY_KEY_CLASS, REGISTRY_KEYS_CLASS, IDENTIFIER_CLASS,
-                            field.getSimpleName().toString().toLowerCase(), genBlockItemField)
+                                    REGISTRY_CLASS, REGISTRIES_CLASS, REGISTRY_KEY_CLASS, REGISTRY_KEYS_CLASS, IDENTIFIER_CLASS,
+                                    field.getSimpleName().toString().toLowerCase(), genBlockItemField)
                             .addStatement("allBlocks.add(new $T($N))", itemStackClass, genBlockItemField);
                 });
         registerMethodBuilder.addStatement("$T.BLOCK.register((state, view, pos, tintIndex) -> state.get($T.COLOR).getMapColor().color," +
-                        "allBlocks.toArray(LetterBasic[]::new))", colorProviderClass, letterBasicClass);
+                "allBlocks.toArray(LetterBasic[]::new))", colorProviderClass, letterBasicClass);
         registerItemsMethodBuilder.addStatement("registerGroup($S, allBlocks)", annotatedClass.getSimpleName().toString().toLowerCase());
         registratorClass.addMethod(registerMethodBuilder.build());
         registratorItemClass.addMethod(registerItemsMethodBuilder.build());
