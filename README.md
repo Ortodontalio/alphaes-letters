@@ -81,8 +81,9 @@ To get ferroconcrete from a block of concrete powder with bars, it is necessary 
 
 ![Dyeing machine craft](src/main/resources/readme/dyeing_machine_craft.png)
 
-This machine accepts a bucket of water, any block of concrete powder and a dye at the entrance, and concrete of the 
-color of the dye is obtained at the output:
+This machine accepts a bucket of water, any block of concrete powder and a dye at the entrance, and concrete of the
+color of the dye is obtained at the output. The working of this machine can also be controlled by a redstone:
+if the signal is active, the machine stops working, as well as collecting water.
 
 ![Dyeing machine capabilities](src/main/resources/readme/concrete_craft.png)
 
@@ -93,7 +94,7 @@ Depending on the amount of water in the internal tank, the appearance of the mac
 We also need to get blue ferroconcrete, so we use a dyeing machine, putting concrete powder with bars and
 blue dye in it:
 
-![Dyeing machine types](src/main/resources/readme/letter_powder_craft.png)
+![Letter Powder Craft](src/main/resources/readme/letter_powder_craft.png)
 
 Interesting fact. If you pour water around concrete powder with bars, you can get white ferroconcrete.
 But you won't be able to paint such concrete, unfortunately😔:
