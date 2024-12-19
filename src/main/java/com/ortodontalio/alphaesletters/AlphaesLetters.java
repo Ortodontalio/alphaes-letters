@@ -12,6 +12,7 @@ import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
 import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
+import com.ortodontalio.alphaesletters.util.AddonLoader;
 import net.fabricmc.api.ModInitializer;
 
 
@@ -46,6 +47,8 @@ public class AlphaesLetters implements ModInitializer {
 
         AlphaesBlockEntities.registerEntities();
         AlphaesRecipes.registerRecipes();
+
+        AddonLoader.checkAddonFolder();
 
 //        CommandRegistrationCallback.EVENT.register(
 //                (dispatcher, registryAccess, environment) -> dispatcher.register(literal("alread")

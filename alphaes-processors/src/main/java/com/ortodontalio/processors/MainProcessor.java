@@ -81,7 +81,7 @@ public class MainProcessor extends AbstractProcessor {
                 .classBuilder(GROUP_REGISTRATOR_CLASS)
                 .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                 .addMethod(MethodSpec.methodBuilder("registerGroup")
-                        .addModifiers(Modifier.PROTECTED, Modifier.FINAL, Modifier.STATIC)
+                        .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
                         .addParameter(String.class, "className")
                         .addParameter(List.class, "blocks")
                         .addStatement("String key = String.format(\"itemGroup.alphaesletters.%s\", className)")

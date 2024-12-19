@@ -10,7 +10,6 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlockStateComponent;
-import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -50,6 +49,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    public final String name;
 
     public LetterBasic(String name) {
         super(Settings
@@ -64,6 +64,11 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
                 .with(LIT, false)
                 .with(WATERLOGGED, false)
                 .with(COLOR, DyeColor.WHITE));
+        this.name = name;
+    }
+
+    public String getLetterName() {
+        return name;
     }
 
     @Override
