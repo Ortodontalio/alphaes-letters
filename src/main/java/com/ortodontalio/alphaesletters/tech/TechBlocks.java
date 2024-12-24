@@ -18,6 +18,6 @@ public class TechBlocks extends BlockRegistrator {
             .requiresTool());
     public static final Block IRON_FENCE_GATE = new FenceGateBlock(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY)
             .strength(5.0f,6.0f)
-            .requiresTool());
+            .requiresTool(), WoodType.OAK);
 
 }

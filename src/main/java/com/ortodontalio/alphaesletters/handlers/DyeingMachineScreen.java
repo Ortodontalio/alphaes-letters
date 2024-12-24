@@ -29,7 +29,7 @@ public class DyeingMachineScreen extends HandledScreen<DyeingMachineScreenHandle
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (width - backgroundWidth) / 2;

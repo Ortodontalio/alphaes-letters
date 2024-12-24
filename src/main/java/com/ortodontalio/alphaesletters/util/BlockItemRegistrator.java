@@ -1,17 +1,25 @@
 package com.ortodontalio.alphaesletters.util;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * A class for registers {@link BlockItem} objects. Contains methods that perform certain actions on extended classes.
+ *
  * @author Ortodontalio
  */
 public abstract class BlockItemRegistrator {
@@ -20,16 +28,24 @@ public abstract class BlockItemRegistrator {
     /**
      * Method for registers {@link BlockItem} objects.
      */
-    public void registerBlockItems() {
+    public ItemGroup registerBlockItemsAndGroup(String langKey) {
         List<Field> fields = List.of(this.getClass().getDeclaredFields());
-        for(Field field : fields) {
+        List<ItemStack> items = new ArrayList<>();
+        for (Field field : fields) {
             try {
-                Registry.register(Registry.ITEM, new Identifier(AlphaesLetters.MOD_ID, field.getName().toLowerCase()),
-                        (BlockItem)field.get(null));
+                var blockItem = (BlockItem) field.get(null);
+                Registry.register(Registries.ITEM, new Identifier(AlphaesLetters.MOD_ID, field.getName().toLowerCase()),
+                        blockItem);
+                items.add(blockItem.getDefaultStack());
             } catch (IllegalAccessException e) {
                 LOGGER.log(Level.SEVERE,
                         String.format("BlockItem hasn't been registered during the next error: %s", e.getMessage()));
             }
         }
+        return FabricItemGroup.builder(new Identifier(AlphaesLetters.MOD_ID, langKey))
+                .icon(() -> items.get(0))
+                .displayName(Text.translatable(String.format("itemGroup.%s.%s", AlphaesLetters.MOD_ID, langKey)))
+                .entries((displayContext, entries) -> entries.addAll(items))
+                .build();
     }
 }

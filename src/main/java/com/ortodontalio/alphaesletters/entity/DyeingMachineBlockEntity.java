@@ -17,13 +17,12 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -53,12 +52,21 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
             }
 
             public void set(int index, int value) {
-                switch(index) {
-                    case 0: DyeingMachineBlockEntity.this.progress = value; break;
-                    case 1: DyeingMachineBlockEntity.this.maxProgress = value; break;
-                    case 2: DyeingMachineBlockEntity.this.fuelTime = value; break;
-                    case 3: DyeingMachineBlockEntity.this.maxFuelTime = value; break;
-                    default: break;
+                switch (index) {
+                    case 0:
+                        DyeingMachineBlockEntity.this.progress = value;
+                        break;
+                    case 1:
+                        DyeingMachineBlockEntity.this.maxProgress = value;
+                        break;
+                    case 2:
+                        DyeingMachineBlockEntity.this.fuelTime = value;
+                        break;
+                    case 3:
+                        DyeingMachineBlockEntity.this.maxFuelTime = value;
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -103,7 +111,7 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
     }
 
     private void consumeFuel(World world, BlockState state, BlockPos pos) {
-        if(getStack(0).isOf(Items.WATER_BUCKET)) {
+        if (getStack(0).isOf(Items.WATER_BUCKET)) {
             this.fuelTime = FuelRegistry.INSTANCE.get(this.getStack(0).getItem());
             this.maxFuelTime = this.fuelTime;
             this.setStack(0, new ItemStack(Items.BUCKET, 1));
@@ -116,14 +124,14 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, DyeingMachineBlockEntity entity) {
-        if(!hasPowderInResSlot(entity)) {
+        if (!hasPowderInResSlot(entity)) {
             entity.resetProgress();
         }
-        if(hasFuelInFuelSlot(entity)) {
+        if (hasFuelInFuelSlot(entity)) {
             entity.consumeFuel(world, state, pos);
         }
-        if(hasRecipe(entity)) {
-            if(isConsumingFuel(entity)) {
+        if (hasRecipe(entity)) {
+            if (isConsumingFuel(entity)) {
                 entity.progress++;
                 entity.fuelTime--;
                 if (isFuelLessHalf(entity) && state.get(WATERED) == 2) {
@@ -132,9 +140,8 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
                 if (entity.progress > entity.maxProgress) {
                     craftItem(entity);
                 }
-            }
-            else {
-                if(state.get(WATERED) != 0) {
+            } else {
+                if (state.get(WATERED) != 0) {
                     world.setBlockState(pos, state.with(WATERED, 0).with(LIT, false), Block.NOTIFY_ALL);
                 }
             }
@@ -164,7 +171,7 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
                 .getFirstMatch(DyeingMachineRecipe.Type.INSTANCE, inventory, world);
 
         return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)
-                && canInsertItemIntoOutputSlot(inventory, match.get().getOutput());
+                && canInsertItemIntoOutputSlot(inventory, match.get().getOutput(null));
     }
 
     private static void craftItem(DyeingMachineBlockEntity entity) {
@@ -178,10 +185,10 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
         Optional<DyeingMachineRecipe> match = Objects.requireNonNull(world).getRecipeManager()
                 .getFirstMatch(DyeingMachineRecipe.Type.INSTANCE, inventory, world);
 
-        if(match.isPresent()) {
-            entity.removeStack(1,1);
-            entity.removeStack(2,1);
-            entity.setStack(3, new ItemStack(match.get().getOutput().getItem(),
+        if (match.isPresent()) {
+            entity.removeStack(1, 1);
+            entity.removeStack(2, 1);
+            entity.setStack(3, new ItemStack(match.get().getOutput(null).getItem(),
                     entity.getStack(3).getCount() + 1));
             entity.resetProgress();
         }
