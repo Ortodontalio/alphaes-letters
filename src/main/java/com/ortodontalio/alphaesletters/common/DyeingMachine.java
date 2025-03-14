@@ -40,7 +40,6 @@ import org.jetbrains.annotations.Nullable;
 public class DyeingMachine extends BlockWithEntity implements BlockEntityProvider {
 
     public static final IntProperty WATERED = IntProperty.of("watered", 0, 2);
-    public static final MapCodec<DyeingMachine> CODEC = AbstractBlock.createCodec(sets -> new DyeingMachine());
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
     public static final String ID = "dyeing_machine";
@@ -57,11 +56,6 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(WATERED, FACING, LIT);
-    }
-
-    @Override
-    protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return CODEC;
     }
 
     @Override
@@ -88,11 +82,11 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
             ItemStack itemInHand = player.getStackInHand(hand);
             DyeingMachineBlockEntity currentEntity = (DyeingMachineBlockEntity) world.getBlockEntity(pos);
             if (itemInHand.getItem().equals(Items.WATER_BUCKET) && currentEntity != null) {
-                currentEntity.fillWater(world, state, pos);
+                currentEntity.fillWater(world, pos);
                 player.setStackInHand(hand, Items.BUCKET.getDefaultStack());
             } else if (itemInHand.getItem().equals(Items.BUCKET) && currentEntity != null &&
                     DyeingMachineBlockEntity.isFullyWatered(currentEntity)) {
-                currentEntity.emptyWater(world, state, pos);
+                currentEntity.emptyWater(world, pos);
                 player.setStackInHand(hand, Items.WATER_BUCKET.getDefaultStack());
             } else {
                 NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
@@ -113,7 +107,7 @@ public class DyeingMachine extends BlockWithEntity implements BlockEntityProvide
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(type, AlphaesBlockEntities.dyeingMachineEntity, DyeingMachineBlockEntity::tick);
+        return checkType(type, AlphaesBlockEntities.dyeingMachineEntity, DyeingMachineBlockEntity::tick);
     }
 
     @Override

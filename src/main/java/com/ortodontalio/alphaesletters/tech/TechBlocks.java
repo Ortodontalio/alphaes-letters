@@ -26,9 +26,9 @@ public class TechBlocks extends BlockRegistrator {
             .mapColor(MapColor.IRON_GRAY)
             .strength(5.0f, 6.0f)
             .requiresTool());
-    public static final Block IRON_FENCE_GATE = new FenceGateBlock(WoodType.OAK, FabricBlockSettings.create()
+    public static final Block IRON_FENCE_GATE = new FenceGateBlock(FabricBlockSettings.create()
             .mapColor(MapColor.IRON_GRAY)
             .strength(5.0f, 6.0f)
-            .requiresTool());
+            .requiresTool(), WoodType.OAK);
 
 }

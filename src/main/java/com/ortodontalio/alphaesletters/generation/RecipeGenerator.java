@@ -6,7 +6,7 @@ import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.BlockItem;
@@ -15,6 +15,8 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.tag.TagKey;
 
+import java.util.function.Consumer;
+
 public class RecipeGenerator extends FabricRecipeProvider {
 
     public RecipeGenerator(FabricDataOutput output) {
@@ -22,7 +24,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
+    public void generate(Consumer<RecipeJsonProvider> exporter) {
         // Recipes for concrete powders in dyeing machine
         for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
             offerDyeingMachineRecipe(exporter, AlphaesTags.Items.CONCRETE_POWDER_BLOCKS, AlphaesUtils.getAllDyes()[i],
@@ -90,11 +92,11 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .offerTo(exporter);
     }
 
-    private void offerDyeingMachineRecipe(RecipeExporter exporter, TagKey<Item> inputTag, Item inputDye, Item output) {
+    private void offerDyeingMachineRecipe(Consumer<RecipeJsonProvider> exporter, TagKey<Item> inputTag, Item inputDye, Item output) {
         DyeingMachineRecipeJsonBuilder.create(output, inputDye, inputTag).offerTo(exporter);
     }
 
-    private void offerDyeingMachineRecipe(RecipeExporter exporter, Item inputBlock, Item inputDye, Item output) {
+    private void offerDyeingMachineRecipe(Consumer<RecipeJsonProvider> exporter, Item inputBlock, Item inputDye, Item output) {
         DyeingMachineRecipeJsonBuilder.create(output, inputDye, inputBlock).offerTo(exporter);
     }
 }

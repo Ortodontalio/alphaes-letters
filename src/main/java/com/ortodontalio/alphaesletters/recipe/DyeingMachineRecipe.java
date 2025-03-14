@@ -1,8 +1,7 @@
 package com.ortodontalio.alphaesletters.recipe;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -10,20 +9,24 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.World;
 
 import java.util.List;
 
 public class DyeingMachineRecipe implements Recipe<SimpleInventory> {
+    private final Identifier id;
     private final ItemStack output;
     private final List<Ingredient> ingredients;
 
-    public DyeingMachineRecipe(List<Ingredient> ingredients, ItemStack output) {
+    public DyeingMachineRecipe(Identifier id, ItemStack output, DefaultedList<Ingredient> recipeItems) {
+        this.id = id;
         this.output = output;
-        this.ingredients = ingredients;
+        this.ingredients = recipeItems;
     }
 
     @Override
@@ -48,8 +51,8 @@ public class DyeingMachineRecipe implements Recipe<SimpleInventory> {
     }
 
     @Override
-    public ItemStack getResult(DynamicRegistryManager registryManager) {
-        return output;
+    public ItemStack getOutput(DynamicRegistryManager registryManager) {
+        return output.copy();
     }
 
     @Override
@@ -69,6 +72,11 @@ public class DyeingMachineRecipe implements Recipe<SimpleInventory> {
         return allIngredients;
     }
 
+    @Override
+    public Identifier getId() {
+        return id;
+    }
+
     public static class Type implements RecipeType<DyeingMachineRecipe> {
         private Type() {
         }
@@ -79,26 +87,6 @@ public class DyeingMachineRecipe implements Recipe<SimpleInventory> {
 
     public static class Serializer implements RecipeSerializer<DyeingMachineRecipe> {
         public static final Serializer INSTANCE = new Serializer();
-        private static final String INGREDIENTS_FIELD = "ingredients";
-        private static final String OUTPUT_FIELD = "output";
-        public static final Codec<DyeingMachineRecipe> RECIPE_CODEC = RecordCodecBuilder.create(in ->
-                in.group(validate().fieldOf(INGREDIENTS_FIELD).forGetter(DyeingMachineRecipe::getIngredients),
-                        ItemStack.RECIPE_RESULT_CODEC.fieldOf(OUTPUT_FIELD).forGetter(r -> r.output)
-                ).apply(in, DyeingMachineRecipe::new));
-
-        private static Codec<List<Ingredient>> validate() {
-            return Codecs.validate(Ingredient.DISALLOW_EMPTY_CODEC.listOf(), Serializer::validateIngredients);
-        }
-
-        private static DataResult<List<Ingredient>> validateIngredients(List<Ingredient> ingredients) {
-            if (ingredients == null || ingredients.isEmpty()) {
-                return DataResult.error(() -> "Recipe has no ingredients!");
-            }
-            if (ingredients.size() > 9) {
-                return DataResult.error(() -> "Recipe has too many ingredients!");
-            }
-            return DataResult.success(ingredients);
-        }
 
         @Override
         public void write(PacketByteBuf buf, DyeingMachineRecipe recipe) {
@@ -106,20 +94,26 @@ public class DyeingMachineRecipe implements Recipe<SimpleInventory> {
             for (Ingredient ingredient : recipe.getIngredients()) {
                 ingredient.write(buf);
             }
-            buf.writeItemStack(recipe.getResult(null));
+            buf.writeItemStack(recipe.getOutput(null));
         }
 
         @Override
-        public Codec<DyeingMachineRecipe> codec() {
-            return RECIPE_CODEC;
+        public DyeingMachineRecipe read(Identifier id, JsonObject json) {
+            ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"));
+            JsonArray ingredients = JsonHelper.getArray(json, "ingredients");
+            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(2, Ingredient.EMPTY);
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
+            }
+            return new DyeingMachineRecipe(id, output, inputs);
         }
 
         @Override
-        public DyeingMachineRecipe read(PacketByteBuf buf) {
+        public DyeingMachineRecipe read(Identifier id, PacketByteBuf buf) {
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
             inputs.replaceAll(ignored -> Ingredient.fromPacket(buf));
             ItemStack output = buf.readItemStack();
-            return new DyeingMachineRecipe(inputs, output);
+            return new DyeingMachineRecipe(id, output, inputs);
         }
     }
 }

@@ -16,7 +16,6 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -41,6 +40,7 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
     public static final int NO_WATERED = 0;
     public static final int HALF_WATERED = 1;
     public static final int FULL_WATERED = 2;
+    public static final int WATER_BUCKET_FUEL_STRENGTH = 5000;
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 360;
@@ -49,7 +49,6 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
 
     public DyeingMachineBlockEntity(BlockPos pos, BlockState state) {
         super(AlphaesBlockEntities.dyeingMachineEntity, pos, state);
-        FuelRegistry.INSTANCE.add(Items.WATER_BUCKET, 5000);
         propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
                 return switch (index) {
@@ -111,24 +110,18 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
         maxFuelTime = nbt.getInt(MAX_FUEL_TIME_KEY);
     }
 
-    public void consumeFuel(World world, BlockState state, BlockPos pos) {
-        if (getStack(0).isOf(Items.WATER_BUCKET)) {
-            fillWater(world, state, pos);
-            setStack(0, Items.BUCKET.getDefaultStack());
-        }
-    }
-
-    public void fillWater(World world, BlockState state, BlockPos pos) {
-        fuelTime = FuelRegistry.INSTANCE.get(Items.WATER_BUCKET);
+    public void fillWater(World world, BlockPos pos) {
+        fuelTime = WATER_BUCKET_FUEL_STRENGTH;
         maxFuelTime = fuelTime;
-        world.setBlockState(pos, state.with(WATERED, FULL_WATERED).with(LIT, true), Block.NOTIFY_ALL);
+        setWateredState(world, FULL_WATERED);
         world.playSound(null, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 0.2F, 0.2F);
     }
 
-    public void emptyWater(World world, BlockState state, BlockPos pos) {
+    public void emptyWater(World world, BlockPos pos) {
         fuelTime = 0;
         maxFuelTime = fuelTime;
-        world.setBlockState(pos, state.with(WATERED, NO_WATERED).with(LIT, false), Block.NOTIFY_ALL);
+        setLitState(world, false);
+        setWateredState(world, NO_WATERED);
         world.playSound(null, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 0.15F, 0.001F);
     }
 
@@ -141,37 +134,45 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
             entity.resetProgress();
         }
         if (hasFuelInFuelSlot(entity)) {
-            entity.consumeFuel(world, state, pos);
+            entity.fillWater(world, pos);
+            entity.setStack(0, Items.BUCKET.getDefaultStack());
         }
         if (hasRecipe(entity)) {
-            workProcess(world, pos, state, entity);
-        }
-        if (state.get(WATERED) == NO_WATERED) {
-            world.setBlockState(pos, state.with(LIT, false), Block.FORCE_STATE);
+            workProcess(world, state, entity);
+            entity.markDirty();
         }
     }
 
-    private static void workProcess(World world, BlockPos pos, BlockState state, DyeingMachineBlockEntity entity) {
+    private void setLitState(World world, boolean value) {
+        world.setBlockState(pos, getCachedState().with(LIT, value));
+    }
+
+    private void setWateredState(World world, int value) {
+        world.setBlockState(pos, getCachedState().with(WATERED, value));
+    }
+
+    private static void workProcess(World world, BlockState state, DyeingMachineBlockEntity entity) {
         if (isConsumingFuel(entity)) {
+            entity.setLitState(world, true);
             entity.progress++;
             entity.fuelTime--;
             if (isFuelLessHalf(entity) && state.get(WATERED) == FULL_WATERED) {
-                world.setBlockState(pos, state.with(WATERED, HALF_WATERED), Block.NOTIFY_ALL);
+                entity.setWateredState(world, HALF_WATERED);
             }
             if (entity.progress > entity.maxProgress) {
                 craftItem(entity);
-                world.setBlockState(pos, state.with(LIT, true), Block.FORCE_STATE);
+                entity.setLitState(world, true);
             }
         } else {
             if (state.get(WATERED) != NO_WATERED) {
-                world.setBlockState(pos, state.with(WATERED, NO_WATERED).with(LIT, false), Block.NOTIFY_ALL);
+                entity.setLitState(world, false);
+                entity.setWateredState(world, NO_WATERED);
             }
         }
-        markDirty(world, pos, state);
     }
 
     private static boolean hasFuelInFuelSlot(DyeingMachineBlockEntity entity) {
-        return !entity.getStack(0).isEmpty();
+        return !entity.getStack(0).isEmpty() && entity.getStack(0).isOf(Items.WATER_BUCKET);
     }
 
     private static boolean hasPowderInResSlot(DyeingMachineBlockEntity entity) {
@@ -193,11 +194,11 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
             inventory.setStack(i, entity.getStack(i));
         }
 
-        Optional<RecipeEntry<DyeingMachineRecipe>> match = Objects.requireNonNull(world).getRecipeManager()
+        Optional<DyeingMachineRecipe> match = Objects.requireNonNull(world).getRecipeManager()
                 .getFirstMatch(DyeingMachineRecipe.Type.INSTANCE, inventory, world);
 
         return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)
-                && canInsertItemIntoOutputSlot(inventory, match.get().value().getResult(null));
+                && canInsertItemIntoOutputSlot(inventory, match.get().getOutput(null));
     }
 
     private static void craftItem(DyeingMachineBlockEntity entity) {
@@ -208,13 +209,13 @@ public class DyeingMachineBlockEntity extends BlockEntity implements NamedScreen
             inventory.setStack(i, entity.getStack(i));
         }
 
-        Optional<RecipeEntry<DyeingMachineRecipe>> match = Objects.requireNonNull(world).getRecipeManager()
+        Optional<DyeingMachineRecipe> match = Objects.requireNonNull(world).getRecipeManager()
                 .getFirstMatch(DyeingMachineRecipe.Type.INSTANCE, inventory, world);
 
         if (match.isPresent()) {
             entity.removeStack(1, 1);
             entity.removeStack(2, 1);
-            entity.setStack(3, new ItemStack(match.get().value().getResult(null).getItem(),
+            entity.setStack(3, new ItemStack(match.get().getOutput(null).getItem(),
                     entity.getStack(3).getCount() + 1));
             entity.resetProgress();
         }

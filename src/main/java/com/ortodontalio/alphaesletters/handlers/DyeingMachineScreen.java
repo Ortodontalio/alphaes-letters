@@ -28,7 +28,7 @@ public class DyeingMachineScreen extends HandledScreen<DyeingMachineScreenHandle
 
     @Override
     protected void drawBackground(DrawContext matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+        RenderSystem.setShader(GameRenderer::getPositionProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (width - backgroundWidth) / 2;
@@ -46,7 +46,7 @@ public class DyeingMachineScreen extends HandledScreen<DyeingMachineScreenHandle
 
     @Override
     public void render(DrawContext matrices, int mouseX, int mouseY, float delta) {
-        renderBackgroundTexture(matrices);
+        renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
