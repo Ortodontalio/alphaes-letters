@@ -142,5 +142,8 @@
   "block.alphaesletters.letter_mc_w": "Minecraft lettre W",
   "block.alphaesletters.letter_mc_x": "Minecraft lettre X",
   "block.alphaesletters.letter_mc_y": "Minecraft lettre Y",
-  "block.alphaesletters.letter_mc_z": "Minecraft lettre Z"
+  "block.alphaesletters.letter_mc_z": "Minecraft lettre Z",
+  "itemGroup.alphaesletters.customletters": "OpenLetters (Addons)",
+  "blockProperty.alphaesletters.author": "Auteur: %s",
+  "blockProperty.alphaesletters.version": "Version: %s"
 }

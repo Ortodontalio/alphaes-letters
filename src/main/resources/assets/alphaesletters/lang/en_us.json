@@ -66,11 +66,12 @@
   "block.alphaesletters.letter_cyr_ii": "Tajik letter II",
   "block.alphaesletters.letter_cyr_dzhi": "Cyrillic letter DHZI",
   "block.alphaesletters.letter_cyr_dzhe": "Cyrillic letter DZHE",
-  "itemGroup.alphaesletters.latinletters": "AlPhAE's Letters (Latin)",
-  "itemGroup.alphaesletters.cyrillicletters": "AlPhAE's Letters (Cyrillic)",
-  "itemGroup.alphaesletters.miscletters": "AlPhAE's Letters (Sign Construction)",
-  "itemGroup.alphaesletters.minecraftletters": "AlPhAE's Letters (Minecraft)",
-  "itemGroup.alphaesletters.techblockitems": "AlPhAE's Letters (Technical)",
+  "itemGroup.alphaesletters.latinletters": "OpenLetters (Latin)",
+  "itemGroup.alphaesletters.cyrillicletters": "OpenLetters (Cyrillic)",
+  "itemGroup.alphaesletters.miscletters": "OpenLetters (Sign Construction)",
+  "itemGroup.alphaesletters.minecraftletters": "OpenLetters (Minecraft)",
+  "itemGroup.alphaesletters.techblockitems": "OpenLetters (Technical)",
+  "itemGroup.alphaesletters.customletters": "OpenLetters (Addons)",
   "block.alphaesletters.letter_1": "Number 1",
   "block.alphaesletters.letter_2": "Number 2",
   "block.alphaesletters.letter_3": "Number 3",
@@ -142,5 +143,7 @@
   "block.alphaesletters.letter_mc_w": "Minecraft letter W",
   "block.alphaesletters.letter_mc_x": "Minecraft letter X",
   "block.alphaesletters.letter_mc_y": "Minecraft letter Y",
-  "block.alphaesletters.letter_mc_z": "Minecraft letter Z"
+  "block.alphaesletters.letter_mc_z": "Minecraft letter Z",
+  "blockProperty.alphaesletters.author": "Author: %s",
+  "blockProperty.alphaesletters.version": "Version: %s"
 }

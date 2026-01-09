@@ -1,4 +1,4 @@
-# AlPhAE's Letters
+# OpenLetters
 ![GitHub license](https://img.shields.io/github/license/Ortodontalio/alphaes-letters.svg)
 ![GitHub issues](https://img.shields.io/github/issues/Ortodontalio/alphaes-letters.svg)
 ![GitHub tag](https://img.shields.io/github/v/tag/Ortodontalio/alphaes-letters.svg)

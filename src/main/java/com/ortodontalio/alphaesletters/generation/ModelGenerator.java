@@ -2,6 +2,7 @@ package com.ortodontalio.alphaesletters.generation;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
+import com.ortodontalio.alphaesletters.letters.MiscLetters;
 import com.ortodontalio.alphaesletters.tech.CroppedFerroconcrete;
 import com.ortodontalio.alphaesletters.tech.DyeingMachine;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
@@ -115,10 +116,12 @@ public class ModelGenerator extends FabricModelProvider {
 
     private BlockStateVariantMap createLetterPropertyMap() {
         var letterState = BlockStateVariantMap.create(CroppedFerroconcrete.LETTER);
-        for (String letter : AlphaesUtils.getAllLettersNames()) {
-            letterState.register(letter, BlockStateVariant.create().put(VariantSettings.MODEL,
-                    Identifier.of(AlphaesLetters.MOD_ID, String.format("block/%s", letter))));
-        }
+        letterState.register(MiscLetters.NONE.asString(), BlockStateVariant.create().put(VariantSettings.MODEL,
+                ModelIds.getBlockModelId(TechBlocks.CROPPED_LETTER_CONCRETE)));
+        AlphaesUtils.getAllLettersNames().stream()
+                .filter(letter -> !letter.equals(MiscLetters.NONE.asString()))
+                .forEach(letter -> letterState.register(letter, BlockStateVariant.create().put(VariantSettings.MODEL,
+                        Identifier.of(AlphaesLetters.MOD_ID, String.format("block/letter_block/%s", letter)))));
         return letterState;
     }
 

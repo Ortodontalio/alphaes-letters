@@ -66,10 +66,10 @@
   "block.alphaesletters.letter_cyr_ii": "Таджикская долгая буква И",
   "block.alphaesletters.letter_cyr_dzhi": "Таджикская буква ДЖЬИ",
   "block.alphaesletters.letter_cyr_dzhe": "Буква ДЖЕ",
-  "itemGroup.alphaesletters.latinletters": "AlPhAE's Letters (Латиница)",
-  "itemGroup.alphaesletters.cyrillicletters": "AlPhAE's Letters (Кириллица)",
-  "itemGroup.alphaesletters.miscletters": "AlPhAE's Letters (Строительство указателей)",
-  "itemGroup.alphaesletters.techblockitems": "AlPhAE's Letters (Техническое)",
+  "itemGroup.alphaesletters.latinletters": "OpenLetters (Латиница)",
+  "itemGroup.alphaesletters.cyrillicletters": "OpenLetters (Кириллица)",
+  "itemGroup.alphaesletters.miscletters": "OpenLetters (Строительство указателей)",
+  "itemGroup.alphaesletters.techblockitems": "OpenLetters (Техническое)",
   "block.alphaesletters.letter_1": "Цифра 1",
   "block.alphaesletters.letter_2": "Цифра 2",
   "block.alphaesletters.letter_3": "Цифра 3",
@@ -116,7 +116,7 @@
   "block.alphaesletters.letter_lake": "Лат.аббревиатура озера",
   "block.alphaesletters.letter_cyr_lake": "Аббревиатура озера",
   "block.alphaesletters.concrete_with_bars": "Железобетон",
-  "itemGroup.alphaesletters.minecraftletters": "AlPhAE's Letters (Галактический)",
+  "itemGroup.alphaesletters.minecraftletters": "OpenLetters (Галактический)",
   "block.alphaesletters.letter_mc_a": "Галактическая буква A",
   "block.alphaesletters.letter_mc_b": "Галактическая буква B",
   "block.alphaesletters.letter_mc_c": "Галактическая буква C",
@@ -142,5 +142,8 @@
   "block.alphaesletters.letter_mc_w": "Галактическая буква W",
   "block.alphaesletters.letter_mc_x": "Галактическая буква X",
   "block.alphaesletters.letter_mc_y": "Галактическая буква Y",
-  "block.alphaesletters.letter_mc_z": "Галактическая буква Z"
+  "block.alphaesletters.letter_mc_z": "Галактическая буква Z",
+  "itemGroup.alphaesletters.customletters": "OpenLetters (Пользовательский)",
+  "blockProperty.alphaesletters.author": "Автор: %s",
+  "blockProperty.alphaesletters.version": "Версия: %s"
 }

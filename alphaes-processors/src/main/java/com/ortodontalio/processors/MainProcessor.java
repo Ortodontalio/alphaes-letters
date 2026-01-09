@@ -75,6 +75,7 @@ public class MainProcessor extends AbstractProcessor {
         ClassName itemGroupClass = ClassName.get(MC_ITEM_PACKAGE, "ItemGroup");
         ClassName fabricGroupClass = ClassName.get("net.fabricmc.fabric.api.itemgroup.v1", "FabricItemGroup");
         ClassName itemStackClass = ClassName.get(MC_ITEM_PACKAGE, "ItemStack");
+        ClassName itemConvertClass = ClassName.get(MC_ITEM_PACKAGE, "ItemConvertible");
         ClassName textClass = ClassName.get("net.minecraft.text", "Text");
 
         TypeSpec groupClass = TypeSpec
