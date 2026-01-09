@@ -1,6 +1,5 @@
 package com.ortodontalio.alphaesletters.generation;
 
-import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.recipe.DyeingMachineRecipeJsonBuilder;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
@@ -44,7 +43,39 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
                             AlphaesUtils.getAllConcrete()[i]);
                 }
                 // Recipe for letter concrete
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LETTER_POWDER, Items.BLUE_DYE, TechBlockItems.LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.BLUE_LETTER_POWDER, Items.BLUE_DYE,
+                        TechBlockItems.LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LETTER_POWDER, Items.WHITE_DYE,
+                        TechBlockItems.WHITE_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.ORANGE_LETTER_POWDER, Items.ORANGE_DYE,
+                        TechBlockItems.ORANGE_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.MAGENTA_LETTER_POWDER, Items.MAGENTA_DYE,
+                        TechBlockItems.MAGENTA_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LIGHT_BLUE_LETTER_POWDER,
+                        Items.LIGHT_BLUE_DYE, TechBlockItems.LIGHT_BLUE_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.YELLOW_LETTER_POWDER, Items.YELLOW_DYE,
+                        TechBlockItems.YELLOW_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LIME_LETTER_POWDER, Items.LIME_DYE,
+                        TechBlockItems.LIME_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.PINK_LETTER_POWDER, Items.PINK_DYE,
+                        TechBlockItems.PINK_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.GRAY_LETTER_POWDER, Items.GRAY_DYE,
+                        TechBlockItems.GRAY_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LIGHT_GRAY_LETTER_POWDER,
+                        Items.LIGHT_GRAY_DYE,
+                        TechBlockItems.LIGHT_GRAY_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.CYAN_LETTER_POWDER, Items.CYAN_DYE,
+                        TechBlockItems.CYAN_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.PURPLE_LETTER_POWDER, Items.PURPLE_DYE,
+                        TechBlockItems.PURPLE_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.BROWN_LETTER_POWDER, Items.BROWN_DYE,
+                        TechBlockItems.BROWN_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.GREEN_LETTER_POWDER, Items.GREEN_DYE,
+                        TechBlockItems.GREEN_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.RED_LETTER_POWDER, Items.RED_DYE,
+                        TechBlockItems.RED_LETTER_CONCRETE);
+                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.BLACK_LETTER_POWDER, Items.BLACK_DYE,
+                        TechBlockItems.BLACK_LETTER_CONCRETE);
                 // Recipes for letters blocks
                 for (BlockItem letterBlock : AlphaesUtils.getAllLetterBlockItems()) {
                     offerStonecuttingRecipe(RecipeCategory.DECORATIONS, letterBlock, Items.WHITE_CONCRETE);

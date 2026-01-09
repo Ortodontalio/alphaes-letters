@@ -171,13 +171,59 @@ public class AlphaesUtils {
         blocks.addAll(getAllBlocks(CyrillicLettersRegistrator.class));
         blocks.addAll(getAllBlocks(MiscLettersRegistrator.class));
         blocks.addAll(getAllBlocks(MinecraftLettersRegistrator.class));
-        blocks.add(TechBlocks.LETTER_CONCRETE);
+        blocks.addAll(getAllLetterConcretesBlocks());
         blocks.add(TechBlocks.CROPPED_LETTER_CONCRETE);
         blocks.add(TechBlocks.CONCRETE_WITH_BARS);
         blocks.add(TechBlocks.DYEING_MACHINE);
         blocks.add(TechBlocks.IRON_FENCE);
         blocks.add(TechBlocks.IRON_FENCE_GATE);
         return blocks.toArray(Block[]::new);
+    }
+
+    private static List<Block> getAllLetterConcretesBlocks() {
+        return List.of(
+                TechBlocks.LETTER_CONCRETE,
+                TechBlocks.WHITE_LETTER_CONCRETE,
+                TechBlocks.ORANGE_LETTER_CONCRETE,
+                TechBlocks.MAGENTA_LETTER_CONCRETE,
+                TechBlocks.LIGHT_BLUE_LETTER_CONCRETE,
+                TechBlocks.YELLOW_LETTER_CONCRETE,
+                TechBlocks.LIME_LETTER_CONCRETE,
+                TechBlocks.PINK_LETTER_CONCRETE,
+                TechBlocks.GRAY_LETTER_CONCRETE,
+                TechBlocks.LIGHT_GRAY_LETTER_CONCRETE,
+                TechBlocks.CYAN_LETTER_CONCRETE,
+                TechBlocks.PURPLE_LETTER_CONCRETE,
+                TechBlocks.BROWN_LETTER_CONCRETE,
+                TechBlocks.GREEN_LETTER_CONCRETE,
+                TechBlocks.RED_LETTER_CONCRETE,
+                TechBlocks.BLACK_LETTER_CONCRETE
+        );
+    }
+
+    private static List<Block> getAllLetterPowdersBlocks() {
+        return List.of(
+                TechBlocks.LETTER_POWDER,
+                TechBlocks.BLUE_LETTER_POWDER,
+                TechBlocks.ORANGE_LETTER_POWDER,
+                TechBlocks.MAGENTA_LETTER_POWDER,
+                TechBlocks.LIGHT_BLUE_LETTER_POWDER,
+                TechBlocks.YELLOW_LETTER_POWDER,
+                TechBlocks.LIME_LETTER_POWDER,
+                TechBlocks.PINK_LETTER_POWDER,
+                TechBlocks.GRAY_LETTER_POWDER,
+                TechBlocks.LIGHT_GRAY_LETTER_POWDER,
+                TechBlocks.CYAN_LETTER_POWDER,
+                TechBlocks.PURPLE_LETTER_POWDER,
+                TechBlocks.BROWN_LETTER_POWDER,
+                TechBlocks.GREEN_LETTER_POWDER,
+                TechBlocks.RED_LETTER_POWDER,
+                TechBlocks.BLACK_LETTER_POWDER
+        );
+    }
+
+    public static Block[] getAllLetterPowders() {
+        return getAllLetterPowdersBlocks().toArray(Block[]::new);
     }
 
     public static Item[] getAllDyes() {

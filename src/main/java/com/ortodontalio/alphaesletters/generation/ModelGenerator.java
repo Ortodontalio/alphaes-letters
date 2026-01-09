@@ -17,6 +17,7 @@ import net.minecraft.data.client.BlockStateVariantMap;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.ModelIds;
+import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.data.client.TexturedModel;
@@ -40,6 +41,51 @@ public class ModelGenerator extends FabricModelProvider {
         generateDyeingMachineBlockstate(stateGenerator);
         generateLettersBlockstates(stateGenerator);
         generateCroppedFerroconcreteBlockstate(stateGenerator);
+
+        stateGenerator.registerSimpleCubeAll(TechBlocks.LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.WHITE_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.ORANGE_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.MAGENTA_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.LIGHT_BLUE_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.YELLOW_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.LIME_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.PINK_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.GRAY_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.LIGHT_GRAY_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.CYAN_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.PURPLE_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.BROWN_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.GREEN_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.RED_LETTER_CONCRETE);
+        stateGenerator.registerSimpleCubeAll(TechBlocks.BLACK_LETTER_CONCRETE);
+
+        registerLetterPowderTexture(stateGenerator, TechBlocks.LETTER_POWDER, Blocks.WHITE_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.BLUE_LETTER_POWDER, Blocks.BLUE_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.ORANGE_LETTER_POWDER, Blocks.ORANGE_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.MAGENTA_LETTER_POWDER, Blocks.MAGENTA_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.LIGHT_BLUE_LETTER_POWDER, Blocks.LIGHT_BLUE_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.YELLOW_LETTER_POWDER, Blocks.YELLOW_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.LIME_LETTER_POWDER, Blocks.LIME_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.PINK_LETTER_POWDER, Blocks.PINK_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.GRAY_LETTER_POWDER, Blocks.GRAY_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.LIGHT_GRAY_LETTER_POWDER, Blocks.LIGHT_GRAY_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.CYAN_LETTER_POWDER, Blocks.CYAN_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.PURPLE_LETTER_POWDER, Blocks.PURPLE_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.BROWN_LETTER_POWDER, Blocks.BROWN_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.GREEN_LETTER_POWDER, Blocks.GREEN_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.RED_LETTER_POWDER, Blocks.RED_CONCRETE_POWDER);
+        registerLetterPowderTexture(stateGenerator, TechBlocks.BLACK_LETTER_POWDER, Blocks.BLACK_CONCRETE_POWDER);
+
+        stateGenerator.registerAxisRotated(TechBlocks.CONCRETE_WITH_BARS, TexturedModel.END_FOR_TOP_CUBE_COLUMN,
+                TexturedModel.END_FOR_TOP_CUBE_COLUMN_HORIZONTAL);
+
+    }
+
+    public TextureMap sideAndEndForTopLetterPowder(Block block) {
+        return new TextureMap()
+                .put(TextureKey.SIDE, TextureMap.getId(block))
+                .put(TextureKey.END, TextureMap.getSubId(block, "_up"))
+                .put(TextureKey.PARTICLE, TextureMap.getId(block));
     }
 
     private void generateCroppedFerroconcreteBlockstate(BlockStateModelGenerator stateGenerator) {
@@ -70,7 +116,8 @@ public class ModelGenerator extends FabricModelProvider {
         stateGenerator.blockStateCollector.accept(supplier);
     }
 
-    private void registerDyeingMachineTexture(BlockStateModelGenerator stateGenerator, String frontTextureSuffix, String suffix) {
+    private void registerDyeingMachineTexture(BlockStateModelGenerator stateGenerator, String frontTextureSuffix,
+                                              String suffix) {
         Identifier top = TextureMap.getSubId(TechBlocks.DYEING_MACHINE, "_up");
         Identifier side = TextureMap.getSubId(TechBlocks.DYEING_MACHINE, "_top");
         Identifier bottom = TextureMap.getSubId(TechBlocks.DYEING_MACHINE, "_bottom");
@@ -89,6 +136,28 @@ public class ModelGenerator extends FabricModelProvider {
         } else {
             texturedModel.upload(TechBlocks.DYEING_MACHINE, stateGenerator.modelCollector);
         }
+    }
+
+    private void registerLetterPowderTexture(BlockStateModelGenerator stateGenerator,
+                                             Block letterPowder,
+                                             Block relatedPowder) {
+        var basicId = registerLetterPowderTexture(stateGenerator, Models.CUBE_COLUMN, letterPowder, relatedPowder);
+        var horizId = registerLetterPowderTexture(stateGenerator, Models.CUBE_COLUMN_HORIZONTAL, letterPowder,
+                relatedPowder);
+        stateGenerator.blockStateCollector.accept(BlockStateModelGenerator.createAxisRotatedBlockState(letterPowder,
+                basicId, horizId));
+    }
+
+    private Identifier registerLetterPowderTexture(BlockStateModelGenerator stateGenerator,
+                                                   Model model,
+                                                   Block letterPowder,
+                                                   Block relatedPowder) {
+        Identifier top = TextureMap.getId(relatedPowder);
+        Identifier end = TextureMap.getSubId(letterPowder, "_up");
+        var texturedModel = TexturedModel.makeFactory(block -> new TextureMap()
+                .put(TextureKey.END, end)
+                .put(TextureKey.SIDE, top), model);
+        return texturedModel.upload(letterPowder, stateGenerator.modelCollector);
     }
 
     private Model orientableBlock() {

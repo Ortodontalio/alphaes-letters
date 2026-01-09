@@ -26,7 +26,7 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
                 .add(AlphaesUtils.getAllSolidBlocks());
         getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE)
-                .add(TechBlocks.LETTER_POWDER);
+                .add(AlphaesUtils.getAllLetterPowders());
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
                 .add(TechBlocks.STRIKETHROUGH_BLOCK);
     }

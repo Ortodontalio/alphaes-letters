@@ -28,10 +28,10 @@ public class LetterFerroconcrete extends Block {
 
     public static final BooleanProperty LIT = Properties.LIT;
 
-    public LetterFerroconcrete() {
+    public LetterFerroconcrete(MapColor mapColor) {
         super(Settings
                 .create()
-                .mapColor(MapColor.BLUE)
+                .mapColor(mapColor)
                 .strength(5.0f, 10.0f)
                 .sounds(BlockSoundGroup.STONE)
                 .luminance(state -> Boolean.TRUE.equals(state.get(LIT)) ? 10 : 0)

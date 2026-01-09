@@ -28,10 +28,10 @@ import static com.ortodontalio.alphaesletters.tech.TechBlocks.CONCRETE_WITH_BARS
 public class LetterPowder extends PillarBlock {
     private final BlockState hardenedState;
 
-    public LetterPowder() {
+    public LetterPowder(MapColor mapColor) {
         super(Settings
                 .create()
-                .mapColor(MapColor.WHITE_GRAY)
+                .mapColor(mapColor)
                 .strength(2.0f, 1.0f)
                 .sounds(BlockSoundGroup.SAND)
                 .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "letter_powder"))));
