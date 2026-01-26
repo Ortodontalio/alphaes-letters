@@ -14,8 +14,10 @@ import com.ortodontalio.alphaesletters.letters.CyrillicLetters;
 import com.ortodontalio.alphaesletters.letters.LatinLetters;
 import com.ortodontalio.alphaesletters.letters.MinecraftLetters;
 import com.ortodontalio.alphaesletters.letters.MiscLetters;
+import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -46,7 +48,7 @@ public class AlphaesUtils {
 
     private static <T extends Enum<T>> Enum<T> findLetterByBlockNameInGroup(Class<T> lettersGroup, String name) {
         try {
-            return Enum.valueOf(lettersGroup, name.toUpperCase());
+            return Enum.valueOf(lettersGroup, Optional.ofNullable(name).map(String::toUpperCase).orElse(""));
         } catch (IllegalArgumentException ex) {
             return (Enum<T>) MiscLetters.NONE;
         }
@@ -172,7 +174,7 @@ public class AlphaesUtils {
         blocks.addAll(getAllBlocks(MiscLettersRegistrator.class));
         blocks.addAll(getAllBlocks(MinecraftLettersRegistrator.class));
         blocks.addAll(getAllLetterConcretesBlocks());
-        blocks.add(TechBlocks.CROPPED_LETTER_CONCRETE);
+        //blocks.add(TechBlocks.CROPPED_LETTER_CONCRETE);
         blocks.add(TechBlocks.CONCRETE_WITH_BARS);
         blocks.add(TechBlocks.DYEING_MACHINE);
         blocks.add(TechBlocks.IRON_FENCE);
@@ -180,9 +182,8 @@ public class AlphaesUtils {
         return blocks.toArray(Block[]::new);
     }
 
-    private static List<Block> getAllLetterConcretesBlocks() {
+    public static List<Block> getAllLetterConcretesBlocks() {
         return List.of(
-                TechBlocks.LETTER_CONCRETE,
                 TechBlocks.WHITE_LETTER_CONCRETE,
                 TechBlocks.ORANGE_LETTER_CONCRETE,
                 TechBlocks.MAGENTA_LETTER_CONCRETE,
@@ -194,6 +195,7 @@ public class AlphaesUtils {
                 TechBlocks.LIGHT_GRAY_LETTER_CONCRETE,
                 TechBlocks.CYAN_LETTER_CONCRETE,
                 TechBlocks.PURPLE_LETTER_CONCRETE,
+                TechBlocks.LETTER_CONCRETE,
                 TechBlocks.BROWN_LETTER_CONCRETE,
                 TechBlocks.GREEN_LETTER_CONCRETE,
                 TechBlocks.RED_LETTER_CONCRETE,
@@ -201,10 +203,72 @@ public class AlphaesUtils {
         );
     }
 
-    private static List<Block> getAllLetterPowdersBlocks() {
+    public static List<Block> getAllLetterConcretesWithBarsBlocks() {
+        return List.of(
+                TechBlocks.CONCRETE_WITH_BARS,
+                TechBlocks.ORANGE_CONCRETE_WITH_BARS,
+                TechBlocks.MAGENTA_CONCRETE_WITH_BARS,
+                TechBlocks.LIGHT_BLUE_CONCRETE_WITH_BARS,
+                TechBlocks.YELLOW_CONCRETE_WITH_BARS,
+                TechBlocks.LIME_CONCRETE_WITH_BARS,
+                TechBlocks.PINK_CONCRETE_WITH_BARS,
+                TechBlocks.GRAY_CONCRETE_WITH_BARS,
+                TechBlocks.LIGHT_GRAY_CONCRETE_WITH_BARS,
+                TechBlocks.CYAN_CONCRETE_WITH_BARS,
+                TechBlocks.PURPLE_CONCRETE_WITH_BARS,
+                TechBlocks.BLUE_CONCRETE_WITH_BARS,
+                TechBlocks.BROWN_CONCRETE_WITH_BARS,
+                TechBlocks.GREEN_CONCRETE_WITH_BARS,
+                TechBlocks.RED_CONCRETE_WITH_BARS,
+                TechBlocks.BLACK_CONCRETE_WITH_BARS
+        );
+    }
+
+    public static Item[] getAllLetterConcretesBlockItems() {
+        return List.of(
+                TechBlockItems.WHITE_LETTER_CONCRETE,
+                TechBlockItems.ORANGE_LETTER_CONCRETE,
+                TechBlockItems.MAGENTA_LETTER_CONCRETE,
+                TechBlockItems.LIGHT_BLUE_LETTER_CONCRETE,
+                TechBlockItems.YELLOW_LETTER_CONCRETE,
+                TechBlockItems.LIME_LETTER_CONCRETE,
+                TechBlockItems.PINK_LETTER_CONCRETE,
+                TechBlockItems.GRAY_LETTER_CONCRETE,
+                TechBlockItems.LIGHT_GRAY_LETTER_CONCRETE,
+                TechBlockItems.CYAN_LETTER_CONCRETE,
+                TechBlockItems.PURPLE_LETTER_CONCRETE,
+                TechBlockItems.LETTER_CONCRETE,
+                TechBlockItems.BROWN_LETTER_CONCRETE,
+                TechBlockItems.GREEN_LETTER_CONCRETE,
+                TechBlockItems.RED_LETTER_CONCRETE,
+                TechBlockItems.BLACK_LETTER_CONCRETE
+        ).toArray(Item[]::new);
+    }
+
+    public static Item[] getAllLetterExfoliatedConcretesBlockItems() {
+        return List.of(
+                TechBlockItems.WHITE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.ORANGE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.MAGENTA_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.LIGHT_BLUE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.YELLOW_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.LIME_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.PINK_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.GRAY_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.LIGHT_GRAY_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.CYAN_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.PURPLE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.BROWN_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.GREEN_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.RED_LETTER_EXFOLIATED_CONCRETE,
+                TechBlockItems.BLACK_LETTER_EXFOLIATED_CONCRETE
+        ).toArray(Item[]::new);
+    }
+
+    public static List<Block> getAllLetterPowdersBlocks() {
         return List.of(
                 TechBlocks.LETTER_POWDER,
-                TechBlocks.BLUE_LETTER_POWDER,
                 TechBlocks.ORANGE_LETTER_POWDER,
                 TechBlocks.MAGENTA_LETTER_POWDER,
                 TechBlocks.LIGHT_BLUE_LETTER_POWDER,
@@ -215,11 +279,54 @@ public class AlphaesUtils {
                 TechBlocks.LIGHT_GRAY_LETTER_POWDER,
                 TechBlocks.CYAN_LETTER_POWDER,
                 TechBlocks.PURPLE_LETTER_POWDER,
+                TechBlocks.BLUE_LETTER_POWDER,
                 TechBlocks.BROWN_LETTER_POWDER,
                 TechBlocks.GREEN_LETTER_POWDER,
                 TechBlocks.RED_LETTER_POWDER,
                 TechBlocks.BLACK_LETTER_POWDER
         );
+    }
+
+    public static Item[] getAllLetterPowdersBlockItems() {
+        return List.of(
+                TechBlockItems.LETTER_POWDER,
+                TechBlockItems.ORANGE_LETTER_POWDER,
+                TechBlockItems.MAGENTA_LETTER_POWDER,
+                TechBlockItems.LIGHT_BLUE_LETTER_POWDER,
+                TechBlockItems.YELLOW_LETTER_POWDER,
+                TechBlockItems.LIME_LETTER_POWDER,
+                TechBlockItems.PINK_LETTER_POWDER,
+                TechBlockItems.GRAY_LETTER_POWDER,
+                TechBlockItems.LIGHT_GRAY_LETTER_POWDER,
+                TechBlockItems.CYAN_LETTER_POWDER,
+                TechBlockItems.PURPLE_LETTER_POWDER,
+                TechBlockItems.BLUE_LETTER_POWDER,
+                TechBlockItems.BROWN_LETTER_POWDER,
+                TechBlockItems.GREEN_LETTER_POWDER,
+                TechBlockItems.RED_LETTER_POWDER,
+                TechBlockItems.BLACK_LETTER_POWDER
+        ).toArray(Item[]::new);
+    }
+
+    public static Item[] getAllConcretesWithBarsBlockItems() {
+        return List.of(
+                TechBlockItems.CONCRETE_WITH_BARS,
+                TechBlockItems.ORANGE_CONCRETE_WITH_BARS,
+                TechBlockItems.MAGENTA_CONCRETE_WITH_BARS,
+                TechBlockItems.LIGHT_BLUE_CONCRETE_WITH_BARS,
+                TechBlockItems.YELLOW_CONCRETE_WITH_BARS,
+                TechBlockItems.LIME_CONCRETE_WITH_BARS,
+                TechBlockItems.PINK_CONCRETE_WITH_BARS,
+                TechBlockItems.GRAY_CONCRETE_WITH_BARS,
+                TechBlockItems.LIGHT_GRAY_CONCRETE_WITH_BARS,
+                TechBlockItems.CYAN_CONCRETE_WITH_BARS,
+                TechBlockItems.PURPLE_CONCRETE_WITH_BARS,
+                TechBlockItems.BLUE_CONCRETE_WITH_BARS,
+                TechBlockItems.BROWN_CONCRETE_WITH_BARS,
+                TechBlockItems.GREEN_CONCRETE_WITH_BARS,
+                TechBlockItems.RED_CONCRETE_WITH_BARS,
+                TechBlockItems.BLACK_CONCRETE_WITH_BARS
+        ).toArray(Item[]::new);
     }
 
     public static Block[] getAllLetterPowders() {
@@ -287,5 +394,68 @@ public class AlphaesUtils {
         dyes.add(Items.RED_CONCRETE);
         dyes.add(Items.BLACK_CONCRETE);
         return dyes.toArray(Item[]::new);
+    }
+
+    public static List<Block> getAllConcretePowdersBlocks() {
+        return List.of(
+                Blocks.WHITE_CONCRETE_POWDER,
+                Blocks.ORANGE_CONCRETE_POWDER,
+                Blocks.MAGENTA_CONCRETE_POWDER,
+                Blocks.LIGHT_BLUE_CONCRETE_POWDER,
+                Blocks.YELLOW_CONCRETE_POWDER,
+                Blocks.LIME_CONCRETE_POWDER,
+                Blocks.PINK_CONCRETE_POWDER,
+                Blocks.GRAY_CONCRETE_POWDER,
+                Blocks.LIGHT_GRAY_CONCRETE_POWDER,
+                Blocks.CYAN_CONCRETE_POWDER,
+                Blocks.PURPLE_CONCRETE_POWDER,
+                Blocks.BLUE_CONCRETE_POWDER,
+                Blocks.BROWN_CONCRETE_POWDER,
+                Blocks.GREEN_CONCRETE_POWDER,
+                Blocks.RED_CONCRETE_POWDER,
+                Blocks.BLACK_CONCRETE_POWDER
+        );
+    }
+
+    public static List<Block> getAllConcreteBlocks() {
+        return List.of(
+                Blocks.WHITE_CONCRETE,
+                Blocks.ORANGE_CONCRETE,
+                Blocks.MAGENTA_CONCRETE,
+                Blocks.LIGHT_BLUE_CONCRETE,
+                Blocks.YELLOW_CONCRETE,
+                Blocks.LIME_CONCRETE,
+                Blocks.PINK_CONCRETE,
+                Blocks.GRAY_CONCRETE,
+                Blocks.LIGHT_GRAY_CONCRETE,
+                Blocks.CYAN_CONCRETE,
+                Blocks.PURPLE_CONCRETE,
+                Blocks.BLUE_CONCRETE,
+                Blocks.BROWN_CONCRETE,
+                Blocks.GREEN_CONCRETE,
+                Blocks.RED_CONCRETE,
+                Blocks.BLACK_CONCRETE
+        );
+    }
+
+    public static List<Block> getAllExfoliatedConcreteBlocks() {
+        return List.of(
+                TechBlocks.WHITE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.ORANGE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.MAGENTA_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.LIGHT_BLUE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.YELLOW_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.LIME_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.PINK_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.GRAY_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.LIGHT_GRAY_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.CYAN_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.PURPLE_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.BROWN_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.GREEN_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.RED_LETTER_EXFOLIATED_CONCRETE,
+                TechBlocks.BLACK_LETTER_EXFOLIATED_CONCRETE
+        );
     }
 }

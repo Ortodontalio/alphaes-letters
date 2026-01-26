@@ -75,7 +75,6 @@ public class MainProcessor extends AbstractProcessor {
         ClassName itemGroupClass = ClassName.get(MC_ITEM_PACKAGE, "ItemGroup");
         ClassName fabricGroupClass = ClassName.get("net.fabricmc.fabric.api.itemgroup.v1", "FabricItemGroup");
         ClassName itemStackClass = ClassName.get(MC_ITEM_PACKAGE, "ItemStack");
-        ClassName itemConvertClass = ClassName.get(MC_ITEM_PACKAGE, "ItemConvertible");
         ClassName textClass = ClassName.get("net.minecraft.text", "Text");
 
         TypeSpec groupClass = TypeSpec
@@ -112,8 +111,7 @@ public class MainProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
         TypeSpec.Builder registratorItemClass = TypeSpec
                 .classBuilder(String.format("%sItemsRegistrator", annotatedClass.getSimpleName().toString()))
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .superclass(ClassName.get(OUTPUT_PACKAGE, GROUP_REGISTRATOR_CLASS));
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
 
         // Init register methods
         MethodSpec.Builder registerMethodBuilder = MethodSpec.methodBuilder("registerAll")
@@ -121,6 +119,7 @@ public class MainProcessor extends AbstractProcessor {
                 .addStatement("$T<$T> allBlocks = new ArrayList<>()", ArrayList.class, blockClass);
         MethodSpec.Builder registerItemsMethodBuilder = MethodSpec.methodBuilder("registerAll")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
+                .returns(ArrayList.class)
                 .addStatement("$T<$T> allBlocks = new ArrayList<>()", ArrayList.class, itemStackClass);
 
         annotatedClass.getEnclosedElements().stream()
@@ -152,7 +151,8 @@ public class MainProcessor extends AbstractProcessor {
                 });
         registerMethodBuilder.addStatement("$T.BLOCK.register((state, view, pos, tintIndex) -> state.get($T.COLOR).getMapColor().color," +
                 "allBlocks.toArray(LetterBasic[]::new))", colorProviderClass, letterBasicClass);
-        registerItemsMethodBuilder.addStatement("registerGroup($S, allBlocks)", annotatedClass.getSimpleName().toString().toLowerCase());
+        //registerItemsMethodBuilder.addStatement("registerGroup($S, allBlocks)", annotatedClass.getSimpleName().toString().toLowerCase());
+        registerItemsMethodBuilder.addStatement("return allBlocks");
         registratorClass.addMethod(registerMethodBuilder.build());
         registratorItemClass.addMethod(registerItemsMethodBuilder.build());
 

@@ -64,8 +64,8 @@ public class AddonLoader {
                 }
             }
             """;
-    private static final String AUTHOR_TOOLTIP = Text.translatable("blockProperty.alphaesletters.author").getString();
-    private static final String VERSION_TOOLTIP = Text.translatable("blockProperty.alphaesletters.version").getString();
+    private static final String AUTHOR_TOOLTIP = "blockProperty.alphaesletters.author";
+    private static final String VERSION_TOOLTIP = "blockProperty.alphaesletters.version";
 
     public static void checkAddonFolder() {
         var addonsPath = new File("./openletters");
@@ -157,9 +157,10 @@ public class AddonLoader {
             @Override
             public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip,
                                       TooltipType options) {
-                tooltip.add(Text.literal(String.format(AUTHOR_TOOLTIP, addon.model().getAuthor()))
-                        .formatted(Formatting.ITALIC));
-                tooltip.add(Text.literal(String.format(VERSION_TOOLTIP, addon.model().getVersion()))
+                tooltip.add(Text.literal(String.format(Text.translatable(AUTHOR_TOOLTIP).getString(),
+                        addon.model().getAuthor())).formatted(Formatting.ITALIC));
+                tooltip.add(Text.literal(String.format(Text.translatable(VERSION_TOOLTIP).getString(),
+                                addon.model().getVersion()))
                         .formatted(Formatting.ITALIC));
             }
         };

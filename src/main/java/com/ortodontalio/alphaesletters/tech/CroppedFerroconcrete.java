@@ -54,6 +54,7 @@ import java.util.Optional;
 
 import static net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.DYES;
 
+@Deprecated(forRemoval = true)
 public class CroppedFerroconcrete extends Block implements Waterloggable, HasColor {
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;

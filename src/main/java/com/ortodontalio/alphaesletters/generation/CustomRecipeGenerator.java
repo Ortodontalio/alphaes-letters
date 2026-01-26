@@ -39,50 +39,33 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
             public void generate() {
                 // Recipes for concrete powders in dyeing machine
                 for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
-                    offerDyeingMachineRecipe(wrapperLookup, exporter, AlphaesTags.Items.CONCRETE_POWDER_BLOCKS, AlphaesUtils.getAllDyes()[i],
-                            AlphaesUtils.getAllConcrete()[i]);
+                    offerDyeingMachineRecipe(wrapperLookup, exporter, AlphaesTags.Items.CONCRETE_POWDER_BLOCKS,
+                            AlphaesUtils.getAllDyes()[i], AlphaesUtils.getAllConcrete()[i]);
+                }
+                // Recipe for concrete with bars
+                for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
+                    offerDyeingMachineRecipe(wrapperLookup, exporter, AlphaesTags.Items.LETTER_POWDER_BLOCKS,
+                            AlphaesUtils.getAllDyes()[i], AlphaesUtils.getAllConcretesWithBarsBlockItems()[i]);
                 }
                 // Recipe for letter concrete
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.BLUE_LETTER_POWDER, Items.BLUE_DYE,
-                        TechBlockItems.LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LETTER_POWDER, Items.WHITE_DYE,
-                        TechBlockItems.WHITE_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.ORANGE_LETTER_POWDER, Items.ORANGE_DYE,
-                        TechBlockItems.ORANGE_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.MAGENTA_LETTER_POWDER, Items.MAGENTA_DYE,
-                        TechBlockItems.MAGENTA_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LIGHT_BLUE_LETTER_POWDER,
-                        Items.LIGHT_BLUE_DYE, TechBlockItems.LIGHT_BLUE_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.YELLOW_LETTER_POWDER, Items.YELLOW_DYE,
-                        TechBlockItems.YELLOW_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LIME_LETTER_POWDER, Items.LIME_DYE,
-                        TechBlockItems.LIME_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.PINK_LETTER_POWDER, Items.PINK_DYE,
-                        TechBlockItems.PINK_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.GRAY_LETTER_POWDER, Items.GRAY_DYE,
-                        TechBlockItems.GRAY_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LIGHT_GRAY_LETTER_POWDER,
-                        Items.LIGHT_GRAY_DYE,
-                        TechBlockItems.LIGHT_GRAY_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.CYAN_LETTER_POWDER, Items.CYAN_DYE,
-                        TechBlockItems.CYAN_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.PURPLE_LETTER_POWDER, Items.PURPLE_DYE,
-                        TechBlockItems.PURPLE_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.BROWN_LETTER_POWDER, Items.BROWN_DYE,
-                        TechBlockItems.BROWN_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.GREEN_LETTER_POWDER, Items.GREEN_DYE,
-                        TechBlockItems.GREEN_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.RED_LETTER_POWDER, Items.RED_DYE,
-                        TechBlockItems.RED_LETTER_CONCRETE);
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.BLACK_LETTER_POWDER, Items.BLACK_DYE,
-                        TechBlockItems.BLACK_LETTER_CONCRETE);
+                for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
+                    var output = AlphaesUtils.getAllLetterConcretesBlockItems()[i];
+                    var inputFarba = AlphaesUtils.getAllDyes()[i];
+                    var inputConcrete = AlphaesUtils.getAllConcretesWithBarsBlockItems()[i];
+                    createShapeless(RecipeCategory.DECORATIONS, output)
+                            .input(inputFarba)
+                            .input(inputConcrete)
+                            .criterion(hasItem(inputFarba), conditionsFromItem(inputFarba))
+                            .criterion(hasItem(inputConcrete), conditionsFromItem(inputConcrete))
+                            .offerTo(exporter);
+                }
                 // Recipes for letters blocks
                 for (BlockItem letterBlock : AlphaesUtils.getAllLetterBlockItems()) {
                     offerStonecuttingRecipe(RecipeCategory.DECORATIONS, letterBlock, Items.WHITE_CONCRETE);
                 }
                 // Recipe for cropped letter concrete
-                offerStonecuttingRecipe(RecipeCategory.DECORATIONS, TechBlockItems.CROPPED_LETTER_CONCRETE,
-                        TechBlockItems.LETTER_CONCRETE);
+//                offerStonecuttingRecipe(RecipeCategory.DECORATIONS, TechBlockItems.CROPPED_LETTER_CONCRETE,
+//                        TechBlockItems.LETTER_CONCRETE);
                 // Recipe for iron fence
                 createShaped(RecipeCategory.DECORATIONS, TechBlockItems.IRON_FENCE, 2)
                         .pattern("IBI")
@@ -111,13 +94,17 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                         .criterion(hasItem(Items.RED_DYE), conditionsFromItem(Items.RED_DYE))
                         .offerTo(exporter);
-                // Recipe for concrete with bars
-                createShapeless(RecipeCategory.DECORATIONS, TechBlockItems.LETTER_POWDER)
-                        .input(Items.WHITE_CONCRETE_POWDER)
-                        .input(Items.IRON_BARS)
-                        .criterion(hasItem(Items.WHITE_CONCRETE_POWDER), conditionsFromItem(Items.WHITE_CONCRETE_POWDER))
-                        .criterion(hasItem(Items.IRON_BARS), conditionsFromItem(Items.IRON_BARS))
-                        .offerTo(exporter);
+                // Recipe for letter powders
+                for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
+                    var output = AlphaesUtils.getAllLetterPowdersBlockItems()[i];
+                    var input = AlphaesUtils.getAllConcretePowders()[i];
+                    createShapeless(RecipeCategory.DECORATIONS, output)
+                            .input(input)
+                            .input(Items.IRON_BARS)
+                            .criterion(hasItem(input), conditionsFromItem(input))
+                            .criterion(hasItem(Items.IRON_BARS), conditionsFromItem(Items.IRON_BARS))
+                            .offerTo(exporter);
+                }
                 // Recipe for dyeing machine
                 createShaped(RecipeCategory.DECORATIONS, TechBlockItems.DYEING_MACHINE)
                         .pattern("IRI")
@@ -140,6 +127,6 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
 
     @Override
     public String getName() {
-        return "AlPhAE's Letters Recipes";
+        return "OpenLetters Recipes";
     }
 }

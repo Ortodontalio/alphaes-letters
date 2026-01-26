@@ -49,6 +49,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    public static final BooleanProperty HAS_COVER = BooleanProperty.of("has_cover");
     public final String name;
 
     public LetterBasic(String name) {
@@ -63,7 +64,8 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
         setDefaultState(getDefaultState()
                 .with(LIT, false)
                 .with(WATERLOGGED, false)
-                .with(COLOR, DyeColor.WHITE));
+                .with(COLOR, DyeColor.WHITE)
+                .with(HAS_COVER, false));
         this.name = name;
     }
 
@@ -73,7 +75,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, LIT, WATERLOGGED, COLOR);
+        builder.add(FACING, LIT, WATERLOGGED, COLOR, HAS_COVER);
     }
 
     @Override

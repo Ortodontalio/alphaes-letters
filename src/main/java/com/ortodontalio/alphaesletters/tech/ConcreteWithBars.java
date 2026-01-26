@@ -9,13 +9,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 public class ConcreteWithBars extends PillarBlock {
-    public ConcreteWithBars() {
-        super(Settings
-                .create()
-                .mapColor(MapColor.WHITE_GRAY)
-                .strength(7.0f, 8.0f)
-                .sounds(BlockSoundGroup.STONE)
-                .requiresTool()
-                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "concrete_with_bars"))));
+    public ConcreteWithBars(Settings settings) {
+        super(settings);
     }
 }

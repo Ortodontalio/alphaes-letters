@@ -2,8 +2,6 @@ package com.ortodontalio.alphaesletters.generation;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
-import com.ortodontalio.alphaesletters.letters.MiscLetters;
-import com.ortodontalio.alphaesletters.tech.CroppedFerroconcrete;
 import com.ortodontalio.alphaesletters.tech.DyeingMachine;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
@@ -40,58 +38,28 @@ public class ModelGenerator extends FabricModelProvider {
         fencePool.fenceGate(TechBlocks.IRON_FENCE_GATE);
         generateDyeingMachineBlockstate(stateGenerator);
         generateLettersBlockstates(stateGenerator);
-        generateCroppedFerroconcreteBlockstate(stateGenerator);
+        //generateCroppedFerroconcreteBlockstate(stateGenerator);
 
-        stateGenerator.registerSimpleCubeAll(TechBlocks.LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.WHITE_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.ORANGE_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.MAGENTA_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.LIGHT_BLUE_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.YELLOW_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.LIME_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.PINK_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.GRAY_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.LIGHT_GRAY_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.CYAN_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.PURPLE_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.BROWN_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.GREEN_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.RED_LETTER_CONCRETE);
-        stateGenerator.registerSimpleCubeAll(TechBlocks.BLACK_LETTER_CONCRETE);
+        AlphaesUtils.getAllLetterConcretesBlocks().forEach(stateGenerator::registerSimpleCubeAll);
+        AlphaesUtils.getAllExfoliatedConcreteBlocks().forEach(stateGenerator::registerSimpleCubeAll);
 
-        registerLetterPowderTexture(stateGenerator, TechBlocks.LETTER_POWDER, Blocks.WHITE_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.BLUE_LETTER_POWDER, Blocks.BLUE_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.ORANGE_LETTER_POWDER, Blocks.ORANGE_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.MAGENTA_LETTER_POWDER, Blocks.MAGENTA_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.LIGHT_BLUE_LETTER_POWDER, Blocks.LIGHT_BLUE_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.YELLOW_LETTER_POWDER, Blocks.YELLOW_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.LIME_LETTER_POWDER, Blocks.LIME_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.PINK_LETTER_POWDER, Blocks.PINK_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.GRAY_LETTER_POWDER, Blocks.GRAY_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.LIGHT_GRAY_LETTER_POWDER, Blocks.LIGHT_GRAY_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.CYAN_LETTER_POWDER, Blocks.CYAN_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.PURPLE_LETTER_POWDER, Blocks.PURPLE_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.BROWN_LETTER_POWDER, Blocks.BROWN_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.GREEN_LETTER_POWDER, Blocks.GREEN_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.RED_LETTER_POWDER, Blocks.RED_CONCRETE_POWDER);
-        registerLetterPowderTexture(stateGenerator, TechBlocks.BLACK_LETTER_POWDER, Blocks.BLACK_CONCRETE_POWDER);
+        var concretes = AlphaesUtils.getAllConcreteBlocks();
+        var barsConcretes = AlphaesUtils.getAllLetterConcretesWithBarsBlocks();
+        for (int i = 0; i < concretes.size(); i++) {
+            registerLetterConcreteTexture(stateGenerator, barsConcretes.get(i), concretes.get(i));
+        }
 
-        stateGenerator.registerAxisRotated(TechBlocks.CONCRETE_WITH_BARS, TexturedModel.END_FOR_TOP_CUBE_COLUMN,
-                TexturedModel.END_FOR_TOP_CUBE_COLUMN_HORIZONTAL);
-
-    }
-
-    public TextureMap sideAndEndForTopLetterPowder(Block block) {
-        return new TextureMap()
-                .put(TextureKey.SIDE, TextureMap.getId(block))
-                .put(TextureKey.END, TextureMap.getSubId(block, "_up"))
-                .put(TextureKey.PARTICLE, TextureMap.getId(block));
+        var concretePowders = AlphaesUtils.getAllConcretePowdersBlocks();
+        var letterPowders = AlphaesUtils.getAllLetterPowdersBlocks();
+        for (int i = 0; i < concretePowders.size(); i++) {
+            registerLetterConcreteTexture(stateGenerator, letterPowders.get(i), concretePowders.get(i));
+        }
     }
 
     private void generateCroppedFerroconcreteBlockstate(BlockStateModelGenerator stateGenerator) {
-        stateGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(TechBlocks.CROPPED_LETTER_CONCRETE)
-                .coordinate(createLetterPropertyMap())
-                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
+//        stateGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(TechBlocks.CROPPED_LETTER_CONCRETE)
+//                .coordinate(createLetterPropertyMap())
+//                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
     }
 
     private void generateLettersBlockstates(BlockStateModelGenerator stateGenerator) {
@@ -138,20 +106,20 @@ public class ModelGenerator extends FabricModelProvider {
         }
     }
 
-    private void registerLetterPowderTexture(BlockStateModelGenerator stateGenerator,
-                                             Block letterPowder,
-                                             Block relatedPowder) {
-        var basicId = registerLetterPowderTexture(stateGenerator, Models.CUBE_COLUMN, letterPowder, relatedPowder);
-        var horizId = registerLetterPowderTexture(stateGenerator, Models.CUBE_COLUMN_HORIZONTAL, letterPowder,
+    private void registerLetterConcreteTexture(BlockStateModelGenerator stateGenerator,
+                                               Block letterPowder,
+                                               Block relatedPowder) {
+        var basicId = registerLetterConcreteTexture(stateGenerator, Models.CUBE_COLUMN, letterPowder, relatedPowder);
+        var horizId = registerLetterConcreteTexture(stateGenerator, Models.CUBE_COLUMN_HORIZONTAL, letterPowder,
                 relatedPowder);
         stateGenerator.blockStateCollector.accept(BlockStateModelGenerator.createAxisRotatedBlockState(letterPowder,
                 basicId, horizId));
     }
 
-    private Identifier registerLetterPowderTexture(BlockStateModelGenerator stateGenerator,
-                                                   Model model,
-                                                   Block letterPowder,
-                                                   Block relatedPowder) {
+    private Identifier registerLetterConcreteTexture(BlockStateModelGenerator stateGenerator,
+                                                     Model model,
+                                                     Block letterPowder,
+                                                     Block relatedPowder) {
         Identifier top = TextureMap.getId(relatedPowder);
         Identifier end = TextureMap.getSubId(letterPowder, "_up");
         var texturedModel = TexturedModel.makeFactory(block -> new TextureMap()
@@ -184,14 +152,14 @@ public class ModelGenerator extends FabricModelProvider {
     }
 
     private BlockStateVariantMap createLetterPropertyMap() {
-        var letterState = BlockStateVariantMap.create(CroppedFerroconcrete.LETTER);
-        letterState.register(MiscLetters.NONE.asString(), BlockStateVariant.create().put(VariantSettings.MODEL,
-                ModelIds.getBlockModelId(TechBlocks.CROPPED_LETTER_CONCRETE)));
-        AlphaesUtils.getAllLettersNames().stream()
-                .filter(letter -> !letter.equals(MiscLetters.NONE.asString()))
-                .forEach(letter -> letterState.register(letter, BlockStateVariant.create().put(VariantSettings.MODEL,
-                        Identifier.of(AlphaesLetters.MOD_ID, String.format("block/letter_block/%s", letter)))));
-        return letterState;
+//        var letterState = BlockStateVariantMap.create(CroppedFerroconcrete.LETTER);
+//        letterState.register(MiscLetters.NONE.asString(), BlockStateVariant.create().put(VariantSettings.MODEL,
+//                ModelIds.getBlockModelId(TechBlocks.CROPPED_LETTER_CONCRETE)));
+//        AlphaesUtils.getAllLettersNames().stream()
+//                .filter(letter -> !letter.equals(MiscLetters.NONE.asString()))
+//                .forEach(letter -> letterState.register(letter, BlockStateVariant.create().put(VariantSettings.MODEL,
+//                        Identifier.of(AlphaesLetters.MOD_ID, String.format("block/letter_block/%s", letter)))));
+        return null;
     }
 
     @Override

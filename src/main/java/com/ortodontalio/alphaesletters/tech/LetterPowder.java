@@ -8,6 +8,7 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -23,26 +24,30 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 
-import static com.ortodontalio.alphaesletters.tech.TechBlocks.CONCRETE_WITH_BARS;
-
 public class LetterPowder extends PillarBlock {
     private final BlockState hardenedState;
 
-    public LetterPowder(MapColor mapColor) {
-        super(Settings
-                .create()
-                .mapColor(mapColor)
-                .strength(2.0f, 1.0f)
-                .sounds(BlockSoundGroup.SAND)
-                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "letter_powder"))));
-        this.hardenedState = CONCRETE_WITH_BARS.getDefaultState();
+    public LetterPowder(Settings settings, Block relatedConcrete) {
+        super(settings);
+        this.hardenedState = relatedConcrete.getDefaultState();
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos,
-                                                   Direction direction, BlockPos neighborPos, BlockState neighborState,
-                                                   Random random) {
-        return hardensOnAnySide(world, pos) ? this.hardenedState : super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        BlockView blockView = ctx.getWorld();
+        BlockPos blockPos = ctx.getBlockPos();
+        BlockState blockState = blockView.getBlockState(blockPos);
+        return shouldHarden(blockView, blockPos, blockState)
+                ? hardenedState
+                : super.getPlacementState(ctx);
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView,
+                                                   BlockPos pos, Direction direction, BlockPos neighborPos,
+                                                   BlockState neighborState, Random random) {
+        return hardensOnAnySide(world, pos) ? this.hardenedState : super.getStateForNeighborUpdate(state, world,
+                tickView, pos, direction, neighborPos, neighborState, random);
     }
 
     private static boolean hardensOnAnySide(BlockView world, BlockPos pos) {
@@ -61,6 +66,10 @@ public class LetterPowder extends PillarBlock {
             }
         }
         return bl;
+    }
+
+    private static boolean shouldHarden(BlockView world, BlockPos pos, BlockState state) {
+        return hardensIn(state) || hardensOnAnySide(world, pos);
     }
 
     private static boolean hardensIn(BlockState state) {

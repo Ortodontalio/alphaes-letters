@@ -1,9 +1,10 @@
 {
   "required": true,
   "package": "com.ortodontalio.alphaesletters.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ExampleMixin"
+    "SerializedChunkMixin",
+    "MinecraftServerMixin"
   ],
   "client": [
   ],

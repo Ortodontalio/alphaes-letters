@@ -13,7 +13,9 @@ public class DMResourceSlot extends Slot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        return stack.isIn(AlphaesTags.Items.CONCRETE_POWDER_BLOCKS) || stack.isOf(TechBlockItems.LETTER_POWDER);
+        return stack.isIn(AlphaesTags.Items.CONCRETE_POWDER_BLOCKS) ||
+                stack.isIn(AlphaesTags.Items.LETTER_POWDER_BLOCKS) ||
+                stack.isIn(AlphaesTags.Items.CONCRETE_WITH_BARS_BLOCKS);
     }
 
 }

@@ -1,48 +1,62 @@
 package com.ortodontalio.alphaesletters.tech;
 
-import com.ortodontalio.alphaesletters.AlphaesLetters;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ortodontalio.alphaesletters.common.Exfoliatable;
+import com.ortodontalio.alphaesletters.common.HasColor;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
+import com.ortodontalio.alphaesletters.util.AlphaesUtils;
+import com.ortodontalio.alphaesletters.util.ExfoliatableRegistry;
+import com.ortodontalio.alphaesletters.util.StringProperty;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
+import net.minecraft.block.Degradable;
+import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public class LetterFerroconcrete extends Block {
-
+public class LetterFerroconcrete extends Block implements HasColor, Exfoliatable {
+    public static final MapCodec<LetterFerroconcrete> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> instance.group(Exfoliatable.ExfoliatedLevel.CODEC.fieldOf("exfoliation_state")
+                            .forGetter(Degradable::getDegradationLevel), createSettingsCodec())
+                    .apply(instance, LetterFerroconcrete::new)
+    );
     public static final BooleanProperty LIT = Properties.LIT;
+    public static final StringProperty LETTER = StringProperty.of("letter", AlphaesUtils.getAllLettersNames());
+    public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
+    private final Exfoliatable.ExfoliatedLevel exfoliatedLevel;
 
-    public LetterFerroconcrete(MapColor mapColor) {
-        super(Settings
-                .create()
-                .mapColor(mapColor)
-                .strength(5.0f, 10.0f)
-                .sounds(BlockSoundGroup.STONE)
-                .luminance(state -> Boolean.TRUE.equals(state.get(LIT)) ? 10 : 0)
-                .requiresTool()
-                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "letter_concrete"))));
+    public LetterFerroconcrete(Exfoliatable.ExfoliatedLevel exfoliatedLevel, AbstractBlock.Settings settings) {
+        super(settings);
         this.setDefaultState(getDefaultState().with(LIT, false));
+        this.exfoliatedLevel = exfoliatedLevel;
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIT);
+        builder.add(LIT, LETTER, FACING, COLOR);
+    }
+
+    @Override
+    public MapCodec<LetterFerroconcrete> getCodec() {
+        return CODEC;
     }
 
     @Override
@@ -65,4 +79,17 @@ public class LetterFerroconcrete extends Block {
         return ActionResult.PASS;
     }
 
+    @Override
+    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        this.tickDegradation(state, world, pos, random);
+    }
+
+    @Override
+    protected boolean hasRandomTicks(BlockState state) {
+        return ExfoliatableRegistry.getIncreasedExfoliationBlock(state.getBlock()).isPresent();
+    }
+
+    public Exfoliatable.ExfoliatedLevel getDegradationLevel() {
+        return this.exfoliatedLevel;
+    }
 }

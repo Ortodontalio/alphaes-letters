@@ -22,7 +22,7 @@ public class AlphaesLettersClient implements ClientModInitializer {
         HandledScreens.register(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, DyeingMachineScreen::new);
 
         var coloredBlocks = AlphaesUtils.getAllLetterBlocks();
-        coloredBlocks.add(CROPPED_LETTER_CONCRETE);
+        //coloredBlocks.add(CROPPED_LETTER_CONCRETE);
         coloredBlocks.add(STRIKETHROUGH_BLOCK);
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> ((HasColor) state.getBlock()).getColor(state),
                 coloredBlocks.toArray(Block[]::new));

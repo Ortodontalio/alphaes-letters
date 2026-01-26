@@ -8,6 +8,8 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -23,6 +25,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -43,6 +46,8 @@ public class StrikethroughBlock extends Block implements Waterloggable, HasColor
 
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    public static final RegistryKey<Block> ID = RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID,
+            "strikethrough_block"));
 
     public StrikethroughBlock() {
         super(Settings
@@ -51,7 +56,7 @@ public class StrikethroughBlock extends Block implements Waterloggable, HasColor
                 .strength(1.0f, 1.0f)
                 .sounds(BlockSoundGroup.WOOD)
                 .nonOpaque()
-                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, "strikethrough_block"))));
+                .registryKey(ID));
         setDefaultState(stateManager.getDefaultState()
                 .with(WATERLOGGED, false)
                 .with(COLOR, DyeColor.RED));
@@ -65,6 +70,15 @@ public class StrikethroughBlock extends Block implements Waterloggable, HasColor
             case EAST -> Block.createCuboidShape(0, 0, 0, 1, 16, 16);
             default -> Block.createCuboidShape(0, 0, 15, 16, 16, 16);
         };
+    }
+
+    @Override
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
+        ItemStack copied = new ItemStack(state.getBlock(), 64);
+        copied.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT
+                .with(COLOR, state.get(COLOR)));
+        copied.set(DataComponentTypes.CUSTOM_NAME, Text.of(getName().withColor(state.get(COLOR).getSignColor())));
+        return copied;
     }
 
     @Override

@@ -14,6 +14,10 @@ public class AlphaesTags {
 
     public static class Items {
         public static final TagKey<Item> CONCRETE_POWDER_BLOCKS = createTag("concrete_powder_blocks");
+        public static final TagKey<Item> CONCRETE_WITH_BARS_BLOCKS = createTag("concrete_with_bars_blocks");
+        public static final TagKey<Item> LETTER_POWDER_BLOCKS = createTag("letter_powder_blocks");
+        public static final TagKey<Item> LETTER_CONCRETE_BLOCKS = createTag("letter_concrete_blocks");
+        public static final TagKey<Item> LETTER_EXFOLIATED_CONCRETE_BLOCKS = createTag("letter_exfoliated_concrete_blocks");
         public static final TagKey<Item> FARBA_ITEMS = createTag("farba_items");
         public static final TagKey<Item> LETTERS = createTag("letters");
         public static final TagKey<Item> AXES = createTag("axes");

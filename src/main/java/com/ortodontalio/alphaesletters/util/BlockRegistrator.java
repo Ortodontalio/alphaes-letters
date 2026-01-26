@@ -2,8 +2,8 @@ package com.ortodontalio.alphaesletters.util;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
+import com.ortodontalio.alphaesletters.tech.LetterFerroconcrete;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
@@ -36,10 +36,12 @@ public abstract class BlockRegistrator {
         for (Field field : fields) {
             try {
                 Block block = (Block) field.get(null);
-                Registry.register(Registries.BLOCK, RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, field.getName().toLowerCase())),
-                        block);
-                if (block instanceof LetterBasic letterBasic) {
-                    basicLetters.add(letterBasic);
+                if (!(block instanceof LetterFerroconcrete)) {
+                    Registry.register(Registries.BLOCK, RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, field.getName().toLowerCase())),
+                            block);
+                    if (block instanceof LetterBasic letterBasic) {
+                        basicLetters.add(letterBasic);
+                    }
                 }
             } catch (IllegalAccessException e) {
                 LOGGER.log(Level.SEVERE,
@@ -50,10 +52,5 @@ public abstract class BlockRegistrator {
             ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> state.get(COLOR).getMapColor().color,
                     basicLetters.toArray(LetterBasic[]::new));
         }
-        // TODO Investigate the way to remap old blocks
-        // RegistryEntryAddedCallback.event(Registries.BLOCK).register((rawId, id, object) -> {
-        //            if (id.equals(Identifier.of(AlphaesLetters.MOD_ID, "old_block"))) {
-        //            }
-        //        });
     }
 }
