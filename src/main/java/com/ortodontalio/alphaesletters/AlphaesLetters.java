@@ -14,6 +14,7 @@ import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import com.ortodontalio.alphaesletters.util.AddonLoader;
+import com.ortodontalio.alphaesletters.util.ExfoliatableRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.ItemStack;
 
@@ -39,6 +40,7 @@ public class AlphaesLetters implements ModInitializer {
         CyrillicLettersRegistrator.registerAll();
         MiscLettersRegistrator.registerAll();
         MinecraftLettersRegistrator.registerAll();
+        //ExfoliatableRegistry.init();
         TechBlocks.registerAll();
 
         ArrayList<ItemStack> itemsToRegister = new ArrayList<>();
@@ -53,8 +55,6 @@ public class AlphaesLetters implements ModInitializer {
         AlphaesRecipes.registerRecipes();
 
         AddonLoader.checkAddonFolder();
-
-        //ExfoliatableRegistry.init();
 
 //        CommandRegistrationCallback.EVENT.register(
 //                (dispatcher, registryAccess, environment) -> dispatcher.register(literal("alread")

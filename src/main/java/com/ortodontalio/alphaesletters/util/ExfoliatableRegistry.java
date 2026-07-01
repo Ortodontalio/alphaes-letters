@@ -15,8 +15,6 @@ public final class ExfoliatableRegistry {
     private static Supplier<BiMap<Block, Block>> decreases;
 
     public static void init() {
-        System.out.println("[INIT ORDER] ExfoliatableRegistry.init() called");
-        System.out.println("[INIT ORDER] TechBlocks class loaded: " + TechBlocks.class);
         increases = Suppliers.memoize(
                 () -> ImmutableBiMap.<Block, Block>builder()
                         .put(TechBlocks.LETTER_CONCRETE, TechBlocks.LETTER_EXFOLIATED_CONCRETE)

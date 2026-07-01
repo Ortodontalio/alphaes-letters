@@ -30,7 +30,7 @@ public abstract class BlockRegistrator {
     /**
      * Method for registers {@link Block} objects.
      */
-    public void registerBlocks() {
+    public void registerAll() {
         List<Field> fields = List.of(this.getClass().getDeclaredFields());
         List<LetterBasic> basicLetters = new ArrayList<>();
         for (Field field : fields) {

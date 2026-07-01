@@ -2,7 +2,6 @@ package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.common.Exfoliatable;
-import com.ortodontalio.alphaesletters.util.BlockRegistrator;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -19,7 +18,7 @@ import net.minecraft.util.Identifier;
 
 import static com.ortodontalio.alphaesletters.tech.LetterFerroconcrete.LIT;
 
-public class TechBlocks extends BlockRegistrator {
+public class TechBlocks {
 
     public static final Block CONCRETE_WITH_BARS = registerConcreteWithBars("concrete_with_bars",
             MapColor.WHITE_GRAY);
@@ -191,6 +190,7 @@ public class TechBlocks extends BlockRegistrator {
                         .strength(5.0f, 10.0f)
                         .sounds(BlockSoundGroup.STONE)
                         .luminance(state -> Boolean.TRUE.equals(state.get(LIT)) ? 10 : 0)
+                        .ticksRandomly()
                         .requiresTool());
     }
 
@@ -219,7 +219,8 @@ public class TechBlocks extends BlockRegistrator {
     }
 
     private static Block registerStrikethroughBlock() {
-        return Registry.register(Registries.BLOCK, StrikethroughBlock.ID, new StrikethroughBlock());
+        return Registry.register(Registries.BLOCK, Identifier.of(AlphaesLetters.MOD_ID,
+                "strikethrough_block"), new StrikethroughBlock());
     }
 
     private static Block registerIronFenceBlock() {

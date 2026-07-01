@@ -87,10 +87,7 @@ public class TechBlockItems {
 //            .Settings()
 //            .useBlockPrefixedTranslationKey()
 //            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, "cropped_letter_concrete"))));
-    public static final BlockItem DYEING_MACHINE = new BlockItem(TechBlocks.DYEING_MACHINE, new Item
-            .Settings()
-            .useBlockPrefixedTranslationKey()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, "dyeing_machine"))));
+    public static final BlockItem DYEING_MACHINE = getBlockItem(TechBlocks.DYEING_MACHINE, "dyeing_machine");
 
     public static final BlockItem LETTER_POWDER = getBlockItem(TechBlocks.LETTER_POWDER, "letter_powder");
     public static final BlockItem BLUE_LETTER_POWDER = getBlockItem(TechBlocks.BLUE_LETTER_POWDER,
@@ -157,18 +154,9 @@ public class TechBlockItems {
     public static final BlockItem BLACK_CONCRETE_WITH_BARS = getBlockItem(TechBlocks.BLACK_CONCRETE_WITH_BARS,
             "black_concrete_with_bars");
 
-    public static final BlockItem STRIKETHROUGH_BLOCK = new BlockItem(TechBlocks.STRIKETHROUGH_BLOCK, new Item
-            .Settings()
-            .useBlockPrefixedTranslationKey()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, "strikethrough_block"))));
-    public static final BlockItem IRON_FENCE = new BlockItem(TechBlocks.IRON_FENCE, new Item
-            .Settings()
-            .useBlockPrefixedTranslationKey()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, "iron_fence"))));
-    public static final BlockItem IRON_FENCE_GATE = new BlockItem(TechBlocks.IRON_FENCE_GATE, new Item
-            .Settings()
-            .useBlockPrefixedTranslationKey()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, "iron_fence_gate"))));
+    public static final BlockItem STRIKETHROUGH_BLOCK = getBlockItem(TechBlocks.STRIKETHROUGH_BLOCK, "strikethrough_block");
+    public static final BlockItem IRON_FENCE = getBlockItem(TechBlocks.IRON_FENCE, "iron_fence");
+    public static final BlockItem IRON_FENCE_GATE = getBlockItem(TechBlocks.IRON_FENCE_GATE, "iron_fence_gate");
 
     private static BlockItem getBlockItem(Block concrete, String path) {
         var registryPath = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, path));

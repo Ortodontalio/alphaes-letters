@@ -149,8 +149,8 @@ public class MainProcessor extends AbstractProcessor {
                                     field.getSimpleName().toString().toLowerCase(), genBlockItemField)
                             .addStatement("allBlocks.add(new $T($N))", itemStackClass, genBlockItemField);
                 });
-        registerMethodBuilder.addStatement("$T.BLOCK.register((state, view, pos, tintIndex) -> state.get($T.COLOR).getMapColor().color," +
-                "allBlocks.toArray(LetterBasic[]::new))", colorProviderClass, letterBasicClass);
+        //registerMethodBuilder.addStatement("$T.BLOCK.register((state, view, pos, tintIndex) -> state.get($T.COLOR).getMapColor().color," +
+        //        "allBlocks.toArray(LetterBasic[]::new))", colorProviderClass, letterBasicClass);
         //registerItemsMethodBuilder.addStatement("registerGroup($S, allBlocks)", annotatedClass.getSimpleName().toString().toLowerCase());
         registerItemsMethodBuilder.addStatement("return allBlocks");
         registratorClass.addMethod(registerMethodBuilder.build());

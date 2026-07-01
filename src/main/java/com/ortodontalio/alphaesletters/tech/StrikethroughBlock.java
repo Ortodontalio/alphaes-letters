@@ -46,8 +46,6 @@ public class StrikethroughBlock extends Block implements Waterloggable, HasColor
 
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    public static final RegistryKey<Block> ID = RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID,
-            "strikethrough_block"));
 
     public StrikethroughBlock() {
         super(Settings
@@ -56,7 +54,8 @@ public class StrikethroughBlock extends Block implements Waterloggable, HasColor
                 .strength(1.0f, 1.0f)
                 .sounds(BlockSoundGroup.WOOD)
                 .nonOpaque()
-                .registryKey(ID));
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK,
+                        Identifier.of(AlphaesLetters.MOD_ID, "strikethrough_block"))));
         setDefaultState(stateManager.getDefaultState()
                 .with(WATERLOGGED, false)
                 .with(COLOR, DyeColor.RED));
