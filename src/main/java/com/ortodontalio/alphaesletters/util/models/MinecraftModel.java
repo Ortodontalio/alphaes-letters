@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MinecraftModel {
     private String name;
-    private String author = "???";
+    private String author = "Anonymous";
     private String version = "1.0";
     private List<MinecraftModelElement> elements;
 

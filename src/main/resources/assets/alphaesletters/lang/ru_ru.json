@@ -187,5 +187,21 @@
   "block.alphaesletters.green_concrete_with_bars": "Зелёный железобетон",
   "block.alphaesletters.red_concrete_with_bars": "Красный железобетон",
   "block.alphaesletters.black_concrete_with_bars": "Чёрный железобетон",
-  "block.alphaesletters.blue_concrete_with_bars": "Синий железобетон"
+  "block.alphaesletters.blue_concrete_with_bars": "Синий железобетон",
+  "block.alphaesletters.letter_exfoliated_concrete": "Отшелушённый синий ферроцемент",
+  "block.alphaesletters.white_letter_exfoliated_concrete": "Отшелушённый белый ферроцемент",
+  "block.alphaesletters.orange_letter_exfoliated_concrete": "Отшелушённый оранжевый ферроцемент",
+  "block.alphaesletters.magenta_letter_exfoliated_concrete": "Отшелушённый магента ферроцемент",
+  "block.alphaesletters.light_blue_letter_exfoliated_concrete": "Отшелушённый светло-синий ферроцемент",
+  "block.alphaesletters.yellow_letter_exfoliated_concrete": "Отшелушённый желтый ферроцемент",
+  "block.alphaesletters.lime_letter_exfoliated_concrete": "Отшелушённый лаймовый ферроцемент",
+  "block.alphaesletters.pink_letter_exfoliated_concrete": "Отшелушённый розовый ферроцемент",
+  "block.alphaesletters.gray_letter_exfoliated_concrete": "Отшелушённый серый ферроцемент",
+  "block.alphaesletters.light_gray_letter_exfoliated_concrete": "Отшелушённый светло-серый ферроцемент",
+  "block.alphaesletters.cyan_letter_exfoliated_concrete": "Отшелушённый циановый ферроцемент",
+  "block.alphaesletters.purple_letter_exfoliated_concrete": "Отшелушённый фиолетовый ферроцемент",
+  "block.alphaesletters.brown_letter_exfoliated_concrete": "Отшелушённый коричневый ферроцемент",
+  "block.alphaesletters.green_letter_exfoliated_concrete": "Отшелушённый зеленый ферроцемент",
+  "block.alphaesletters.red_letter_exfoliated_concrete": "Отшелушённый красный ферроцемент",
+  "block.alphaesletters.black_letter_exfoliated_concrete": "Отшелушённый черный ферроцемент"
 }

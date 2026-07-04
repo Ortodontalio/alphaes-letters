@@ -40,8 +40,8 @@ public class AlphaesLetters implements ModInitializer {
         CyrillicLettersRegistrator.registerAll();
         MiscLettersRegistrator.registerAll();
         MinecraftLettersRegistrator.registerAll();
-        //ExfoliatableRegistry.init();
         TechBlocks.registerAll();
+        ExfoliatableRegistry.init();
 
         ArrayList<ItemStack> itemsToRegister = new ArrayList<>();
         itemsToRegister.addAll(LatinLettersItemsRegistrator.registerAll());

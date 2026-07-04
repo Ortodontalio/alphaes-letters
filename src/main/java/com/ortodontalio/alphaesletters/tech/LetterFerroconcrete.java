@@ -86,7 +86,7 @@ public class LetterFerroconcrete extends Block implements HasColor, Exfoliatable
 
     @Override
     protected boolean hasRandomTicks(BlockState state) {
-        return ExfoliatableRegistry.getIncreasedExfoliationBlock(state.getBlock()).isPresent();
+        return true;
     }
 
     public Exfoliatable.ExfoliatedLevel getDegradationLevel() {

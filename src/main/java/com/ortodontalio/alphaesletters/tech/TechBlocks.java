@@ -245,9 +245,4 @@ public class TechBlocks {
     public static void registerAll() {
         // Empty, since all blocks have been registered in static way.
     }
-
-    static {
-        System.out.println("[INIT ORDER] TechBlocks static init");
-        Thread.dumpStack();
-    }
 }

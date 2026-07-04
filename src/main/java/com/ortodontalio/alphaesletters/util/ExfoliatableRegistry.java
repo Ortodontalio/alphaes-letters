@@ -11,12 +11,11 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public final class ExfoliatableRegistry {
-    private static Supplier<BiMap<Block, Block>> increases;
-    private static Supplier<BiMap<Block, Block>> decreases;
+    private static Supplier<BiMap<Block, Block>> increases, decreases;
 
     public static void init() {
-        increases = Suppliers.memoize(
-                () -> ImmutableBiMap.<Block, Block>builder()
+        increases = Suppliers.memoize(() ->
+                ImmutableBiMap.<Block, Block>builder()
                         .put(TechBlocks.LETTER_CONCRETE, TechBlocks.LETTER_EXFOLIATED_CONCRETE)
                         .put(TechBlocks.WHITE_LETTER_CONCRETE, TechBlocks.WHITE_LETTER_EXFOLIATED_CONCRETE)
                         .put(TechBlocks.ORANGE_LETTER_CONCRETE, TechBlocks.ORANGE_LETTER_EXFOLIATED_CONCRETE)
@@ -49,8 +48,7 @@ public final class ExfoliatableRegistry {
                         .put(TechBlocks.GREEN_LETTER_EXFOLIATED_CONCRETE, TechBlocks.GREEN_CONCRETE_WITH_BARS)
                         .put(TechBlocks.RED_LETTER_EXFOLIATED_CONCRETE, TechBlocks.RED_CONCRETE_WITH_BARS)
                         .put(TechBlocks.BLACK_LETTER_EXFOLIATED_CONCRETE, TechBlocks.BLACK_CONCRETE_WITH_BARS)
-                        .build()
-        );
+                        .build());
         decreases = Suppliers.memoize(() -> increases.get().inverse());
     }
 
@@ -59,7 +57,7 @@ public final class ExfoliatableRegistry {
     }
 
     public static Optional<Block> getDecreasedExfoliatedBlock(Block block) {
-        return Optional.ofNullable(decreases).map(map -> map.get().get(block));
+        return Optional.ofNullable(decreases.get().get(block));
     }
 
     public static Block getUnaffectedExfoliatedBlock(Block block) {
@@ -75,11 +73,11 @@ public final class ExfoliatableRegistry {
         return resultBlock;
     }
 
-    static Optional<BlockState> getDecreasedExfoliationState(BlockState state) {
+    public static Optional<BlockState> getDecreasedExfoliationState(BlockState state) {
         return getDecreasedExfoliatedBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
     }
 
-    static BlockState getUnaffectedExfoliationState(BlockState state) {
+    public static BlockState getUnaffectedExfoliationState(BlockState state) {
         return getUnaffectedExfoliatedBlock(state.getBlock()).getStateWithProperties(state);
     }
 }
