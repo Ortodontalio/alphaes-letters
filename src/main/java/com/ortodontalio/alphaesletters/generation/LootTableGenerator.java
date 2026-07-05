@@ -3,10 +3,11 @@ package com.ortodontalio.alphaesletters.generation;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.block.Block;
 import net.minecraft.registry.RegistryWrapper;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 public class LootTableGenerator extends FabricBlockLootTableProvider {
 
@@ -16,8 +17,10 @@ public class LootTableGenerator extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        for (Block block : AlphaesUtils.getAllBlocks()) {
-            addDrop(block);
-        }
+        Arrays.stream(AlphaesUtils.getAllBlocks())
+                .forEach(this::addDrop);
+        Stream.concat(AlphaesUtils.getAllLetterConcretesBlocks().stream(),
+                        AlphaesUtils.getAllLetterConcretesWithBarsBlocks().stream())
+                .forEach(this::addDropWithSilkTouch);
     }
 }

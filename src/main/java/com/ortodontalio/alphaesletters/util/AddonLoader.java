@@ -18,7 +18,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -36,6 +35,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+
+import static com.ortodontalio.alphaesletters.common.HasColor.COLOR;
+import static com.ortodontalio.alphaesletters.common.LetterBasic.COVER_COLOR;
 
 public class AddonLoader {
 
@@ -93,8 +95,15 @@ public class AddonLoader {
             GroupRegistrator.registerGroup("customletters", addonsBlocks.stream()
                     .map(ItemStack::new)
                     .toList());
-            ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) ->
-                            state.get(LetterBasic.COLOR).getMapColor().color,
+            ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> {
+                        if (tintIndex == 0) {
+                            return state.get(COLOR).getSignColor();
+                        }
+                        if (tintIndex == 1) {
+                            return state.get(COVER_COLOR).getSignColor();
+                        }
+                        return -1;
+                    },
                     addonsBlocks.toArray(LetterBasic[]::new));
         } catch (IOException ignored) {
         }

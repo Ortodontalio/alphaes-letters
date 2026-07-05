@@ -1,21 +1,15 @@
 package com.ortodontalio.alphaesletters.tech;
 
-import com.ortodontalio.alphaesletters.AlphaesLetters;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -25,11 +19,12 @@ import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 
 public class LetterPowder extends PillarBlock {
-    private final BlockState hardenedState;
+    private final BlockState hardenedState, relatedVanillaPowder;
 
-    public LetterPowder(Settings settings, Block relatedConcrete) {
+    public LetterPowder(Settings settings, Block relatedConcrete, Block relatedVanillaPowder) {
         super(settings);
         this.hardenedState = relatedConcrete.getDefaultState();
+        this.relatedVanillaPowder = relatedVanillaPowder.getDefaultState();
     }
 
     @Override
@@ -81,11 +76,10 @@ public class LetterPowder extends PillarBlock {
                            BlockPos pos, BlockState state,
                            BlockEntity blockEntity,
                            ItemStack stack) {
-        ItemStack simplePowder = Blocks.WHITE_CONCRETE_POWDER.asItem().getDefaultStack();
-        BlockState simplePowderState = Blocks.WHITE_CONCRETE_POWDER.getDefaultState();
+        ItemStack simplePowder = new ItemStack(relatedVanillaPowder.getBlock());
         player.incrementStat(Stats.MINED.getOrCreateStat(this));
         player.addExhaustion(0.005F);
-        dropStacks(simplePowderState, world, pos, blockEntity, player, simplePowder);
+        dropStacks(relatedVanillaPowder, world, pos, blockEntity, player, simplePowder);
         BlockState bars = Blocks.IRON_BARS.getDefaultState();
         world.setBlockState(pos, bars);
     }

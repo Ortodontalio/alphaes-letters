@@ -174,7 +174,8 @@ public class AlphaesUtils {
         blocks.addAll(getAllBlocks(MiscLettersRegistrator.class));
         blocks.addAll(getAllBlocks(MinecraftLettersRegistrator.class));
         blocks.addAll(getAllLetterConcretesBlocks());
-        //blocks.add(TechBlocks.CROPPED_LETTER_CONCRETE);
+        blocks.addAll(getAllExfoliatedConcreteBlocks());
+        blocks.addAll(getAllLetterConcretesWithBarsBlocks());
         blocks.add(TechBlocks.CONCRETE_WITH_BARS);
         blocks.add(TechBlocks.DYEING_MACHINE);
         blocks.add(TechBlocks.IRON_FENCE);

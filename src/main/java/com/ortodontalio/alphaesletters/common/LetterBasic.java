@@ -2,6 +2,9 @@ package com.ortodontalio.alphaesletters.common;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
+import com.ortodontalio.alphaesletters.tech.StrikethroughBlock;
+import com.ortodontalio.alphaesletters.tech.TechBlockItems;
+import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -50,6 +53,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
     public static final BooleanProperty LIT = Properties.LIT;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final BooleanProperty HAS_COVER = BooleanProperty.of("has_cover");
+    public static final EnumProperty<DyeColor> COVER_COLOR = EnumProperty.of("cover_color", DyeColor.class);
     public final String name;
 
     public LetterBasic(String name) {
@@ -59,13 +63,15 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
                 .strength(4.0f, 10.0f)
                 .sounds(BlockSoundGroup.STONE)
                 .luminance(state -> Boolean.TRUE.equals(state.get(LIT)) ? 10 : 0)
+                .nonOpaque()
                 .requiresTool()
                 .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, name))));
         setDefaultState(getDefaultState()
                 .with(LIT, false)
                 .with(WATERLOGGED, false)
                 .with(COLOR, DyeColor.WHITE)
-                .with(HAS_COVER, false));
+                .with(HAS_COVER, false)
+                .with(COVER_COLOR, DyeColor.WHITE));
         this.name = name;
     }
 
@@ -75,16 +81,16 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, LIT, WATERLOGGED, COLOR, HAS_COVER);
+        builder.add(FACING, LIT, WATERLOGGED, COLOR, HAS_COVER, COVER_COLOR);
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return switch (state.get(FACING)) {
-            case SOUTH -> Block.createCuboidShape(0, 1, 0, 16, 16, 2);
-            case WEST -> Block.createCuboidShape(14, 1, 0, 16, 16, 16);
-            case EAST -> Block.createCuboidShape(0, 1, 0, 2, 16, 16);
-            default -> Block.createCuboidShape(0, 1, 14, 16, 16, 16);
+            case SOUTH -> Block.createCuboidShape(0, 0, 0, 16, 16, 2);
+            case WEST -> Block.createCuboidShape(14, 0, 0, 16, 16, 16);
+            case EAST -> Block.createCuboidShape(0, 0, 0, 2, 16, 16);
+            default -> Block.createCuboidShape(0, 0, 14, 16, 16, 16);
         };
     }
 
@@ -119,6 +125,19 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
         if (inHand.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) inHand.getItem()).getColor())) {
             world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()));
+            if (!player.isCreative()) {
+                inHand.decrement(1);
+            }
+            return ActionResult.SUCCESS;
+        }
+        if (!player.isSneaking() && inHand.isOf(TechBlockItems.STRIKETHROUGH_BLOCK) && !state.get(HAS_COVER)) {
+            world.playSound(player, pos, SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1F, 1F);
+            BlockStateComponent component = inHand.get(DataComponentTypes.BLOCK_STATE);
+            DyeColor coverColor = DyeColor.WHITE;
+            if (component != null) {
+                coverColor = component.getValue(StrikethroughBlock.COLOR);
+            }
+            world.setBlockState(pos, state.with(HAS_COVER, true).with(COVER_COLOR, coverColor));
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }

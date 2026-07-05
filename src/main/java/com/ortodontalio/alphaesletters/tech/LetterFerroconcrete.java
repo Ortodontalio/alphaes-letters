@@ -6,20 +6,29 @@ import com.ortodontalio.alphaesletters.common.Exfoliatable;
 import com.ortodontalio.alphaesletters.common.HasColor;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
-import com.ortodontalio.alphaesletters.util.ExfoliatableRegistry;
 import com.ortodontalio.alphaesletters.util.StringProperty;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.Degradable;
 import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -91,5 +100,20 @@ public class LetterFerroconcrete extends Block implements HasColor, Exfoliatable
 
     public Exfoliatable.ExfoliatedLevel getDegradationLevel() {
         return this.exfoliatedLevel;
+    }
+
+    @Override
+    protected void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack tool,
+                                   boolean dropExperience) {
+        RegistryWrapper.WrapperLookup wrapperLookup = world.getRegistryManager();
+
+        RegistryEntry<Enchantment> silkTouch = wrapperLookup
+                .getOrThrow(RegistryKeys.ENCHANTMENT)
+                .getOrThrow(Enchantments.SILK_TOUCH);
+        boolean hasSilkTouch = EnchantmentHelper.getLevel(silkTouch, tool) > 0;
+        if (!hasSilkTouch) {
+            BlockState bars = Blocks.IRON_BARS.getDefaultState();
+            world.setBlockState(pos, bars);
+        }
     }
 }

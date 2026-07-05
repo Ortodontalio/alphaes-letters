@@ -55,52 +55,68 @@ public class TechBlocks {
 
     public static final Block LETTER_POWDER = registerLetterPowder("letter_powder",
             MapColor.WHITE_GRAY,
-            CONCRETE_WITH_BARS);
+            CONCRETE_WITH_BARS,
+            Blocks.WHITE_CONCRETE_POWDER);
     public static final Block ORANGE_LETTER_POWDER = registerLetterPowder("orange_letter_powder",
             MapColor.TERRACOTTA_ORANGE,
-            ORANGE_CONCRETE_WITH_BARS);
+            ORANGE_CONCRETE_WITH_BARS,
+            Blocks.ORANGE_CONCRETE_POWDER);
     public static final Block MAGENTA_LETTER_POWDER = registerLetterPowder("magenta_letter_powder",
             MapColor.TERRACOTTA_MAGENTA,
-            MAGENTA_CONCRETE_WITH_BARS);
+            MAGENTA_CONCRETE_WITH_BARS,
+            Blocks.MAGENTA_CONCRETE_POWDER);
     public static final Block BLUE_LETTER_POWDER = registerLetterPowder("blue_letter_powder",
             MapColor.TERRACOTTA_BLUE,
-            BLUE_CONCRETE_WITH_BARS);
+            BLUE_CONCRETE_WITH_BARS,
+            Blocks.BLUE_CONCRETE_POWDER);
     public static final Block LIGHT_BLUE_LETTER_POWDER = registerLetterPowder("light_blue_letter_powder",
             MapColor.TERRACOTTA_LIGHT_BLUE,
-            LIGHT_BLUE_CONCRETE_WITH_BARS);
+            LIGHT_BLUE_CONCRETE_WITH_BARS,
+            Blocks.LIGHT_BLUE_CONCRETE_POWDER);
     public static final Block YELLOW_LETTER_POWDER = registerLetterPowder("yellow_letter_powder",
             MapColor.TERRACOTTA_YELLOW,
-            YELLOW_CONCRETE_WITH_BARS);
+            YELLOW_CONCRETE_WITH_BARS,
+            Blocks.YELLOW_CONCRETE_POWDER);
     public static final Block LIME_LETTER_POWDER = registerLetterPowder("lime_letter_powder",
             MapColor.TERRACOTTA_LIME,
-            LIME_CONCRETE_WITH_BARS);
+            LIME_CONCRETE_WITH_BARS,
+            Blocks.LIME_CONCRETE_POWDER);
     public static final Block PINK_LETTER_POWDER = registerLetterPowder("pink_letter_powder",
             MapColor.TERRACOTTA_PINK,
-            PINK_CONCRETE_WITH_BARS);
+            PINK_CONCRETE_WITH_BARS,
+            Blocks.PINK_CONCRETE_POWDER);
     public static final Block GRAY_LETTER_POWDER = registerLetterPowder("gray_letter_powder",
             MapColor.TERRACOTTA_GRAY,
-            GRAY_CONCRETE_WITH_BARS);
+            GRAY_CONCRETE_WITH_BARS,
+            Blocks.GRAY_CONCRETE_POWDER);
     public static final Block LIGHT_GRAY_LETTER_POWDER = registerLetterPowder("light_gray_letter_powder",
             MapColor.TERRACOTTA_LIGHT_GRAY,
-            LIGHT_GRAY_CONCRETE_WITH_BARS);
+            LIGHT_GRAY_CONCRETE_WITH_BARS,
+            Blocks.LIGHT_GRAY_CONCRETE_POWDER);
     public static final Block CYAN_LETTER_POWDER = registerLetterPowder("cyan_letter_powder",
             MapColor.TERRACOTTA_CYAN,
-            CYAN_CONCRETE_WITH_BARS);
+            CYAN_CONCRETE_WITH_BARS,
+            Blocks.CYAN_CONCRETE_POWDER);
     public static final Block PURPLE_LETTER_POWDER = registerLetterPowder("purple_letter_powder",
             MapColor.TERRACOTTA_PURPLE,
-            PURPLE_CONCRETE_WITH_BARS);
+            PURPLE_CONCRETE_WITH_BARS,
+            Blocks.PURPLE_CONCRETE_POWDER);
     public static final Block BROWN_LETTER_POWDER = registerLetterPowder("brown_letter_powder",
             MapColor.TERRACOTTA_BROWN,
-            BROWN_CONCRETE_WITH_BARS);
+            BROWN_CONCRETE_WITH_BARS,
+            Blocks.BROWN_CONCRETE_POWDER);
     public static final Block GREEN_LETTER_POWDER = registerLetterPowder("green_letter_powder",
             MapColor.TERRACOTTA_GREEN,
-            GREEN_CONCRETE_WITH_BARS);
+            GREEN_CONCRETE_WITH_BARS,
+            Blocks.GREEN_CONCRETE_POWDER);
     public static final Block RED_LETTER_POWDER = registerLetterPowder("red_letter_powder",
             MapColor.TERRACOTTA_RED,
-            RED_CONCRETE_WITH_BARS);
+            RED_CONCRETE_WITH_BARS,
+            Blocks.RED_CONCRETE_POWDER);
     public static final Block BLACK_LETTER_POWDER = registerLetterPowder("black_letter_powder",
             MapColor.TERRACOTTA_BLACK,
-            BLACK_CONCRETE_WITH_BARS);
+            BLACK_CONCRETE_WITH_BARS,
+            Blocks.BLACK_CONCRETE_POWDER);
 
     public static final Block LETTER_CONCRETE = getFullyPaintedFerroconcrete("letter_concrete", MapColor.BLUE);
     public static final Block WHITE_LETTER_CONCRETE = getFullyPaintedFerroconcrete("white_letter_concrete",
@@ -209,9 +225,11 @@ public class TechBlocks {
                         .requiresTool());
     }
 
-    private static Block registerLetterPowder(String id, MapColor mapColor, Block relatedConcrete) {
+    private static Block registerLetterPowder(String id, MapColor mapColor, Block relatedConcrete,
+                                              Block relatedVanillaPowder) {
         return Blocks.register(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, id)),
-                settings -> new LetterPowder(settings, relatedConcrete), AbstractBlock.Settings
+                settings -> new LetterPowder(settings, relatedConcrete, relatedVanillaPowder),
+                AbstractBlock.Settings
                         .create()
                         .mapColor(mapColor)
                         .strength(2.0f, 1.0f)

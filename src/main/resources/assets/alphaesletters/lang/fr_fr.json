@@ -107,7 +107,7 @@
   "block.alphaesletters.letter_cyr_river": "Acronyme cyrillique de la rivière",
   "block.alphaesletters.dyeing_machine": "Machine de teinture",
   "block.alphaesletters.letter_powder": "Poudre de Béton Armé Blanche",
-  "block.alphaesletters.strikethrough_block": "Indicateur barré",
+  "block.alphaesletters.strikethrough_block": "Châssis",
   "block.alphaesletters.iron_fence": "Clôture en fer",
   "block.alphaesletters.iron_fence_gate": "Portail de clôture en fer",
   "block.alphaesletters.letter_lake": "Acronyme du lac",
@@ -203,5 +203,6 @@
   "block.alphaesletters.brown_letter_exfoliated_concrete": "Béton Armé Brun Exfolié",
   "block.alphaesletters.green_letter_exfoliated_concrete": "Béton Armé Vert Exfolié",
   "block.alphaesletters.red_letter_exfoliated_concrete": "Béton Armé Rouge Exfolié",
-  "block.alphaesletters.black_letter_exfoliated_concrete": "Béton Armé Noir Exfolié"
+  "block.alphaesletters.black_letter_exfoliated_concrete": "Béton Armé Noir Exfolié",
+  "tooltip.alphaesletters.color": "Couleur: %s"
 }

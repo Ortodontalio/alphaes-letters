@@ -2,14 +2,19 @@ package com.ortodontalio.alphaesletters.tech;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import net.minecraft.block.Block;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -154,7 +159,7 @@ public class TechBlockItems {
     public static final BlockItem BLACK_CONCRETE_WITH_BARS = getBlockItem(TechBlocks.BLACK_CONCRETE_WITH_BARS,
             "black_concrete_with_bars");
 
-    public static final BlockItem STRIKETHROUGH_BLOCK = getBlockItem(TechBlocks.STRIKETHROUGH_BLOCK, "strikethrough_block");
+    public static final BlockItem STRIKETHROUGH_BLOCK = getStrikethroughBlockItem();
     public static final BlockItem IRON_FENCE = getBlockItem(TechBlocks.IRON_FENCE, "iron_fence");
     public static final BlockItem IRON_FENCE_GATE = getBlockItem(TechBlocks.IRON_FENCE_GATE, "iron_fence_gate");
 
@@ -164,6 +169,31 @@ public class TechBlockItems {
                 .Settings()
                 .useBlockPrefixedTranslationKey()
                 .registryKey(registryPath)));
+    }
+
+    private static BlockItem getStrikethroughBlockItem() {
+        var registryPath = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(AlphaesLetters.MOD_ID, StrikethroughBlock.ID));
+        return Registry.register(Registries.ITEM, registryPath, new BlockItem(TechBlocks.STRIKETHROUGH_BLOCK, new Item
+                .Settings()
+                .useBlockPrefixedTranslationKey()
+                .registryKey(registryPath)) {
+            @Override
+            public void appendTooltip(ItemStack stack,
+                                      Item.TooltipContext context,
+                                      List<Text> tooltip,
+                                      TooltipType type) {
+                BlockStateComponent component = stack.get(DataComponentTypes.BLOCK_STATE);
+                if (component != null) {
+                    DyeColor color = component.getValue(StrikethroughBlock.COLOR);
+                    if (color != null) {
+                        tooltip.add(Text.literal(String.format(Text.translatable("tooltip.alphaesletters.color")
+                                        .getString(),
+                                color.asString())).styled(style -> style.withColor(color.getSignColor())
+                        ));
+                    }
+                }
+            }
+        });
     }
 
     public static List<ItemStack> registerAll() {

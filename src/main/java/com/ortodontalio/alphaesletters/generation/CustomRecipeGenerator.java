@@ -14,6 +14,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 
 import java.util.concurrent.CompletableFuture;
@@ -63,9 +64,6 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
                 for (BlockItem letterBlock : AlphaesUtils.getAllLetterBlockItems()) {
                     offerStonecuttingRecipe(RecipeCategory.DECORATIONS, letterBlock, Items.WHITE_CONCRETE);
                 }
-                // Recipe for cropped letter concrete
-//                offerStonecuttingRecipe(RecipeCategory.DECORATIONS, TechBlockItems.CROPPED_LETTER_CONCRETE,
-//                        TechBlockItems.LETTER_CONCRETE);
                 // Recipe for iron fence
                 createShaped(RecipeCategory.DECORATIONS, TechBlockItems.IRON_FENCE, 2)
                         .pattern("IBI")
@@ -84,15 +82,20 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         .criterion(hasItem(Items.IRON_BLOCK), conditionsFromItem(Items.IRON_BLOCK))
                         .offerTo(exporter);
-                // Recipe for strikethrough block
-                createShaped(RecipeCategory.DECORATIONS, TechBlockItems.STRIKETHROUGH_BLOCK, 2)
-                        .pattern("SSS")
-                        .pattern("SRS")
-                        .pattern("SSS")
-                        .input('S', Items.STICK)
-                        .input('R', Items.RED_DYE)
-                        .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
-                        .criterion(hasItem(Items.RED_DYE), conditionsFromItem(Items.RED_DYE))
+                // Recipes from strikethrough block
+                createShapeless(RecipeCategory.DECORATIONS, Items.ITEM_FRAME)
+                        .input(TechBlockItems.STRIKETHROUGH_BLOCK)
+                        .input(Items.LEATHER)
+                        .criterion(hasItem(TechBlockItems.STRIKETHROUGH_BLOCK),
+                                conditionsFromItem(TechBlockItems.STRIKETHROUGH_BLOCK))
+                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
+                        .offerTo(exporter);
+                createShapeless(RecipeCategory.DECORATIONS, Items.PAINTING)
+                        .input(TechBlockItems.STRIKETHROUGH_BLOCK)
+                        .input(ItemTags.WOOL)
+                        .criterion(hasItem(TechBlockItems.STRIKETHROUGH_BLOCK),
+                                conditionsFromItem(TechBlockItems.STRIKETHROUGH_BLOCK))
+                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
                         .offerTo(exporter);
                 // Recipe for letter powders
                 for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {

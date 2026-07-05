@@ -16,12 +16,15 @@ import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
+import net.minecraft.data.client.MultipartBlockStateSupplier;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.data.client.TexturedModel;
 import net.minecraft.data.client.VariantSettings;
 import net.minecraft.data.client.VariantsBlockStateSupplier;
+import net.minecraft.data.client.When;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 import java.util.Optional;
 
@@ -38,7 +41,6 @@ public class ModelGenerator extends FabricModelProvider {
         fencePool.fenceGate(TechBlocks.IRON_FENCE_GATE);
         generateDyeingMachineBlockstate(stateGenerator);
         generateLettersBlockstates(stateGenerator);
-        //generateCroppedFerroconcreteBlockstate(stateGenerator);
 
         AlphaesUtils.getAllLetterConcretesBlocks().forEach(stateGenerator::registerSimpleCubeAll);
         AlphaesUtils.getAllExfoliatedConcreteBlocks().forEach(stateGenerator::registerSimpleCubeAll);
@@ -56,20 +58,11 @@ public class ModelGenerator extends FabricModelProvider {
         }
     }
 
-    private void generateCroppedFerroconcreteBlockstate(BlockStateModelGenerator stateGenerator) {
-//        stateGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(TechBlocks.CROPPED_LETTER_CONCRETE)
-//                .coordinate(createLetterPropertyMap())
-//                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
-    }
-
     private void generateLettersBlockstates(BlockStateModelGenerator stateGenerator) {
         AlphaesUtils.getAllLetterBlocks()
                 .stream()
                 .map(LetterBasic.class::cast)
-                .forEach(letter -> stateGenerator.blockStateCollector.accept(
-                        VariantsBlockStateSupplier.create(letter, BlockStateVariant.create().put(VariantSettings.MODEL,
-                                        Identifier.of(AlphaesLetters.MOD_ID, String.format("block/%s", letter.getLetterName()))))
-                                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())));
+                .forEach(letter -> generateMultipartLetter(stateGenerator, letter));
     }
 
     private void generateDyeingMachineBlockstate(BlockStateModelGenerator stateGenerator) {
@@ -151,19 +144,89 @@ public class ModelGenerator extends FabricModelProvider {
                 .register(4, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockSubModelId(TechBlocks.DYEING_MACHINE, "_watered_full")));
     }
 
-    private BlockStateVariantMap createLetterPropertyMap() {
-//        var letterState = BlockStateVariantMap.create(CroppedFerroconcrete.LETTER);
-//        letterState.register(MiscLetters.NONE.asString(), BlockStateVariant.create().put(VariantSettings.MODEL,
-//                ModelIds.getBlockModelId(TechBlocks.CROPPED_LETTER_CONCRETE)));
-//        AlphaesUtils.getAllLettersNames().stream()
-//                .filter(letter -> !letter.equals(MiscLetters.NONE.asString()))
-//                .forEach(letter -> letterState.register(letter, BlockStateVariant.create().put(VariantSettings.MODEL,
-//                        Identifier.of(AlphaesLetters.MOD_ID, String.format("block/letter_block/%s", letter)))));
-        return null;
+    private void generateMultipartLetter(BlockStateModelGenerator stateGenerator, LetterBasic letter) {
+        Identifier letterModel = Identifier.of(
+                AlphaesLetters.MOD_ID,
+                "block/" + letter.getLetterName()
+        );
+        Identifier frameModel = Identifier.of(
+                AlphaesLetters.MOD_ID,
+                "block/strikethrough_block"
+        );
+
+        MultipartBlockStateSupplier supplier =
+                MultipartBlockStateSupplier.create(letter);
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.NORTH),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, letterModel)
+        );
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.SOUTH),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, letterModel)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R180)
+        );
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.EAST),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, letterModel)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R90)
+        );
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.WEST),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, letterModel)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R270)
+        );
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.NORTH)
+                        .set(LetterBasic.HAS_COVER, true),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, frameModel)
+        );
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.SOUTH)
+                        .set(LetterBasic.HAS_COVER, true),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, frameModel)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R180)
+        );
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.EAST)
+                        .set(LetterBasic.HAS_COVER, true),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, frameModel)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R90)
+        );
+
+        supplier.with(
+                When.create()
+                        .set(LetterBasic.FACING, Direction.WEST)
+                        .set(LetterBasic.HAS_COVER, true),
+                BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, frameModel)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R270)
+        );
+
+        stateGenerator.blockStateCollector.accept(supplier);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-
     }
 }

@@ -1,7 +1,3 @@
 {
-  "parent": "alphaesletters:block/strikethrough_block",
-  "textures": {
-    "all": "alphaesletters:item/strikethrough_block",
-    "particle": "#all"
-  }
+  "parent": "alphaesletters:block/strikethrough_block"
 }

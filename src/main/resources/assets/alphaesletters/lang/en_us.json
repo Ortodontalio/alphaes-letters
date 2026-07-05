@@ -138,7 +138,7 @@
   "block.alphaesletters.green_letter_powder": "Green Ferroconcrete Powder",
   "block.alphaesletters.red_letter_powder": "Red Ferroconcrete Powder",
   "block.alphaesletters.black_letter_powder": "Black Ferroconcrete Powder",
-  "block.alphaesletters.strikethrough_block": "Strikethrough Indicator",
+  "block.alphaesletters.strikethrough_block": "Frame",
   "block.alphaesletters.iron_fence": "Iron fence",
   "block.alphaesletters.iron_fence_gate": "Iron fence gate",
   "block.alphaesletters.letter_lake": "Lake Acronym",
@@ -203,5 +203,6 @@
   "block.alphaesletters.letter_mc_y": "Minecraft letter Y",
   "block.alphaesletters.letter_mc_z": "Minecraft letter Z",
   "blockProperty.alphaesletters.author": "Author: %s",
-  "blockProperty.alphaesletters.version": "Version: %s"
+  "blockProperty.alphaesletters.version": "Version: %s",
+  "tooltip.alphaesletters.color": "Color: %s"
 }
