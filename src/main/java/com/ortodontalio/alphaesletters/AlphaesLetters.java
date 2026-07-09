@@ -10,6 +10,7 @@ import com.ortodontalio.alphaesletters.codegen.MinecraftLettersRegistrator;
 import com.ortodontalio.alphaesletters.codegen.MiscLettersItemsRegistrator;
 import com.ortodontalio.alphaesletters.codegen.MiscLettersRegistrator;
 import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
+import com.ortodontalio.alphaesletters.handlers.AlphaesScreenHandlers;
 import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
@@ -41,6 +42,7 @@ public class AlphaesLetters implements ModInitializer {
         MiscLettersRegistrator.registerAll();
         MinecraftLettersRegistrator.registerAll();
         TechBlocks.registerAll();
+        AlphaesScreenHandlers.registerAll();
         ExfoliatableRegistry.init();
 
         ArrayList<ItemStack> itemsToRegister = new ArrayList<>();

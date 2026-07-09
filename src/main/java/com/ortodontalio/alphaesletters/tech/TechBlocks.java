@@ -246,6 +246,7 @@ public class TechBlocks {
                         "iron_fence")),
                 FenceBlock::new, AbstractBlock.Settings.create()
                         .mapColor(MapColor.IRON_GRAY)
+                        .sounds(BlockSoundGroup.METAL)
                         .strength(5.0f, 6.0f)
                         .requiresTool());
     }

@@ -204,5 +204,6 @@
   "block.alphaesletters.letter_mc_z": "Minecraft letter Z",
   "blockProperty.alphaesletters.author": "Author: %s",
   "blockProperty.alphaesletters.version": "Version: %s",
-  "tooltip.alphaesletters.color": "Color: %s"
+  "tooltip.alphaesletters.color": "Color: %s",
+  "title.alphaesletters.addons_counter": "Loaded %s OpenLetters addons"
 }

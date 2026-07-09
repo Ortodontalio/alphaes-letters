@@ -3,6 +3,7 @@
   "package": "com.ortodontalio.alphaesletters.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "TitleScreenMixin",
     "SerializedChunkMixin",
     "MinecraftServerMixin"
   ],

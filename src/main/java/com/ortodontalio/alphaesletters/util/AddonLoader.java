@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.google.gson.stream.JsonReader;
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.codegen.GroupRegistrator;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
 import com.ortodontalio.alphaesletters.util.models.Addon;
 import com.ortodontalio.alphaesletters.util.models.MinecraftModel;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,22 +23,23 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-
-import static com.ortodontalio.alphaesletters.common.HasColor.COLOR;
-import static com.ortodontalio.alphaesletters.common.LetterBasic.COVER_COLOR;
 
 public class AddonLoader {
 
@@ -46,32 +48,13 @@ public class AddonLoader {
               "parent": "alphaesletters:block/%s"
             }
             """;
-    private static final String BLOCK_STATE_TEMPLATE = """
-            {
-                "variants": {
-                    "facing=east": {
-                        "model": "alphaesletters:block/%1$s",
-                        "y": 90
-                    },
-                    "facing=north": {
-                      "model": "alphaesletters:block/%1$s"
-                    },
-                    "facing=south": {
-                      "model": "alphaesletters:block/%1$s",
-                      "y": 180
-                    },
-                    "facing=west": {
-                      "model": "alphaesletters:block/%1$s",
-                      "y": 270
-                    }
-                }
-            }
-            """;
+    private static final String BLOCK_STATE_TEMPLATE = "mod_data/blockstates_template.json";
     private static final String AUTHOR_TOOLTIP = "blockProperty.alphaesletters.author";
     private static final String VERSION_TOOLTIP = "blockProperty.alphaesletters.version";
+    private static final List<Block> ADDONS = new ArrayList<>();
 
     public static void checkAddonFolder() {
-        var addonsPath = new File("./openletters");
+        var addonsPath = new File("./mods/openletters");
         addonsPath.mkdir();
         try (Stream<Path> addons = Files.walk(Paths.get(addonsPath.getPath()))) {
             ObjectMapper mapper = JsonMapper.builder()
@@ -95,18 +78,14 @@ public class AddonLoader {
             GroupRegistrator.registerGroup("customletters", addonsBlocks.stream()
                     .map(ItemStack::new)
                     .toList());
-            ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> {
-                        if (tintIndex == 0) {
-                            return state.get(COLOR).getSignColor();
-                        }
-                        if (tintIndex == 1) {
-                            return state.get(COVER_COLOR).getSignColor();
-                        }
-                        return -1;
-                    },
-                    addonsBlocks.toArray(LetterBasic[]::new));
+            ADDONS.clear();
+            ADDONS.addAll(addonsBlocks);
         } catch (IOException ignored) {
         }
+    }
+
+    public static List<Block> getAddonsBlocks() {
+        return new ArrayList<>(ADDONS);
     }
 
     private static Addon extractModelFromJson(ObjectMapper mapper, Path file) {
@@ -139,8 +118,20 @@ public class AddonLoader {
     }
 
     private static boolean generateBlockStateJson(Addon addon) {
-        return generateJson(addon, "/assets/alphaesletters/blockstates", String.format(BLOCK_STATE_TEMPLATE,
+        return generateJson(addon, "/assets/alphaesletters/blockstates", String.format(Objects
+                        .requireNonNull(readJsonFromResources(BLOCK_STATE_TEMPLATE)),
                 getAddonNameWithoutExtension(addon)));
+    }
+
+    private static String readJsonFromResources(String fileName) {
+        try (InputStream inputStream = JsonReader.class
+                .getClassLoader()
+                .getResourceAsStream(fileName)) {
+            return IOUtils.toString(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+        }
+        // Impossible to reach null
+        return null;
     }
 
     private static boolean generateJson(Addon addon, String path, String content) {

@@ -4,7 +4,6 @@ import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import com.ortodontalio.alphaesletters.tech.StrikethroughBlock;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
-import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -13,6 +12,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlockStateComponent;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -30,7 +30,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -100,12 +99,12 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
         copied.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT
                 .with(COLOR, state.get(COLOR))
                 .with(LIT, state.get(LIT)));
-        copied.set(DataComponentTypes.CUSTOM_NAME, Text.of(getName().withColor(state.get(COLOR).getSignColor())));
         return copied;
     }
 
     @Override
-    protected ActionResult onUseWithItem(ItemStack inHand, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ActionResult onUseWithItem(ItemStack inHand, BlockState state, World world, BlockPos pos,
+                                         PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (inHand.isOf(Items.GLOWSTONE_DUST) && Boolean.FALSE.equals(state.get(LIT))) {
             world.playSound(player, pos, SoundEvents.ENTITY_GLOW_ITEM_FRAME_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             if (!player.isCreative()) {
@@ -122,6 +121,15 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             world.setBlockState(pos, state.with(LIT, false));
             return ActionResult.SUCCESS;
         }
+        if (inHand.isIn(AlphaesTags.Items.HOES) && Boolean.TRUE.equals(state.get(HAS_COVER))) {
+            world.playSound(player, pos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (!player.isCreative()) {
+                inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
+            }
+            world.setBlockState(pos, state.with(HAS_COVER, false));
+            afterUseHoe(world, pos);
+            return ActionResult.SUCCESS;
+        }
         if (inHand.isIn(DYES) && !state.get(COLOR).equals(((DyeItem) inHand.getItem()).getColor())) {
             world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             world.setBlockState(pos, state.with(COLOR, ((DyeItem) inHand.getItem()).getColor()));
@@ -130,7 +138,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             }
             return ActionResult.SUCCESS;
         }
-        if (!player.isSneaking() && inHand.isOf(TechBlockItems.STRIKETHROUGH_BLOCK) && !state.get(HAS_COVER)) {
+        if (inHand.isOf(TechBlockItems.STRIKETHROUGH_BLOCK) && !state.get(HAS_COVER)) {
             world.playSound(player, pos, SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1F, 1F);
             BlockStateComponent component = inHand.get(DataComponentTypes.BLOCK_STATE);
             DyeColor coverColor = DyeColor.WHITE;
@@ -144,6 +152,13 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
+    }
+
+    private void afterUseHoe(World world, BlockPos pos) {
+        ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                new ItemStack(Items.STICK, world.random.nextBetween(1, 8)));
+        itemEntity.setToDefaultPickupDelay();
+        world.spawnEntity(itemEntity);
     }
 
     @Override

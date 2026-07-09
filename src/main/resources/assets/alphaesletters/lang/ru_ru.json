@@ -204,5 +204,6 @@
   "block.alphaesletters.green_letter_exfoliated_concrete": "Отшелушённый зеленый ферроцемент",
   "block.alphaesletters.red_letter_exfoliated_concrete": "Отшелушённый красный ферроцемент",
   "block.alphaesletters.black_letter_exfoliated_concrete": "Отшелушённый черный ферроцемент",
-  "tooltip.alphaesletters.color": "Цвет: %s"
+  "tooltip.alphaesletters.color": "Цвет: %s",
+  "title.alphaesletters.addons_counter": "Загружено %s OpenLetters дополнений"
 }

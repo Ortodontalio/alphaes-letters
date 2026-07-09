@@ -2,7 +2,7 @@ package com.ortodontalio.alphaesletters;
 
 import com.ortodontalio.alphaesletters.handlers.AlphaesScreenHandlers;
 import com.ortodontalio.alphaesletters.handlers.DyeingMachineScreen;
-import com.ortodontalio.alphaesletters.tech.TechBlockItems;
+import com.ortodontalio.alphaesletters.util.AddonLoader;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -29,6 +29,7 @@ public class AlphaesLettersClient implements ClientModInitializer {
         HandledScreens.register(AlphaesScreenHandlers.DYEING_MACHINE_SCREEN_HANDLER, DyeingMachineScreen::new);
 
         var coloredBlocks = AlphaesUtils.getAllLetterBlocks();
+        coloredBlocks.addAll(AddonLoader.getAddonsBlocks());
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> {
                     if (tintIndex == 0) {
                         return state.get(COLOR).getSignColor();

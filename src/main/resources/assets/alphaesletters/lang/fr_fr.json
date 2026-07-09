@@ -204,5 +204,6 @@
   "block.alphaesletters.green_letter_exfoliated_concrete": "Béton Armé Vert Exfolié",
   "block.alphaesletters.red_letter_exfoliated_concrete": "Béton Armé Rouge Exfolié",
   "block.alphaesletters.black_letter_exfoliated_concrete": "Béton Armé Noir Exfolié",
-  "tooltip.alphaesletters.color": "Couleur: %s"
+  "tooltip.alphaesletters.color": "Couleur: %s",
+  "title.alphaesletters.addons_counter": "Chargé %s extensions OpenLetters"
 }

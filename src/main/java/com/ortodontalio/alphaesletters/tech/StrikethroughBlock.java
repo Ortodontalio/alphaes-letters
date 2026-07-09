@@ -75,9 +75,7 @@ public class StrikethroughBlock extends Block implements Waterloggable, HasColor
     @Override
     public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         ItemStack copied = new ItemStack(state.getBlock(), 64);
-        copied.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT
-                .with(COLOR, state.get(COLOR)));
-        copied.set(DataComponentTypes.CUSTOM_NAME, Text.of(getName().withColor(state.get(COLOR).getSignColor())));
+        copied.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT.with(COLOR, state.get(COLOR)));
         return copied;
     }
 

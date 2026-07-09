@@ -36,9 +36,39 @@ public class ModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator stateGenerator) {
-        BlockStateModelGenerator.BlockTexturePool fencePool = stateGenerator.registerCubeAllModelTexturePool(Blocks.IRON_BLOCK);
-        fencePool.fence(TechBlocks.IRON_FENCE);
-        fencePool.fenceGate(TechBlocks.IRON_FENCE_GATE);
+        Identifier postModel = ModelIds.getBlockModelId(TechBlocks.IRON_FENCE)
+                .withSuffixedPath("_post");
+
+        Identifier sideModel = ModelIds.getBlockModelId(TechBlocks.IRON_FENCE)
+                .withSuffixedPath("_side");
+
+        stateGenerator.blockStateCollector.accept(
+                BlockStateModelGenerator.createFenceBlockState(
+                        TechBlocks.IRON_FENCE,
+                        postModel,
+                        sideModel
+                )
+        );
+
+        Identifier gateModel = ModelIds.getBlockModelId(TechBlocks.IRON_FENCE_GATE);
+        Identifier gateOpenModel = ModelIds.getBlockModelId(TechBlocks.IRON_FENCE_GATE)
+                .withSuffixedPath("_open");
+        Identifier gateWallModel = ModelIds.getBlockModelId(TechBlocks.IRON_FENCE_GATE)
+                .withSuffixedPath("_wall");
+        Identifier gateWallOpenModel = ModelIds.getBlockModelId(TechBlocks.IRON_FENCE_GATE)
+                .withSuffixedPath("_wall_open");
+
+        stateGenerator.blockStateCollector.accept(
+                BlockStateModelGenerator.createFenceGateBlockState(
+                        TechBlocks.IRON_FENCE_GATE,
+                        gateOpenModel,
+                        gateModel,
+                        gateWallOpenModel,
+                        gateWallModel,
+                        false
+                )
+        );
+
         generateDyeingMachineBlockstate(stateGenerator);
         generateLettersBlockstates(stateGenerator);
 
