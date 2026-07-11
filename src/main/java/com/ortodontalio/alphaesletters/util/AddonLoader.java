@@ -45,7 +45,15 @@ public class AddonLoader {
 
     private static final String ITEM_MODEL_TEMPLATE = """
             {
-              "parent": "alphaesletters:block/%s"
+              "model": {
+                "type": "minecraft:model",
+                "model": "alphaesletters:block/%1$s",
+                "tints": [
+                  {
+                    "type": "alphaesletters:multi_color_tint"
+                  }
+                ]
+              }
             }
             """;
     private static final String BLOCK_STATE_TEMPLATE = "mod_data/blockstates_template.json";
@@ -113,7 +121,7 @@ public class AddonLoader {
     }
 
     private static boolean generateItemJson(Addon addon) {
-        return generateJson(addon, "/assets/alphaesletters/models/item", String.format(ITEM_MODEL_TEMPLATE,
+        return generateJson(addon, "/assets/alphaesletters/items", String.format(ITEM_MODEL_TEMPLATE,
                 getAddonNameWithoutExtension(addon)));
     }
 

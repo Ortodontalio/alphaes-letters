@@ -94,7 +94,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
     }
 
     @Override
-    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
+    protected ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {
         ItemStack copied = new ItemStack(state.getBlock(), 64);
         copied.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT
                 .with(COLOR, state.get(COLOR))

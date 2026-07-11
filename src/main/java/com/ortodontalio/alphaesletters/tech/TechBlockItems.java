@@ -176,24 +176,7 @@ public class TechBlockItems {
         return Registry.register(Registries.ITEM, registryPath, new BlockItem(TechBlocks.STRIKETHROUGH_BLOCK, new Item
                 .Settings()
                 .useBlockPrefixedTranslationKey()
-                .registryKey(registryPath)) {
-            @Override
-            public void appendTooltip(ItemStack stack,
-                                      Item.TooltipContext context,
-                                      List<Text> tooltip,
-                                      TooltipType type) {
-                BlockStateComponent component = stack.get(DataComponentTypes.BLOCK_STATE);
-                if (component != null) {
-                    DyeColor color = component.getValue(StrikethroughBlock.COLOR);
-                    if (color != null) {
-                        tooltip.add(Text.literal(String.format(Text.translatable("tooltip.alphaesletters.color")
-                                        .getString(),
-                                color.asString())).styled(style -> style.withColor(color.getSignColor())
-                        ));
-                    }
-                }
-            }
-        });
+                .registryKey(registryPath)));
     }
 
     public static List<ItemStack> registerAll() {

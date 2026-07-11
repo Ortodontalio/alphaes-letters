@@ -93,7 +93,7 @@ public class CroppedFerroconcrete extends Block implements Waterloggable, HasCol
     }
 
     @Override
-    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean saveData) {
         ItemStack copied = new ItemStack(state.getBlock(), 64);
         String currentLetterName = state.get(LETTER);
         DyeColor color = state.get(COLOR);

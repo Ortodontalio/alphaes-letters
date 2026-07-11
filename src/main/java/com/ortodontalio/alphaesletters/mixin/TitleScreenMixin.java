@@ -26,7 +26,7 @@ public abstract class TitleScreenMixin extends Screen {
                 Text.translatable("title.alphaesletters.addons_counter",
                         AddonLoader.getAddonsBlocks().size()),
                 2,
-                this.height - 25,
+                this.height - 22,
                 0xFFFFFF
         );
     }

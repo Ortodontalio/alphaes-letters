@@ -2,7 +2,7 @@
 	"parent": "block/block",
 	"textures": {
 		"particle": "#texture",
-		"texture": "block/iron_block"
+		"texture": "minecraft:block/iron_block"
 	},
 	"elements": [
 		{

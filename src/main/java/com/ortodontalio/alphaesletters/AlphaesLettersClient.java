@@ -1,5 +1,7 @@
 package com.ortodontalio.alphaesletters;
 
+import com.ortodontalio.alphaesletters.client.MultiColorTint;
+import com.ortodontalio.alphaesletters.client.TintRegistries;
 import com.ortodontalio.alphaesletters.handlers.AlphaesScreenHandlers;
 import com.ortodontalio.alphaesletters.handlers.DyeingMachineScreen;
 import com.ortodontalio.alphaesletters.util.AddonLoader;
@@ -12,8 +14,11 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlockStateComponent;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.DyeColor;
 
 import java.util.Objects;
@@ -42,17 +47,7 @@ public class AlphaesLettersClient implements ClientModInitializer {
                 coloredBlocks.toArray(Block[]::new));
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) ->
                 state.get(COLOR).getSignColor(), STRIKETHROUGH_BLOCK);
-
-        coloredBlocks.add(STRIKETHROUGH_BLOCK);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-                    BlockStateComponent component = stack.get(DataComponentTypes.BLOCK_STATE);
-                    if (component == null) {
-                        return DyeColor.WHITE.getSignColor();
-                    }
-                    return Objects.requireNonNull(component.getValue(COLOR)).getSignColor();
-                },
-                coloredBlocks.toArray(Block[]::new)
-        );
+        TintRegistries.registerAll();
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), coloredBlocks.toArray(Block[]::new));
     }
 }

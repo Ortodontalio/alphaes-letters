@@ -5,24 +5,24 @@ import com.ortodontalio.alphaesletters.common.LetterBasic;
 import com.ortodontalio.alphaesletters.tech.DyeingMachine;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.BlockStateVariant;
-import net.minecraft.data.client.BlockStateVariantMap;
-import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Model;
-import net.minecraft.data.client.ModelIds;
-import net.minecraft.data.client.Models;
-import net.minecraft.data.client.MultipartBlockStateSupplier;
-import net.minecraft.data.client.TextureKey;
-import net.minecraft.data.client.TextureMap;
-import net.minecraft.data.client.TexturedModel;
-import net.minecraft.data.client.VariantSettings;
-import net.minecraft.data.client.VariantsBlockStateSupplier;
-import net.minecraft.data.client.When;
+import net.minecraft.client.data.BlockStateModelGenerator;
+import net.minecraft.client.data.BlockStateVariant;
+import net.minecraft.client.data.BlockStateVariantMap;
+import net.minecraft.client.data.ItemModelGenerator;
+import net.minecraft.client.data.Model;
+import net.minecraft.client.data.ModelIds;
+import net.minecraft.client.data.Models;
+import net.minecraft.client.data.MultipartBlockStateSupplier;
+import net.minecraft.client.data.TextureKey;
+import net.minecraft.client.data.TextureMap;
+import net.minecraft.client.data.TexturedModel;
+import net.minecraft.client.data.VariantSettings;
+import net.minecraft.client.data.VariantsBlockStateSupplier;
+import net.minecraft.client.data.When;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
@@ -184,8 +184,7 @@ public class ModelGenerator extends FabricModelProvider {
                 "block/strikethrough_block"
         );
 
-        MultipartBlockStateSupplier supplier =
-                MultipartBlockStateSupplier.create(letter);
+        MultipartBlockStateSupplier supplier = MultipartBlockStateSupplier.create(letter);
 
         supplier.with(
                 When.create()

@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "alphaesletters:block/strikethrough_block",
+    "tints": [
+      {
+        "type": "alphaesletters:multi_color_tint"
+      },
+      {
+        "type": "alphaesletters:multi_color_tint"
+      }
+    ]
+  }
+}

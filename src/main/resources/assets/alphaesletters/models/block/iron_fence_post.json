@@ -1,7 +1,7 @@
 {
 	"textures": {
-		"particle": "block/iron_block",
-		"texture": "block/iron_block"
+		"particle": "minecraft:block/iron_block",
+		"texture": "minecraft:block/iron_block"
 	},
 	"elements": [
 		{
