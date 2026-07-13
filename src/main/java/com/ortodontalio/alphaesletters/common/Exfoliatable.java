@@ -18,7 +18,7 @@ public interface Exfoliatable extends Degradable<Exfoliatable.ExfoliatedLevel> {
 
     @Override
     default float getDegradationChanceMultiplier() {
-        return this.getDegradationLevel() == ExfoliatedLevel.UNAFFECTED ? 0.75F : 1.0F;
+        return this.getDegradationLevel() == ExfoliatedLevel.UNAFFECTED ? 1.5F : 2;
     }
 
     enum ExfoliatedLevel implements StringIdentifiable {

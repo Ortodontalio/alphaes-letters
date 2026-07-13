@@ -42,6 +42,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.tick.ScheduledTickView;
 
 import static net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.DYES;
@@ -110,7 +111,9 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }
-            world.setBlockState(pos, state.with(LIT, true));
+            var newState = state.with(LIT, true);
+            world.setBlockState(pos, newState);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.AXES) && Boolean.TRUE.equals(state.get(LIT))) {
@@ -118,7 +121,9 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             if (!player.isCreative()) {
                 inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
             }
-            world.setBlockState(pos, state.with(LIT, false));
+            var newState = state.with(LIT, false);
+            world.setBlockState(pos, newState);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.HOES) && Boolean.TRUE.equals(state.get(HAS_COVER))) {
@@ -126,7 +131,9 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             if (!player.isCreative()) {
                 inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
             }
-            world.setBlockState(pos, state.with(HAS_COVER, false));
+            var newState = state.with(HAS_COVER, false);
+            world.setBlockState(pos, newState);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
             afterUseHoe(world, pos);
             return ActionResult.SUCCESS;
         }
@@ -145,7 +152,9 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             if (component != null) {
                 coverColor = component.getValue(StrikethroughBlock.COLOR);
             }
-            world.setBlockState(pos, state.with(HAS_COVER, true).with(COVER_COLOR, coverColor));
+            var newState = state.with(HAS_COVER, true).with(COVER_COLOR, coverColor);
+            world.setBlockState(pos, newState);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }

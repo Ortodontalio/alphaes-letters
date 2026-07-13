@@ -17,7 +17,7 @@ public enum LatinLetters implements LetterSpec {
     LETTER_F(LatinLettersRegistrator.LETTER_F),
     LETTER_G(LatinLettersRegistrator.LETTER_G),
     LETTER_H(LatinLettersRegistrator.LETTER_H),
-    LETTER_I(LatinLettersRegistrator.LETTER_H),
+    LETTER_I(LatinLettersRegistrator.LETTER_I),
     LETTER_J(LatinLettersRegistrator.LETTER_J),
     LETTER_K(LatinLettersRegistrator.LETTER_K),
     LETTER_L(LatinLettersRegistrator.LETTER_L),

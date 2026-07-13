@@ -4,8 +4,10 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ortodontalio.alphaesletters.common.Exfoliatable;
 import com.ortodontalio.alphaesletters.common.HasColor;
+import com.ortodontalio.alphaesletters.letters.MiscLetters;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
+import com.ortodontalio.alphaesletters.util.ExfoliatableRegistry;
 import com.ortodontalio.alphaesletters.util.StringProperty;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -13,7 +15,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Degradable;
 import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -21,14 +22,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -40,6 +39,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
+import net.minecraft.world.event.GameEvent;
 
 public class LetterFerroconcrete extends Block implements HasColor, Exfoliatable {
     public static final MapCodec<LetterFerroconcrete> CODEC = RecordCodecBuilder.mapCodec(
@@ -54,7 +55,9 @@ public class LetterFerroconcrete extends Block implements HasColor, Exfoliatable
 
     public LetterFerroconcrete(Exfoliatable.ExfoliatedLevel exfoliatedLevel, AbstractBlock.Settings settings) {
         super(settings);
-        this.setDefaultState(getDefaultState().with(LIT, false));
+        this.setDefaultState(getDefaultState()
+                .with(LIT, false)
+                .with(LETTER, MiscLetters.NONE.asString()));
         this.exfoliatedLevel = exfoliatedLevel;
     }
 
@@ -74,7 +77,9 @@ public class LetterFerroconcrete extends Block implements HasColor, Exfoliatable
             if (!player.isCreative()) {
                 inHand.decrement(1);
             }
-            world.setBlockState(pos, state.with(LIT, true));
+            var newState = state.with(LIT, true);
+            world.setBlockState(pos, newState);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
             return ActionResult.SUCCESS;
         }
         if (inHand.isIn(AlphaesTags.Items.AXES) && Boolean.TRUE.equals(state.get(LIT))) {
@@ -82,7 +87,39 @@ public class LetterFerroconcrete extends Block implements HasColor, Exfoliatable
             if (!player.isCreative()) {
                 inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
             }
-            world.setBlockState(pos, state.with(LIT, false));
+            var newState = state.with(LIT, false);
+            world.setBlockState(pos, newState);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
+            return ActionResult.SUCCESS;
+        }
+        if (inHand.isIn(AlphaesTags.Items.FARBA_ITEMS) && exfoliatedLevel == ExfoliatedLevel.EXFOLIATED) {
+            var correspondingDye = ExfoliatableRegistry.getCorrespondingDye(state.getBlock());
+            if (correspondingDye.isEmpty() || !inHand.isOf(correspondingDye.get())) {
+                return ActionResult.PASS;
+            }
+            world.playSound(player, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (!player.isCreative()) {
+                inHand.damage(1, player, LivingEntity.getSlotForHand(hand));
+            }
+            world.syncWorldEvent(player, WorldEvents.BLOCK_SCRAPED, pos, 0);
+            ExfoliatableRegistry.getDecreasedExfoliatedState(state)
+                    .ifPresent(decreasedState -> {
+                        world.setBlockState(pos, decreasedState, Block.NOTIFY_ALL_AND_REDRAW);
+                        world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, decreasedState));
+                    });
+            return ActionResult.SUCCESS;
+        }
+        if (inHand.isOf(Items.BRUSH)) {
+            world.playSound(player, pos, SoundEvents.ITEM_BRUSH_BRUSHING_GENERIC, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (!player.isCreative()) {
+                inHand.damage(10, player, LivingEntity.getSlotForHand(hand));
+            }
+            world.syncWorldEvent(player, WorldEvents.BLOCK_SCRAPED, pos, 0);
+            ExfoliatableRegistry.getIncreasedExfoliatedState(state)
+                    .ifPresent(decreasedState -> {
+                        world.setBlockState(pos, decreasedState, Block.NOTIFY_ALL_AND_REDRAW);
+                        world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, decreasedState));
+                    });
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;

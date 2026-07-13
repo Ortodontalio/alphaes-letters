@@ -11,19 +11,23 @@ import com.ortodontalio.alphaesletters.codegen.MiscLettersItemsRegistrator;
 import com.ortodontalio.alphaesletters.codegen.MiscLettersRegistrator;
 import com.ortodontalio.alphaesletters.entity.AlphaesBlockEntities;
 import com.ortodontalio.alphaesletters.handlers.AlphaesScreenHandlers;
+import com.ortodontalio.alphaesletters.migration.BlockMigrationHandler;
 import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import com.ortodontalio.alphaesletters.util.AddonLoader;
 import com.ortodontalio.alphaesletters.util.ExfoliatableRegistry;
+import com.ortodontalio.alphaesletters.util.GroupRegistrable;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 public class AlphaesLetters implements ModInitializer {
 
+    public static final Logger LOGGER = Logger.getLogger(AlphaesLetters.class.getName());
     public static final String MOD_ID = "alphaesletters";
     public static final String COMMAND_TEXT = """
             Dear friend! When I created this mod, in addition to using it to create road signs,
@@ -57,6 +61,8 @@ public class AlphaesLetters implements ModInitializer {
         AlphaesRecipes.registerRecipes();
 
         AddonLoader.checkAddonFolder();
+
+        BlockMigrationHandler.register();
 
 //        CommandRegistrationCallback.EVENT.register(
 //                (dispatcher, registryAccess, environment) -> dispatcher.register(literal("alread")
