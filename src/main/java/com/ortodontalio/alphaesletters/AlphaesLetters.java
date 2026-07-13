@@ -17,7 +17,6 @@ import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
 import com.ortodontalio.alphaesletters.util.AddonLoader;
 import com.ortodontalio.alphaesletters.util.ExfoliatableRegistry;
-import com.ortodontalio.alphaesletters.util.GroupRegistrable;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.ItemStack;
 
@@ -59,6 +58,7 @@ public class AlphaesLetters implements ModInitializer {
 
         AlphaesBlockEntities.registerEntities();
         AlphaesRecipes.registerRecipes();
+        AlphaesGameRules.registerAll();
 
         AddonLoader.checkAddonFolder();
 

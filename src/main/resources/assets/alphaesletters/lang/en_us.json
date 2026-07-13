@@ -1,7 +1,9 @@
 {
   "block.alphaesletters.letter_a": "Letter A",
+  "block.alphaesletters.letter_a_circumflex": "Letter A with circumflex",
   "block.alphaesletters.letter_b": "Letter B",
   "block.alphaesletters.letter_c": "Letter C",
+  "block.alphaesletters.letter_c_caron": "Letter C with caron",
   "block.alphaesletters.letter_d": "Letter D",
   "block.alphaesletters.letter_e": "Letter E",
   "block.alphaesletters.letter_f": "Letter F",
@@ -18,8 +20,10 @@
   "block.alphaesletters.letter_q": "Letter Q",
   "block.alphaesletters.letter_r": "Letter R",
   "block.alphaesletters.letter_s": "Letter S",
+  "block.alphaesletters.letter_s_cedilla": "Letter S with cedilla",
   "block.alphaesletters.letter_t": "Letter T",
   "block.alphaesletters.letter_u": "Letter U",
+  "block.alphaesletters.letter_u_umlaut": "Letter U with umlaut",
   "block.alphaesletters.letter_v": "Letter V",
   "block.alphaesletters.letter_w": "Letter W",
   "block.alphaesletters.letter_x": "Letter X",
@@ -205,5 +209,6 @@
   "blockProperty.alphaesletters.author": "Author: %s",
   "blockProperty.alphaesletters.version": "Version: %s",
   "tooltip.alphaesletters.color": "Color: %s",
-  "title.alphaesletters.addons_counter": "Loaded %s OpenLetters addons"
+  "title.alphaesletters.addons_counter": "Loaded %s OpenLetters addons",
+  "gamerule.exfoliationEnabled": "Ferroconcrete Exfoliation"
 }

@@ -5,6 +5,7 @@ import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
 import com.ortodontalio.alphaesletters.common.LetterSpec;
 import com.ortodontalio.alphaesletters.letters.MiscLetters;
+import com.ortodontalio.alphaesletters.tech.CroppedFerroconcrete;
 import com.ortodontalio.alphaesletters.tech.LetterFerroconcrete;
 import com.ortodontalio.alphaesletters.tech.StrikethroughBlock;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
@@ -14,12 +15,12 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.impl.attachment.AttachmentTypeImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
@@ -34,12 +35,10 @@ import net.minecraft.world.chunk.WorldChunk;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.ortodontalio.alphaesletters.tech.LetterFerroconcrete.LETTER;
 import static net.minecraft.block.Block.NOTIFY_ALL;
 
 public final class BlockMigrationHandler {
@@ -72,18 +71,17 @@ public final class BlockMigrationHandler {
         );
 
         // 3. Migration Version
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            server.getWorlds().forEach(world -> {
-                if (world.isClient()) return;
-                BlockMigrationState state = BlockMigrationState.getOrCreate(world);
-                if (state.getMigrationVersion() < CURRENT_MIGRATION_VERSION) {
-                    AlphaesLetters.LOGGER.info(String.format("World %s migration version updated",
-                            world.getRegistryKey().getValue()));
-                    state.setMigrationVersion(CURRENT_MIGRATION_VERSION);
-                    state.markDirty();
-                }
-            });
-        });
+        ServerLifecycleEvents.SERVER_STARTED.register(server ->
+                server.getWorlds().forEach(world -> {
+                    if (world.isClient()) return;
+                    BlockMigrationState state = BlockMigrationState.getOrCreate(world);
+                    if (state.getMigrationVersion() < CURRENT_MIGRATION_VERSION) {
+                        AlphaesLetters.LOGGER.info(String.format("World %s migration version updated",
+                                world.getRegistryKey().getValue()));
+                        state.setMigrationVersion(CURRENT_MIGRATION_VERSION);
+                        state.markDirty();
+                    }
+                }));
     }
 
     private static boolean isChunkMigrated(Chunk chunk) {
@@ -97,6 +95,7 @@ public final class BlockMigrationHandler {
     /**
      * Palette NBT migration – change old ID to new.
      */
+    @SuppressWarnings("unused")
     public static void migrateChunkNbt(NbtCompound chunkNbt) {
         if (chunkNbt == null || !chunkNbt.contains("sections", NbtElement.LIST_TYPE)) {
             return;
@@ -142,19 +141,14 @@ public final class BlockMigrationHandler {
     }
 
     /**
-     * Check, if the chunk contains letter_concrete with no-null property LETTER.
+     * OLD: Check, if the chunk contains letter_concrete with no-null property LETTER.
      */
     private static boolean shouldProcessChunk(Chunk chunk) {
         if (chunk == null) return false;
-        if (isChunkMigrated(chunk)) {
-            return false;
-        }
+        if (isChunkMigrated(chunk)) return false;
+        Block oldBlock = Registries.BLOCK.get(OLD_BLOCK_ID);
         for (ChunkSection section : chunk.getSectionArray()) {
-            if (section != null && section.hasAny(state ->
-                    state.getBlock().equals(TechBlocks.LETTER_CONCRETE)
-                            && state.get(LETTER) != null
-                            && !Objects.equals(state.get(LETTER), MiscLetters.NONE.asString())
-            )) {
+            if (section != null && section.hasAny(state -> state.getBlock().equals(oldBlock))) {
                 return true;
             }
         }
@@ -180,7 +174,7 @@ public final class BlockMigrationHandler {
         AtomicInteger migrated = new AtomicInteger(0);
         int startX = chunkPos.getStartX();
         int startZ = chunkPos.getStartZ();
-        Block targetBlock = TechBlocks.LETTER_CONCRETE;
+        Block sourceBlock = TechBlocks.CROPPED_FERROCONCRETE;
 
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
@@ -192,22 +186,26 @@ public final class BlockMigrationHandler {
                     BlockPos pos = new BlockPos(blockX, y, blockZ);
                     BlockState state = world.getBlockState(pos);
 
-                    if (!state.getBlock().equals(targetBlock)) continue;
+                    if (!state.getBlock().equals(sourceBlock)) continue;
 
-                    String letterName = state.get(LETTER);
+                    String letterName = state.get(CroppedFerroconcrete.LETTER);
                     if (letterName == null) continue;
 
-                    Direction facing = state.get(LetterFerroconcrete.FACING);
+                    Direction facing = state.get(CroppedFerroconcrete.FACING);
                     if (facing == null) continue;
 
+                    boolean lit = state.get(CroppedFerroconcrete.LIT);
                     LetterSpec spec = AlphaesUtils.findLetterByName(letterName);
-                    if (spec == MiscLetters.NONE) continue;
+                    if (spec == MiscLetters.NONE) {
+                        migrateCroppedBlockAndFinish(world, pos, lit, migrated);
+                        continue;
+                    }
 
                     Block replacementBlock = spec.getBlock();
-                    DyeColor color = Optional.ofNullable(state.get(LetterFerroconcrete.COLOR))
+                    DyeColor color = Optional.ofNullable(state.get(CroppedFerroconcrete.COLOR))
                             .orElse(DyeColor.WHITE);
 
-                    processOldBlock(world, replacementBlock, facing, pos, color, migrated, state);
+                    processOldBlock(world, replacementBlock, facing, pos, color, lit, migrated);
                 }
             }
         }
@@ -217,9 +215,10 @@ public final class BlockMigrationHandler {
     @SuppressWarnings("java:S3252")
     private static void processOldBlock(ServerWorld world, Block replacementLetterBlock,
                                         Direction direction, BlockPos pos, DyeColor color,
-                                        AtomicInteger migrated, BlockState oldState) {
+                                        boolean lit, AtomicInteger migrated) {
         BlockState newState = replacementLetterBlock.getDefaultState()
                 .with(LetterBasic.FACING, direction)
+                .with(LetterBasic.LIT, lit)
                 .with(LetterBasic.COLOR, color);
 
         // Strikethrough block on +1 (if exists)
@@ -235,9 +234,13 @@ public final class BlockMigrationHandler {
         BlockPos letterPos = pos.offset(direction);
         world.setBlockState(letterPos, newState, NOTIFY_ALL);
 
-        BlockState newBaseState = oldState.with(LETTER, MiscLetters.NONE.asString());
-        world.setBlockState(pos, newBaseState, NOTIFY_ALL);
+        migrateCroppedBlockAndFinish(world, pos, lit, migrated);
+    }
 
+    private static void migrateCroppedBlockAndFinish(ServerWorld world, BlockPos pos, boolean lit,
+                                                     AtomicInteger migrated) {
+        world.setBlockState(pos, TechBlocks.LETTER_CONCRETE.getDefaultState()
+                .with(LetterFerroconcrete.LIT, lit), NOTIFY_ALL);
         migrated.getAndIncrement();
     }
 }

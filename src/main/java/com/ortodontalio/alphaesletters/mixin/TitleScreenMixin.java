@@ -21,13 +21,11 @@ public abstract class TitleScreenMixin extends Screen {
     @Inject(method = "render", at = @At("TAIL"))
     private void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
-        context.drawTextWithShadow(
-                client.textRenderer,
-                Text.translatable("title.alphaesletters.addons_counter",
-                        AddonLoader.getAddonsBlocks().size()),
-                2,
-                this.height - 22,
-                0xFFFFFF
-        );
+        var text = Text.translatable("title.alphaesletters.addons_counter",
+                AddonLoader.getAddonsBlocks().size());
+        int textWidth = textRenderer.getWidth(text);
+        int xPos = width - textWidth - 2;
+        int yPos = height - 22;
+        context.drawTextWithShadow(client.textRenderer, text, xPos, yPos, 0xFFFFFF);
     }
 }

@@ -8,8 +8,10 @@ import net.minecraft.block.Block;
 @LettersDefinition
 public enum LatinLetters implements LetterSpec {
     LETTER_A(LatinLettersRegistrator.LETTER_A),
+    LETTER_A_CIRCUMFLEX(LatinLettersRegistrator.LETTER_A_CIRCUMFLEX),
     LETTER_B(LatinLettersRegistrator.LETTER_B),
     LETTER_C(LatinLettersRegistrator.LETTER_C),
+    LETTER_C_CARON(LatinLettersRegistrator.LETTER_C_CARON),
     LETTER_CH(LatinLettersRegistrator.LETTER_CH),
     LETTER_D(LatinLettersRegistrator.LETTER_D),
     LETTER_E(LatinLettersRegistrator.LETTER_E),
@@ -28,9 +30,11 @@ public enum LatinLetters implements LetterSpec {
     LETTER_Q(LatinLettersRegistrator.LETTER_Q),
     LETTER_R(LatinLettersRegistrator.LETTER_R),
     LETTER_S(LatinLettersRegistrator.LETTER_S),
+    LETTER_S_CEDILLA(LatinLettersRegistrator.LETTER_S_CEDILLA),
     LETTER_SZ(LatinLettersRegistrator.LETTER_SZ),
     LETTER_T(LatinLettersRegistrator.LETTER_T),
     LETTER_U(LatinLettersRegistrator.LETTER_U),
+    LETTER_U_UMLAUT(LatinLettersRegistrator.LETTER_U_UMLAUT),
     LETTER_V(LatinLettersRegistrator.LETTER_V),
     LETTER_W(LatinLettersRegistrator.LETTER_W),
     LETTER_X(LatinLettersRegistrator.LETTER_X),

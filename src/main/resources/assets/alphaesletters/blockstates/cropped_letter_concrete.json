@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "alphaesletters:block/cropped_letter_concrete"
+    }
+  }
+}

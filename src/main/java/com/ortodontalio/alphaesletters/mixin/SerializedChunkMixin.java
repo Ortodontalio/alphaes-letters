@@ -1,6 +1,5 @@
 package com.ortodontalio.alphaesletters.mixin;
 
-import com.ortodontalio.alphaesletters.migration.BlockMigrationHandler;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.world.HeightLimitView;
@@ -18,6 +17,6 @@ public abstract class SerializedChunkMixin {
                                   DynamicRegistryManager registryManager,
                                   NbtCompound nbt,
                                   CallbackInfoReturnable<SerializedChunk> cir) {
-        BlockMigrationHandler.migrateChunkNbt(nbt);
+        //BlockMigrationHandler.migrateChunkNbt(nbt);
     }
 }

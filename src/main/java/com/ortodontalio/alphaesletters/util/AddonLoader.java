@@ -10,6 +10,7 @@ import com.ortodontalio.alphaesletters.codegen.GroupRegistrator;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
 import com.ortodontalio.alphaesletters.util.models.Addon;
 import com.ortodontalio.alphaesletters.util.models.MinecraftModel;
+import com.ortodontalio.alphaesletters.util.models.TagModel;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -39,6 +40,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AddonLoader {
@@ -57,6 +59,9 @@ public class AddonLoader {
             }
             """;
     private static final String BLOCK_STATE_TEMPLATE = "mod_data/blockstates_template.json";
+    private static final String LOOT_TABLE_TEMPLATE = "mod_data/loot_table_template.json";
+    private static final String RECIPE_DEF_TEMPLATE = "mod_data/recipe_def_template.json";
+    private static final String RECIPE_CONF_TEMPLATE = "mod_data/recipe_conf_template.json";
     private static final String AUTHOR_TOOLTIP = "blockProperty.alphaesletters.author";
     private static final String VERSION_TOOLTIP = "blockProperty.alphaesletters.version";
     private static final List<Block> ADDONS = new ArrayList<>();
@@ -76,7 +81,10 @@ public class AddonLoader {
                     .map(addon -> {
                         if (generateBlockJsonFromModel(mapper, addon) &&
                                 generateItemJson(addon) &&
-                                generateBlockStateJson(addon)) {
+                                generateBlockStateJson(addon) &&
+                                generateLootTableJson(addon) &&
+                                generateRecipeDefJson(addon) &&
+                                generateRecipeConfJson(addon)) {
                             return registerAddonLetter(addon);
                         }
                         return null;
@@ -88,6 +96,8 @@ public class AddonLoader {
                     .toList());
             ADDONS.clear();
             ADDONS.addAll(addonsBlocks);
+            appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/mineable/pickaxe.json", ADDONS);
+            appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/needs_iron_tool.json", ADDONS);
         } catch (IOException ignored) {
         }
     }
@@ -110,6 +120,22 @@ public class AddonLoader {
         }
     }
 
+    private static boolean appendBlocksToTagFromJson(ObjectMapper mapper, String path, List<Block> addons) {
+        try {
+            var resources = AddonLoader.class.getResource(path).toURI();
+            var file = Path.of(resources);
+            var tagInfo = mapper.readValue(Files.readString(file), TagModel.class);
+            tagInfo.addValues(addons.stream()
+                    .map(ad -> Registries.BLOCK.getId(ad).toString())
+                    .collect(Collectors.toSet()));
+            Files.writeString(file, mapper.writeValueAsString(tagInfo), StandardOpenOption.TRUNCATE_EXISTING);
+            return true;
+        } catch (IOException | URISyntaxException ignored) {
+            // Skip broken addons.
+            return false;
+        }
+    }
+
     private static boolean generateBlockJsonFromModel(ObjectMapper mapper, Addon addon) {
         try {
             return generateJson(addon, "/assets/alphaesletters/models/block",
@@ -128,6 +154,24 @@ public class AddonLoader {
     private static boolean generateBlockStateJson(Addon addon) {
         return generateJson(addon, "/assets/alphaesletters/blockstates", String.format(Objects
                         .requireNonNull(readJsonFromResources(BLOCK_STATE_TEMPLATE)),
+                getAddonNameWithoutExtension(addon)));
+    }
+
+    private static boolean generateLootTableJson(Addon addon) {
+        return generateJson(addon, "/data/alphaesletters/loot_table/blocks", String.format(Objects
+                        .requireNonNull(readJsonFromResources(LOOT_TABLE_TEMPLATE)),
+                getAddonNameWithoutExtension(addon)));
+    }
+
+    private static boolean generateRecipeDefJson(Addon addon) {
+        return generateJson(addon, "/data/alphaesletters/recipe", String.format(Objects
+                        .requireNonNull(readJsonFromResources(RECIPE_DEF_TEMPLATE)),
+                getAddonNameWithoutExtension(addon)));
+    }
+
+    private static boolean generateRecipeConfJson(Addon addon) {
+        return generateJson(addon, "/data/alphaesletters/advancement/recipes/decorations", String.format(Objects
+                        .requireNonNull(readJsonFromResources(RECIPE_CONF_TEMPLATE)),
                 getAddonNameWithoutExtension(addon)));
     }
 

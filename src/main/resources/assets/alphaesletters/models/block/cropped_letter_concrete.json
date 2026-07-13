@@ -2,7 +2,7 @@
   "parent": "block/orientable",
   "textures": {
     "1": "alphaesletters:block/letter_concrete",
-    "particle": "alphaesletters:block/letter_concrete"
+    "particle": "#1"
   },
   "elements": [
     {

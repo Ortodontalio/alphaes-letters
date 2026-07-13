@@ -183,12 +183,16 @@ public class TechBlocks {
     public static final Block BLACK_LETTER_EXFOLIATED_CONCRETE = getExfoliatedFerroconcrete(
             "black_letter_exfoliated_concrete", MapColor.BLACK);
 
-    //public static final Block CROPPED_LETTER_CONCRETE = new CroppedFerroconcrete();
     public static final Block DYEING_MACHINE = registerDyeingMachine();
 
     public static final Block STRIKETHROUGH_BLOCK = registerStrikethroughBlock();
     public static final Block IRON_FENCE = registerIronFenceBlock();
     public static final Block IRON_FENCE_GATE = registerIronFenceGate();
+
+    //Temporal registration for migration
+    @Deprecated
+    public static final Block CROPPED_FERROCONCRETE = Registry.register(
+            Registries.BLOCK, Identifier.of(AlphaesLetters.MOD_ID, CroppedFerroconcrete.ID), new CroppedFerroconcrete());
 
     private static Block getFullyPaintedFerroconcrete(String id, MapColor mapColor) {
         return registerFerroconcrete(id, Exfoliatable.ExfoliatedLevel.UNAFFECTED, mapColor);

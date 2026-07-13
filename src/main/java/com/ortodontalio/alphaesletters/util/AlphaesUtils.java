@@ -102,7 +102,10 @@ public class AlphaesUtils {
         return Arrays.stream(blockClass.getDeclaredFields())
                 .map(field -> {
                     try {
-                        return (Block) field.get(null);
+                        if (field.getAnnotation(Deprecated.class) == null) {
+                            return (Block) field.get(null);
+                        }
+                        return null;
                     } catch (Exception e) {
                         LOGGER.log(Level.SEVERE, String.format("Cannot get block: %s", e.getMessage()));
                         return null;

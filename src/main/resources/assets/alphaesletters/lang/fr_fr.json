@@ -205,5 +205,10 @@
   "block.alphaesletters.red_letter_exfoliated_concrete": "Béton Armé Rouge Exfolié",
   "block.alphaesletters.black_letter_exfoliated_concrete": "Béton Armé Noir Exfolié",
   "tooltip.alphaesletters.color": "Couleur: %s",
-  "title.alphaesletters.addons_counter": "Chargé %s extensions OpenLetters"
+  "title.alphaesletters.addons_counter": "Chargé %s extensions OpenLetters",
+  "gamerule.exfoliationEnabled": "Exfoliation en Béton Armé",
+  "block.alphaesletters.letter_a_circumflex": "Lettre A avec circonflexe",
+  "block.alphaesletters.letter_c_caron": "Lettre C avec caron",
+  "block.alphaesletters.letter_s_cedilla": "Lettre S avec cédille",
+  "block.alphaesletters.letter_u_umlaut": "Lettre U avec tréma"
 }
