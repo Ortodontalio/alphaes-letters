@@ -83,8 +83,10 @@ public class AddonResourceLoader {
                     .toList());
             ADDONS.clear();
             ADDONS.addAll(addonsBlocks);
-            appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/mineable/pickaxe.json");
-            appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/needs_iron_tool.json");
+            if (!ADDONS.isEmpty()) {
+                appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/mineable/pickaxe.json");
+                appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/needs_iron_tool.json");
+            }
         } catch (IOException ignored) {
         }
     }
