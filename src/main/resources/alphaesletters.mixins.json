@@ -5,7 +5,8 @@
   "mixins": [
     "TitleScreenMixin",
     "SerializedChunkMixin",
-    "MinecraftServerMixin"
+    "MinecraftServerMixin",
+    "ResourcePackManagerMixin"
   ],
   "client": [
   ],

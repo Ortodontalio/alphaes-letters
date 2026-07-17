@@ -1,4 +1,4 @@
-package com.ortodontalio.alphaesletters.util;
+package com.ortodontalio.alphaesletters.addon_system;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -8,9 +8,9 @@ import com.google.gson.stream.JsonReader;
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.codegen.GroupRegistrator;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
-import com.ortodontalio.alphaesletters.util.models.Addon;
-import com.ortodontalio.alphaesletters.util.models.MinecraftModel;
-import com.ortodontalio.alphaesletters.util.models.TagModel;
+import com.ortodontalio.alphaesletters.addon_system.models.Addon;
+import com.ortodontalio.alphaesletters.addon_system.models.MinecraftModel;
+import com.ortodontalio.alphaesletters.addon_system.models.TagModel;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -43,6 +43,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Deprecated(forRemoval = true)
 public class AddonLoader {
 
     private static final String ITEM_MODEL_TEMPLATE = """
@@ -96,8 +97,8 @@ public class AddonLoader {
                     .toList());
             ADDONS.clear();
             ADDONS.addAll(addonsBlocks);
-            appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/mineable/pickaxe.json", ADDONS);
-            appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/needs_iron_tool.json", ADDONS);
+            //appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/mineable/pickaxe.json", ADDONS);
+            //appendBlocksToTagFromJson(mapper, "/data/minecraft/tags/block/needs_iron_tool.json", ADDONS);
         } catch (IOException ignored) {
         }
     }

@@ -1,4 +1,4 @@
-package com.ortodontalio.alphaesletters.util.models;
+package com.ortodontalio.alphaesletters.addon_system.models;
 
 import java.util.Set;
 

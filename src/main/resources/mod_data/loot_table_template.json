@@ -14,7 +14,17 @@
           "name": "alphaesletters:%1$s"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1.0,
+      "functions": [
+        {
+          "function": "minecraft:copy_state",
+          "block": "alphaesletters:%1$s",
+          "properties": [
+            "lit",
+            "color"
+          ]
+        }
+      ]
     }
   ]
 }

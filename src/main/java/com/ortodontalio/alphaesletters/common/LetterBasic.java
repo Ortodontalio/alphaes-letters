@@ -1,15 +1,20 @@
 package com.ortodontalio.alphaesletters.common;
 
+import com.mojang.serialization.MapCodec;
 import com.ortodontalio.alphaesletters.AlphaesLetters;
+import com.ortodontalio.alphaesletters.entity.LetterBasicEntity;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import com.ortodontalio.alphaesletters.tech.StrikethroughBlock;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.ItemEntity;
@@ -47,13 +52,11 @@ import net.minecraft.world.tick.ScheduledTickView;
 
 import static net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.DYES;
 
-public class LetterBasic extends Block implements Waterloggable, HasColor {
-
+public class LetterBasic extends BlockWithEntity implements Waterloggable, HasColor {
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final BooleanProperty HAS_COVER = BooleanProperty.of("has_cover");
-    public static final EnumProperty<DyeColor> COVER_COLOR = EnumProperty.of("cover_color", DyeColor.class);
     public final String name;
 
     public LetterBasic(String name) {
@@ -70,8 +73,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
                 .with(LIT, false)
                 .with(WATERLOGGED, false)
                 .with(COLOR, DyeColor.WHITE)
-                .with(HAS_COVER, false)
-                .with(COVER_COLOR, DyeColor.WHITE));
+                .with(HAS_COVER, false));
         this.name = name;
     }
 
@@ -81,7 +83,7 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, LIT, WATERLOGGED, COLOR, HAS_COVER, COVER_COLOR);
+        builder.add(FACING, LIT, WATERLOGGED, COLOR, HAS_COVER);
     }
 
     @Override
@@ -152,13 +154,17 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             if (component != null) {
                 coverColor = component.getValue(StrikethroughBlock.COLOR);
             }
-            var newState = state.with(HAS_COVER, true).with(COVER_COLOR, coverColor);
-            world.setBlockState(pos, newState);
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
-            if (!player.isCreative()) {
-                inHand.decrement(1);
+            LetterBasicEntity entity = (LetterBasicEntity) world.getBlockEntity(pos);
+            if (entity != null) {
+                entity.setCoverColor(coverColor);
+                var newState = state.with(HAS_COVER, true);
+                world.setBlockState(pos, newState);
+                world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, newState));
+                if (!player.isCreative()) {
+                    inHand.decrement(1);
+                }
+                return ActionResult.SUCCESS;
             }
-            return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
     }
@@ -168,6 +174,23 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
                 new ItemStack(Items.STICK, world.random.nextBetween(1, 8)));
         itemEntity.setToDefaultPickupDelay();
         world.spawnEntity(itemEntity);
+    }
+
+    @Override
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be instanceof LetterBasicEntity) {
+            world.removeBlockEntity(pos);
+        }
+        if (state.get(HAS_COVER)) {
+            afterUseHoe(world, pos);
+        }
+        return super.onBreak(world, pos, state, player);
+    }
+
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new LetterBasicEntity(pos, state);
     }
 
     @Override
@@ -191,5 +214,10 @@ public class LetterBasic extends Block implements Waterloggable, HasColor {
             tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
         return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return AbstractBlock.createCodec(sets -> new LetterBasic(name));
     }
 }

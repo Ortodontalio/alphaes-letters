@@ -1,6 +1,7 @@
 package com.ortodontalio.alphaesletters.util;
 
 import com.ortodontalio.alphaesletters.AlphaesLetters;
+import com.ortodontalio.alphaesletters.addon_system.AddonResourceLoader;
 import com.ortodontalio.alphaesletters.codegen.CyrillicLettersItemsRegistrator;
 import com.ortodontalio.alphaesletters.codegen.CyrillicLettersRegistrator;
 import com.ortodontalio.alphaesletters.codegen.LatinLettersItemsRegistrator;
@@ -148,11 +149,16 @@ public class AlphaesUtils {
         return blocks.toArray(Block[]::new);
     }
 
+    public static List<Block> getAllTechBlocks() {
+        return getAllBlocks(TechBlocks.class);
+    }
+
     public static List<Block> getAllLetterBlocks() {
         List<Block> blocks = getAllBlocks(LatinLettersRegistrator.class);
         blocks.addAll(getAllBlocks(CyrillicLettersRegistrator.class));
         blocks.addAll(getAllBlocks(MiscLettersRegistrator.class));
         blocks.addAll(getAllBlocks(MinecraftLettersRegistrator.class));
+        blocks.addAll(AddonResourceLoader.getAddonsBlocks());
         return blocks;
     }
 

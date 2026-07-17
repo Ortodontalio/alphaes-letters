@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.common.LetterBasic;
 import com.ortodontalio.alphaesletters.common.LetterSpec;
+import com.ortodontalio.alphaesletters.entity.LetterBasicEntity;
 import com.ortodontalio.alphaesletters.letters.MiscLetters;
 import com.ortodontalio.alphaesletters.tech.CroppedFerroconcrete;
 import com.ortodontalio.alphaesletters.tech.LetterFerroconcrete;
@@ -223,16 +224,20 @@ public final class BlockMigrationHandler {
 
         // Strikethrough block on +1 (if exists)
         BlockState strikeState = world.getBlockState(pos.offset(direction));
+        DyeColor strikeColor = DyeColor.RED;
         if (strikeState.isOf(TechBlocks.STRIKETHROUGH_BLOCK)) {
-            DyeColor strikeColor = Optional.ofNullable(strikeState.get(StrikethroughBlock.COLOR))
-                    .orElse(DyeColor.WHITE);
-            newState = newState.with(LetterBasic.HAS_COVER, true)
-                    .with(LetterBasic.COVER_COLOR, strikeColor);
+            strikeColor = Optional.ofNullable(strikeState.get(StrikethroughBlock.COLOR))
+                    .orElse(DyeColor.RED);
+            newState = newState.with(LetterBasic.HAS_COVER, true);
         }
 
         // Letter set to +1
         BlockPos letterPos = pos.offset(direction);
         world.setBlockState(letterPos, newState, NOTIFY_ALL);
+        var blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof LetterBasicEntity letterEntity) {
+            letterEntity.setCoverColor(strikeColor);
+        }
 
         migrateCroppedBlockAndFinish(world, pos, lit, migrated);
     }

@@ -1,5 +1,6 @@
 package com.ortodontalio.alphaesletters;
 
+import com.ortodontalio.alphaesletters.addon_system.AddonResourceLoader;
 import com.ortodontalio.alphaesletters.codegen.CyrillicLettersItemsRegistrator;
 import com.ortodontalio.alphaesletters.codegen.CyrillicLettersRegistrator;
 import com.ortodontalio.alphaesletters.codegen.GroupRegistrator;
@@ -15,7 +16,6 @@ import com.ortodontalio.alphaesletters.migration.BlockMigrationHandler;
 import com.ortodontalio.alphaesletters.recipe.AlphaesRecipes;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
-import com.ortodontalio.alphaesletters.util.AddonLoader;
 import com.ortodontalio.alphaesletters.util.ExfoliatableRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.ItemStack;
@@ -56,11 +56,11 @@ public class AlphaesLetters implements ModInitializer {
         itemsToRegister.addAll(TechBlockItems.registerAll());
         GroupRegistrator.registerGroup("letters", itemsToRegister);
 
+        AddonResourceLoader.checkAddonFolder();
+
         AlphaesBlockEntities.registerEntities();
         AlphaesRecipes.registerRecipes();
         AlphaesGameRules.registerAll();
-
-        AddonLoader.checkAddonFolder();
 
         BlockMigrationHandler.register();
 
