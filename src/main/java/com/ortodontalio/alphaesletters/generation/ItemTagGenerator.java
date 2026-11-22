@@ -19,6 +19,14 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
     protected void configure(RegistryWrapper.WrapperLookup arg) {
         getOrCreateTagBuilder(AlphaesTags.Items.CONCRETE_POWDER_BLOCKS)
                 .add(AlphaesUtils.getAllConcretePowders());
+        getOrCreateTagBuilder(AlphaesTags.Items.LETTER_POWDER_BLOCKS)
+                .add(AlphaesUtils.getAllLetterPowdersBlockItems());
+        getOrCreateTagBuilder(AlphaesTags.Items.LETTER_CONCRETE_BLOCKS)
+                .add(AlphaesUtils.getAllLetterConcretesBlockItems());
+        getOrCreateTagBuilder(AlphaesTags.Items.LETTER_EXFOLIATED_CONCRETE_BLOCKS)
+                .add(AlphaesUtils.getAllLetterExfoliatedConcretesBlockItems());
+        getOrCreateTagBuilder(AlphaesTags.Items.CONCRETE_WITH_BARS_BLOCKS)
+                .add(AlphaesUtils.getAllConcretesWithBarsBlockItems());
         getOrCreateTagBuilder(AlphaesTags.Items.AXES)
                 .add(Items.WOODEN_AXE)
                 .add(Items.STONE_AXE)

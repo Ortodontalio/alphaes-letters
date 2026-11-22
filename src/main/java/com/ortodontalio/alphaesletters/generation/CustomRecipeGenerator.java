@@ -1,20 +1,20 @@
 package com.ortodontalio.alphaesletters.generation;
 
-import com.ortodontalio.alphaesletters.AlphaesLetters;
 import com.ortodontalio.alphaesletters.recipe.DyeingMachineRecipeJsonBuilder;
 import com.ortodontalio.alphaesletters.tags.AlphaesTags;
 import com.ortodontalio.alphaesletters.tech.TechBlockItems;
 import com.ortodontalio.alphaesletters.util.AlphaesUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.RecipeGenerator;
+import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 
 import java.util.concurrent.CompletableFuture;
@@ -40,18 +40,30 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
             public void generate() {
                 // Recipes for concrete powders in dyeing machine
                 for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
-                    offerDyeingMachineRecipe(wrapperLookup, exporter, AlphaesTags.Items.CONCRETE_POWDER_BLOCKS, AlphaesUtils.getAllDyes()[i],
-                            AlphaesUtils.getAllConcrete()[i]);
+                    offerDyeingMachineRecipe(wrapperLookup, exporter, AlphaesTags.Items.CONCRETE_POWDER_BLOCKS,
+                            AlphaesUtils.getAllDyes()[i], AlphaesUtils.getAllConcrete()[i]);
+                }
+                // Recipe for concrete with bars
+                for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
+                    offerDyeingMachineRecipe(wrapperLookup, exporter, AlphaesTags.Items.LETTER_POWDER_BLOCKS,
+                            AlphaesUtils.getAllDyes()[i], AlphaesUtils.getAllConcretesWithBarsBlockItems()[i]);
                 }
                 // Recipe for letter concrete
-                offerDyeingMachineRecipe(wrapperLookup, exporter, TechBlockItems.LETTER_POWDER, Items.BLUE_DYE, TechBlockItems.LETTER_CONCRETE);
+                for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
+                    var output = AlphaesUtils.getAllLetterConcretesBlockItems()[i];
+                    var inputFarba = AlphaesUtils.getAllDyes()[i];
+                    var inputConcrete = AlphaesUtils.getAllConcretesWithBarsBlockItems()[i];
+                    createShapeless(RecipeCategory.DECORATIONS, output)
+                            .input(inputFarba)
+                            .input(inputConcrete)
+                            .criterion(hasItem(inputFarba), conditionsFromItem(inputFarba))
+                            .criterion(hasItem(inputConcrete), conditionsFromItem(inputConcrete))
+                            .offerTo(exporter);
+                }
                 // Recipes for letters blocks
                 for (BlockItem letterBlock : AlphaesUtils.getAllLetterBlockItems()) {
                     offerStonecuttingRecipe(RecipeCategory.DECORATIONS, letterBlock, Items.WHITE_CONCRETE);
                 }
-                // Recipe for cropped letter concrete
-                offerStonecuttingRecipe(RecipeCategory.DECORATIONS, TechBlockItems.CROPPED_LETTER_CONCRETE,
-                        TechBlockItems.LETTER_CONCRETE);
                 // Recipe for iron fence
                 createShaped(RecipeCategory.DECORATIONS, TechBlockItems.IRON_FENCE, 2)
                         .pattern("IBI")
@@ -70,23 +82,32 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         .criterion(hasItem(Items.IRON_BLOCK), conditionsFromItem(Items.IRON_BLOCK))
                         .offerTo(exporter);
-                // Recipe for strikethrough block
-                createShaped(RecipeCategory.DECORATIONS, TechBlockItems.STRIKETHROUGH_BLOCK, 2)
-                        .pattern("SSS")
-                        .pattern("SRS")
-                        .pattern("SSS")
-                        .input('S', Items.STICK)
-                        .input('R', Items.RED_DYE)
-                        .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
-                        .criterion(hasItem(Items.RED_DYE), conditionsFromItem(Items.RED_DYE))
+                // Recipes from strikethrough block
+                createShapeless(RecipeCategory.DECORATIONS, Items.ITEM_FRAME)
+                        .input(TechBlockItems.STRIKETHROUGH_BLOCK)
+                        .input(Items.LEATHER)
+                        .criterion(hasItem(TechBlockItems.STRIKETHROUGH_BLOCK),
+                                conditionsFromItem(TechBlockItems.STRIKETHROUGH_BLOCK))
+                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
                         .offerTo(exporter);
-                // Recipe for concrete with bars
-                createShapeless(RecipeCategory.DECORATIONS, TechBlockItems.LETTER_POWDER)
-                        .input(Items.WHITE_CONCRETE_POWDER)
-                        .input(Items.IRON_BARS)
-                        .criterion(hasItem(Items.WHITE_CONCRETE_POWDER), conditionsFromItem(Items.WHITE_CONCRETE_POWDER))
-                        .criterion(hasItem(Items.IRON_BARS), conditionsFromItem(Items.IRON_BARS))
+                createShapeless(RecipeCategory.DECORATIONS, Items.PAINTING)
+                        .input(TechBlockItems.STRIKETHROUGH_BLOCK)
+                        .input(ItemTags.WOOL)
+                        .criterion(hasItem(TechBlockItems.STRIKETHROUGH_BLOCK),
+                                conditionsFromItem(TechBlockItems.STRIKETHROUGH_BLOCK))
+                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
                         .offerTo(exporter);
+                // Recipe for letter powders
+                for (int i = 0; i < AlphaesUtils.getAllDyes().length; i++) {
+                    var output = AlphaesUtils.getAllLetterPowdersBlockItems()[i];
+                    var input = AlphaesUtils.getAllConcretePowders()[i];
+                    createShapeless(RecipeCategory.DECORATIONS, output)
+                            .input(input)
+                            .input(Items.IRON_BARS)
+                            .criterion(hasItem(input), conditionsFromItem(input))
+                            .criterion(hasItem(Items.IRON_BARS), conditionsFromItem(Items.IRON_BARS))
+                            .offerTo(exporter);
+                }
                 // Recipe for dyeing machine
                 createShaped(RecipeCategory.DECORATIONS, TechBlockItems.DYEING_MACHINE)
                         .pattern("IRI")
@@ -109,6 +130,6 @@ public class CustomRecipeGenerator extends FabricRecipeProvider {
 
     @Override
     public String getName() {
-        return "AlPhAE's Letters Recipes";
+        return "OpenLetters Recipes";
     }
 }

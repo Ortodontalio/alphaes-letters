@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "1": "alphaesletters:block/letter_concrete",
-    "2": "minecraft:block/white_concrete_powder",
-    "particle": "alphaesletters:block/letter_concrete"
-  }
-}

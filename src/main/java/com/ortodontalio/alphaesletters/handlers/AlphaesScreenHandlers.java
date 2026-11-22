@@ -23,8 +23,12 @@ public class AlphaesScreenHandlers {
             register("dyeing_machine", DyeingMachineScreenHandler::new, BlockPositionPayload.PACKET_CODEC);
 
     private static <T extends ScreenHandler, D extends CustomPayload> ExtendedScreenHandlerType<T, D> register(String id,
-           ExtendedScreenHandlerType.ExtendedFactory<T, D> factory, PacketCodec<? super RegistryByteBuf, D> codec) {
+                                                                                                               ExtendedScreenHandlerType.ExtendedFactory<T, D> factory, PacketCodec<? super RegistryByteBuf, D> codec) {
         return Registry.register(Registries.SCREEN_HANDLER, RegistryKey.of(RegistryKeys.SCREEN_HANDLER, Identifier.of(MOD_ID, id)),
                 new ExtendedScreenHandlerType<>(factory, codec));
+    }
+
+    public static void registerAll() {
+        // Empty, since all screens have been registered in static way.
     }
 }

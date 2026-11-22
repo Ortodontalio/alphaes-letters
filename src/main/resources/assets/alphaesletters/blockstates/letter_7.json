@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": {"model":  "alphaesletters:block/letter_7"},
-    "facing=south": {"model":  "alphaesletters:block/letter_7", "y": 180},
-    "facing=west": {"model":  "alphaesletters:block/letter_7", "y": 270},
-    "facing=east": {"model":  "alphaesletters:block/letter_7", "y": 90}
-  }
-}

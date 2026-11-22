@@ -1,6 +1,8 @@
 package com.ortodontalio.alphaesletters.entity;
 
+import com.ortodontalio.alphaesletters.common.LetterBasic;
 import com.ortodontalio.alphaesletters.tech.TechBlocks;
+import com.ortodontalio.alphaesletters.util.AlphaesUtils;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
@@ -13,6 +15,7 @@ import static com.ortodontalio.alphaesletters.AlphaesLetters.MOD_ID;
 
 public class AlphaesBlockEntities {
     public static BlockEntityType<DyeingMachineBlockEntity> dyeingMachineEntity;
+    public static BlockEntityType<LetterBasicEntity> letterBasicBlockEntity;
 
     private AlphaesBlockEntities() {
     }
@@ -21,6 +24,11 @@ public class AlphaesBlockEntities {
         dyeingMachineEntity = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 RegistryKey.of(RegistryKeys.BLOCK_ENTITY_TYPE, Identifier.of(MOD_ID, "dyeing_machine")),
                 FabricBlockEntityTypeBuilder.create(DyeingMachineBlockEntity::new, TechBlocks.DYEING_MACHINE)
-                        .build(null));
+                        .build());
+        letterBasicBlockEntity = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                RegistryKey.of(RegistryKeys.BLOCK_ENTITY_TYPE, Identifier.of(MOD_ID, "letter_block")),
+                FabricBlockEntityTypeBuilder.create(LetterBasicEntity::new, AlphaesUtils.getAllLetterBlocks()
+                                .toArray(new LetterBasic[0]))
+                        .build());
     }
 }
